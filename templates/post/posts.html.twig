@@ -1,26 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bondiz - Le blog des rencontres
+{% block title %}Explorer les articles - Bondiz Blog
 {% endblock %}
 
 {% block body %}
-
-
 	<!-- Hero Section -->
-	<header class="hero">
+	<header class="hero" style="padding-top: 4rem; padding-bottom: 2rem;">
 		<div class="container">
 			<h1>Élargissez votre cercle<br><span class="text-gradient">Amical</span>
 			</h1>
-			<p>Des conseils pour rencontrer de nouvelles personnes, partager des activités et créer des amitiés sincères.</p>
-			<a href="{{ path('app_post_index') }}" class="btn btn-primary">Explorer les articles</a>
+			<p style="font-size: 1.25rem; color: var(--gray); max-width: 600px; margin: 0 auto;">Des conseils pour rencontrer de nouvelles personnes, partager des activités et créer des amitiés sincères.</p>
 		</div>
 	</header>
 
 	<main
-		class="container" id="articles">
-
+		class="container" style="padding-bottom: 4rem;">
 		<!-- Featured Section -->
-		{% if featuredPost %}
+		{% if featuredPost and not currentCategory %}
 			<section class="featured-section">
 				<span class="section-label">À la une</span>
 				<article class="featured-card">
@@ -43,8 +39,27 @@
 			</section>
 		{% endif %}
 
-		<!-- Post Grid -->
-		<span class="section-label">Dernières publications</span>
+		<!-- Posts Title -->
+		<h2 style="text-align: center; margin-bottom: 2rem; font-size: 2.5rem;">Dernières
+			<span class="text-gradient">publications</span>
+		</h2>
+
+		<!-- Filter Bar -->
+		<div class="flex-center" style="gap: 0.5rem; flex-wrap: wrap; justify-content: center; display: flex; margin-bottom: 3rem;">
+			<a href="{{ path('app_post_index') }}" class="btn" style="border-radius: 999px; padding: 0.5rem 1.5rem; transition: all 0.2s;
+					                      {{ not currentCategory ? 'background: var(--text-dark); color: white;' : 'background: white; color: var(--text-dark); box-shadow: var(--shadow-sm);' }}">
+				Tous
+			</a>
+
+			{% for category in categories %}
+				<a href="{{ path('app_post_index', {category: category.id}) }}" class="btn" style="border-radius: 999px; padding: 0.5rem 1.5rem; transition: all 0.2s;
+						                          {{ currentCategory == category.id ? 'background: var(--text-dark); color: white;' : 'background: white; color: var(--text-dark); box-shadow: var(--shadow-sm);' }}">
+					{{ category.name }}
+				</a>
+			{% endfor %}
+		</div>
+
+		<!-- Posts Grid -->
 		<div class="posts-grid">
 			{% for post in posts %}
 				<a href="{{ path('app_post_show', {id: post.id}) }}" class="post-card">
@@ -68,11 +83,9 @@
 					</div>
 				</a>
 			{% else %}
-				<p>Aucun article pour le moment.</p>
+				<p style="text-align: center; color: var(--gray); grid-column: 1 / -1; padding: 2rem;">Aucun article trouvé dans cette catégorie.</p>
 			{% endfor %}
 		</div>
 
 	</main>
-
-
 {% endblock %}

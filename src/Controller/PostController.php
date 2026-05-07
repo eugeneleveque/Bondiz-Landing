@@ -25,11 +25,13 @@ class PostController extends AbstractController
 
         $posts = $queryBuilder->getQuery()->getResult();
         $categories = $categoryRepository->findAll();
+        $featuredPost = $postRepository->findFeatured();
 
-        return $this->render('post/index.html.twig', [
+        return $this->render('post/posts.html.twig', [
             'posts' => $posts,
             'categories' => $categories,
-            'currentCategory' => $categoryId
+            'currentCategory' => $categoryId,
+            'featuredPost' => $featuredPost
         ]);
     }
 

@@ -10,16 +10,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(PostRepository $postRepository): Response
+    public function index(): Response
     {
-        // Fetch real data from database
-        $featuredPost = $postRepository->findFeatured();
-        $posts = $postRepository->findLatest();
-
-        return $this->render('home/index.html.twig', [
-            'featuredPost' => $featuredPost,
-            'posts' => $posts
-        ]);
+        return $this->render('home/home.html.twig');
     }
     #[Route('/a-propos', name: 'app_about')]
     public function about(): Response

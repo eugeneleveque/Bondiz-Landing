@@ -6,7 +6,7 @@
     <div class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
         
         <!-- Back Button -->
-        <a href="{{ path('app_home') }}" class="btn" style="background: white; color: var(--dark); margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
+        <a href="{{ path('app_post_index') }}" class="btn" style="background: white; color: var(--text-dark); margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="margin-right: 0.5rem;">
                 <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -19,7 +19,7 @@
                 <span class="tag">{{ post.category.name }}</span>
                 <span style="color: var(--gray); margin-left: 1rem;">{{ post.readTime }} min de lecture &bull; {{ post.createdAt|date('d/m/Y') }}</span>
             </div>
-            <h1 style="font-size: 3rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; color: var(--dark);">{{ post.title }}</h1>
+            <h1 style="font-size: 3rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem;">{{ post.title }}</h1>
             <p style="font-size: 1.25rem; color: var(--gray); max-width: 800px; margin: 0 auto;">{{ post.excerpt }}</p>
         </header>
 
@@ -29,7 +29,7 @@
         </div>
 
         <!-- Content -->
-        <article style="max-width: 800px; margin: 0 auto; font-size: 1.125rem; line-height: 1.8; color: var(--dark-lighter);">
+        <article style="max-width: 800px; margin: 0 auto; font-size: 1.125rem; line-height: 1.8; color: var(--text-color);">
             {{ post.content|raw }}
         </article>
 
