@@ -21,4 +21,9 @@ class HomeController extends AbstractController
             'posts' => $posts
         ]);
     }
+    #[Route('/a-propos', name: 'app_about')]
+    public function about(): Response
+    {
+        return $this->render('home/about.html.twig');
+    }
 }

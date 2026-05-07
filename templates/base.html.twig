@@ -32,7 +32,7 @@
 					<a href="{{ path('app_home') }}" class="nav-link">Accueil</a>
 					<a href="{{ path('app_post_index') }}" class="nav-link">Articles</a>
 					<a href="#" class="nav-link">Partenaires</a>
-					<a href="#" class="nav-link">À propos</a>
+					<a href="{{ path('app_about') }}" class="nav-link">À propos</a>
 					{% if is_granted('ROLE_ADMIN') %}
 						<a href="{{ path('admin') }}" class="nav-link">Administration</a>
 					{% endif %}
