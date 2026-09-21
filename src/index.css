@@ -105,7 +105,7 @@ button {
 
 @media (max-width: 768px) {
   :root {
-    --hero-padding-top: 120px;
+    --hero-padding-top: 40px;
     --hero-text-align: center;
     --hero-p-margin: 0 auto 40px auto;
     --hero-justify: center;
@@ -166,36 +166,93 @@ button {
   }
 }
 
-/* Navbar */
-.navbar-logo {
-  height: 100px;
-  transition: var(--transition);
+/* Navbar (identique au header du blog) */
+.navbar {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  padding: 0.5rem 0;
+  backdrop-filter: blur(10px);
+  background: rgba(132, 50, 254, 0.85);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  line-height: 1.6;
 }
 
-.navbar-menu {
+.navbar .container {
+  padding: 0 1.5rem;
+}
+
+.nav-content {
   display: flex;
-  gap: 40px;
   align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.header-logo {
+  height: 100px;
+  width: auto;
+  transform: scale(1.5);
+  transform-origin: left center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  z-index: 2;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #f98cd7;
+}
+
+.navbar .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
   font-weight: 600;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.navbar .btn-primary {
+  background: #e4f644;
+  color: #444444;
+  box-shadow: 0 4px 14px 0 rgba(228, 246, 68, 0.3);
+}
+
+.navbar .btn-primary:hover {
+  transform: translateY(-2px);
+  background: #f98cd7;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(249, 140, 215, 0.4);
 }
 
 @media (max-width: 768px) {
-  .navbar-logo {
-    height: 60px;
-  }
-  
-  .navbar-menu {
-    gap: 20px;
-  }
-  
-  .navbar-menu a:not(.btn-cta) {
+  .nav-links {
     display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .navbar-logo {
-    height: 50px;
   }
 }
 

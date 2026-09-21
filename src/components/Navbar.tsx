@@ -1,29 +1,20 @@
 import React from 'react';
 
+// Même header que le blog (blog/templates/base.html.twig)
 const Navbar: React.FC = () => {
   return (
-    <nav className="glass" style={{
-      position: 'fixed',
-      top: 0,
-      width: '100%',
-      zIndex: 1000,
-      padding: '20px 0',
-      transition: 'var(--transition)'
-    }}>
-      <div className="container" style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img src="/assets/images/logo_white.png" alt="Bondiz Logo" className="navbar-logo" />
+    <nav className="navbar">
+      <div className="container nav-content">
+        <a href="/" className="logo">
+          <img src="/assets/images/logo_header.png" alt="Bondiz Logo" className="header-logo" />
+        </a>
+        <div className="nav-links">
+          <a href="/" className="nav-link">Accueil</a>
+          <a href="/posts" className="nav-link">Articles</a>
+          <a href="#" className="nav-link">Partenaires</a>
+          <a href="/a-propos" className="nav-link active">À propos</a>
         </div>
-        
-        <div className="navbar-menu">
-          <a href="#about" style={{ opacity: 0.8 }}>À propos</a>
-          <a href="#features" style={{ opacity: 0.8 }}>Fonctionnalités</a>
-          <a href="#download" className="btn-cta" style={{ padding: '12px 30px', fontSize: '1rem' }}>Télécharger</a>
-        </div>
+        <a href="/login" className="btn btn-primary">Espace Membre</a>
       </div>
     </nav>
   );

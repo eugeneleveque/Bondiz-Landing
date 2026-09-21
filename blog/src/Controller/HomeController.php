@@ -14,9 +14,10 @@ class HomeController extends AbstractController
     {
         return $this->render('home/home.html.twig');
     }
-    #[Route('/a-propos', name: 'app_about')]
+    #[Route('/qui-sommes-nous', name: 'app_about')]
     public function about(): Response
     {
-        return $this->render('home/about.html.twig');
+        // Le contenu « Pourquoi avons-nous créé Bondiz ? » vit désormais sur /a-propos (landing React)
+        return $this->redirect('/a-propos', Response::HTTP_MOVED_PERMANENTLY);
     }
 }

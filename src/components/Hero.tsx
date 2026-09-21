@@ -6,7 +6,7 @@ const Hero: React.FC = () => {
       minHeight: '100vh',
       display: 'flex',
       alignItems: 'center',
-      paddingTop: 'var(--hero-padding-top, 180px)',
+      paddingTop: 'var(--hero-padding-top, 60px)',
       paddingBottom: '60px'
     }}>
       <div className="container" style={{
