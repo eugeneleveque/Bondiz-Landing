@@ -1,0 +1,12 @@
+user: 
+    pseudo:
+        not_blank: "Veuillez choisir un pseudo."
+        length: "Le pseudo doit contenir au moins {{ limit }} caractères."
+    email:
+        messages: 
+            error_unique: "Un compte existe déjà avec cette adresse email."
+    terms:
+        agree: "Vous devez accepter nos conditions."
+    password:     
+        not_blank: "Veuillez entrer un mot de passe."
+        min_length: "Votre mot de passe doit contenir au moins {{ limit }} caractères."

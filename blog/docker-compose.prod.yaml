@@ -1,0 +1,49 @@
+services:
+  php:
+    image: ${REGISTRY_NAME}/bondiz-blog:latest
+    container_name: php
+    restart: always
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: 0
+      APP_SECRET: ${APP_SECRET}
+      DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DATABASE}?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
+    volumes:
+      - public-data:/app/public
+    networks:
+      - symfony
+
+  nginx:
+    image: ${REGISTRY_NAME}/bondiz-blog-nginx:latest
+    container_name: nginx
+    restart: always
+    ports:
+      - "3011:80"
+    depends_on:
+      - php
+    volumes:
+      - public-data:/app/public
+    networks:
+      - symfony
+
+  database:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - symfony
+
+networks:
+  symfony:
+    driver: bridge
+
+volumes:
+  mariadb-data:
+  public-data:

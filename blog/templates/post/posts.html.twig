@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Explorer les articles - Bondiz Blog
+{% endblock %}
+
+{% block body %}
+	<!-- Hero Section -->
+	<header class="hero" style="padding-top: 4rem; padding-bottom: 2rem;">
+		<div class="container">
+			<h1>Élargissez votre cercle<br><span class="text-gradient">Amical</span>
+			</h1>
+			<p style="font-size: 1.25rem; color: var(--gray); max-width: 600px; margin: 0 auto;">Des conseils pour rencontrer de nouvelles personnes, partager des activités et créer des amitiés sincères.</p>
+		</div>
+	</header>
+
+	<main
+		class="container" style="padding-bottom: 4rem;">
+		<!-- Featured Section -->
+		{% if featuredPost and not currentCategory %}
+			<section class="featured-section">
+				<span class="section-label">À la une</span>
+				<article class="featured-card">
+					<div class="featured-image-wrapper">
+						<img src="{{ featuredPost.image }}" alt="{{ featuredPost.title }}" class="featured-image">
+					</div>
+					<div class="featured-content">
+						<div class="featured-tags">
+							<span class="tag">{{ featuredPost.category.name }}</span>
+							<span class="tag">{{ featuredPost.readTime }}
+								min de lecture</span>
+						</div>
+						<h2>{{ featuredPost.title }}</h2>
+						<p class="card-excerpt" style="font-size: 1.1rem; line-height: 1.7;">
+							{{ featuredPost.excerpt }}
+						</p>
+						<a href="{{ path('app_post_show', {id: featuredPost.id}) }}" class="btn btn-primary">Lire l'article</a>
+					</div>
+				</article>
+			</section>
+		{% endif %}
+
+		<!-- Posts Title -->
+		<h2 style="text-align: center; margin-bottom: 2rem; font-size: 2.5rem;">Dernières
+			<span class="text-gradient">publications</span>
+		</h2>
+
+		<!-- Filter Bar -->
+		<div class="flex-center" style="gap: 0.5rem; flex-wrap: wrap; justify-content: center; display: flex; margin-bottom: 3rem;">
+			<a href="{{ path('app_post_index') }}" class="btn" style="border-radius: 999px; padding: 0.5rem 1.5rem; transition: all 0.2s;
+					                      {{ not currentCategory ? 'background: var(--text-dark); color: white;' : 'background: white; color: var(--text-dark); box-shadow: var(--shadow-sm);' }}">
+				Tous
+			</a>
+
+			{% for category in categories %}
+				<a href="{{ path('app_post_index', {category: category.id}) }}" class="btn" style="border-radius: 999px; padding: 0.5rem 1.5rem; transition: all 0.2s;
+						                          {{ currentCategory == category.id ? 'background: var(--text-dark); color: white;' : 'background: white; color: var(--text-dark); box-shadow: var(--shadow-sm);' }}">
+					{{ category.name }}
+				</a>
+			{% endfor %}
+		</div>
+
+		<!-- Posts Grid -->
+		<div class="posts-grid">
+			{% for post in posts %}
+				<a href="{{ path('app_post_show', {id: post.id}) }}" class="post-card">
+					<div class="card-image-wrapper">
+						<img src="{{ post.image }}" alt="{{ post.title }}" class="card-image">
+					</div>
+					<div class="card-content">
+						<div class="card-meta">
+							<span style="color: var(--primary); font-weight: 600;">{{ post.category.name }}</span>
+							<span>{{ post.readTime }}
+								min</span>
+						</div>
+						<h3 class="card-title">{{ post.title }}</h3>
+						<p class="card-excerpt">{{ post.excerpt }}</p>
+						<div class="read-more">
+							Lire la suite
+							<svg width="20" height="20" viewbox="0 0 24 24" fill="none" class="arrow-icon">
+								<path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						</div>
+					</div>
+				</a>
+			{% else %}
+				<p style="text-align: center; color: var(--gray); grid-column: 1 / -1; padding: 2rem;">Aucun article trouvé dans cette catégorie.</p>
+			{% endfor %}
+		</div>
+
+	</main>
+{% endblock %}

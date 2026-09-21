@@ -1,0 +1,18 @@
+registration:
+    title: "Inscription"
+    submit: "S'inscrire"
+    login_prompt: "Déjà un compte ?"
+    login_link: "Connectez-vous"
+login:
+    title: "Connexion"
+    header: "Connexion"
+    submit: "Se connecter"
+    register_prompt: "Pas encore de compte ?"
+    register_link: "Inscrivez-vous"
+    logged_in_as: "Vous êtes connecté en tant que"
+    logout: "Déconnexion"
+form:
+    pseudo: "Pseudo"
+    email: "Email"
+    password: "Mot de passe"
+    agree_terms: "J'accepte les conditions"

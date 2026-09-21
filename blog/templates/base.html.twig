@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
+		{% block stylesheets %}
+			<link rel="preconnect" href="https://fonts.googleapis.com">
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+			<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+			<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+		{% endblock %}
+		{% block meta %}
+			<meta name="description" content="Découvrez Bondiz, le blog dédié aux rencontres amicales. Conseils, astuces et récits pour élargir votre cercle social et créer des amitiés sincères.">
+			<meta name="keywords" content="Bondiz, blog, rencontres amicales, conseils, astuces, amitiés sincères, élargir cercle social">
+			<meta name="author" content="Bondiz Team">
+		{% endblock %}
+
+		{% block javascripts %}{% endblock %}
+	</head>
+	<body>
+		<!-- Navigation -->
+		<nav class="navbar">
+			<div class="container nav-content">
+				<a href="{{ path('app_home') }}" class="logo">
+					<img src="{{ asset('images/logo.png') }}" alt="Bondiz Logo" class="header-logo">
+				</a>
+				<div class="nav-links">
+					<a href="{{ path('app_home') }}" class="nav-link">Accueil</a>
+					<a href="{{ path('app_post_index') }}" class="nav-link">Articles</a>
+					<a href="#" class="nav-link">Partenaires</a>
+					<a href="{{ path('app_about') }}" class="nav-link">À propos</a>
+					{% if is_granted('ROLE_ADMIN') %}
+						<a href="{{ path('admin') }}" class="nav-link">Administration</a>
+					{% endif %}
+				</div>
+				{% if app.user %}
+					<div style="display: flex; align-items: center; gap: 1rem;">
+						<span style="font-weight: 600;">{{ app.user.pseudo }}</span>
+						<a href="{{ path('app_logout') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Déconnexion</a>
+					</div>
+				{% else %}
+					<a href="{{ path('app_login') }}" class="btn btn-primary">Espace Membre</a>
+				{% endif %}
+			</div>
+		</nav>
+
+		{% block body %}{% endblock %}
+
+		<!-- Footer -->
+		<footer class="footer">
+			<div class="container">
+				<div class="footer-content">
+					<div class="footer-col" style="flex: 2;">
+						<a href="{{ path('app_home') }}" class="logo" style="color: white; margin-bottom: 1rem; display: block;">
+							Bondiz<span style="color: var(--accent);">.</span>
+						</a>
+						<p style="color: var(--light); max-width: 300px;">
+							La communauté pour se faire des amis, simplement et sans pression. Rencontres amicales et sorties.
+						</p>
+					</div>
+					<div class="footer-col">
+						<h3>Explorer</h3>
+						<ul class="footer-links">
+							<li>
+								<a href="#">Derniers articles</a>
+							</li>
+							<li>
+								<a href="#">Catégories</a>
+							</li>
+							<li>
+								<a href="#">Auteurs</a>
+							</li>
+							<li>
+								<a href="#">Newsletter</a>
+							</li>
+						</ul>
+					</div>
+					<div class="footer-col">
+						<h3>Légal</h3>
+						<ul class="footer-links">
+							<li>
+								<a href="#">Confidentialité</a>
+							</li>
+							<li>
+								<a href="#">Conditions</a>
+							</li>
+							<li>
+								<a href="#">Cookies</a>
+							</li>
+							<li>
+								<a href="#">Contact</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="footer-bottom">
+					<p>&copy; 2026 Bondiz Blog. Célébrons l'amitié.</p>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
