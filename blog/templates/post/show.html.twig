@@ -1,37 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ post.title }} - Bondiz Blog{% endblock %}
+{% block title %}
+	{{ post.title }}
+	- Bondiz Blog
+{% endblock %}
 
 {% block body %}
-    <div class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
-        
-        <!-- Back Button -->
-        <a href="{{ path('app_post_index') }}" class="btn" style="background: white; color: var(--text-dark); margin-bottom: 2rem; box-shadow: var(--shadow-sm);">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="margin-right: 0.5rem;">
-                <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Retour aux articles
-        </a>
+	<div
+		class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
 
-        <!-- Article Header -->
-        <header style="text-align: center; margin-bottom: 3rem;">
-            <div style="margin-bottom: 1rem;">
-                <span class="tag">{{ post.category.name }}</span>
-                <span style="color: var(--gray); margin-left: 1rem;">{{ post.readTime }} min de lecture &bull; {{ post.createdAt|date('d/m/Y') }}</span>
-            </div>
-            <h1 style="font-size: 3rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem;">{{ post.title }}</h1>
-            <p style="font-size: 1.25rem; color: var(--gray); max-width: 800px; margin: 0 auto;">{{ post.excerpt }}</p>
-        </header>
+		<!-- Back Button -->
+		<a href="{{ path('app_post_index') }}" class="btn btn-filter" style="margin-bottom: 2rem; border-radius: 999px; padding: 0.5rem 1.5rem;">
+			<svg width="20" height="20" viewbox="0 0 24 24" fill="none" style="margin-right: 0.5rem;">
+				<path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+			</svg>
+			Retour aux articles
+		</a>
 
-        <!-- Featured Image -->
-        <div style="width: 100%; aspect-ratio: 21/9; border-radius: 2rem; overflow: hidden; margin-bottom: 3rem; box-shadow: var(--shadow-lg);">
-            <img src="{{ post.image }}" alt="{{ post.title }}" style="width: 100%; height: 100%; object-fit: cover;">
-        </div>
+		<!-- Article Header -->
+		<header style="text-align: center; margin-bottom: 3rem;">
+			<div style="margin-bottom: 1rem;">
+				<span class="tag">{{ post.category.name }}</span>
+				<span style="color: var(--gray); margin-left: 1rem;">{{ post.readTime }}
+					min de lecture &bull;
+					{{ post.createdAt|date('d/m/Y') }}</span>
+			</div>
+			<h1 style="font-size: 3rem; font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem;">{{ post.title }}</h1>
+			<p style="font-size: 1.25rem; color: var(--gray); max-width: 800px; margin: 0 auto;">{{ post.excerpt }}</p>
+		</header>
 
-        <!-- Content -->
-        <article style="max-width: 800px; margin: 0 auto; font-size: 1.125rem; line-height: 1.8; color: var(--text-color);">
-            {{ post.content|raw }}
-        </article>
+		<!-- Featured Image -->
+		<div style="width: 100%; aspect-ratio: 21/9; border-radius: 2rem; overflow: hidden; margin-bottom: 3rem; box-shadow: var(--shadow-lg);">
+			<img src="{{ post.image }}" alt="{{ post.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+		</div>
 
-    </div>
+		<!-- Content -->
+		<article style="max-width: 800px; margin: 0 auto; font-size: 1.125rem; line-height: 1.8; color: var(--text-color);">
+			{{ post.content|raw }}
+		</article>
+
+	</div>
 {% endblock %}

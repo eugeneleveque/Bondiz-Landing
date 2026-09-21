@@ -74,6 +74,32 @@ body {
     box-shadow: 0 6px 20px rgba(249, 140, 215, 0.4);
 }
 
+.btn-filter {
+    background: var(--card-bg);
+    color: var(--secondary);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--card-border);
+}
+
+.btn-filter:hover {
+    transform: translateY(-2px);
+    background: var(--accent-pink);
+    color: var(--text-color);
+    box-shadow: 0 6px 20px rgba(249, 140, 215, 0.4);
+}
+
+.btn-filter.active {
+    background: var(--accent-yellow);
+    color: var(--text-dark);
+    box-shadow: 0 4px 14px 0 rgba(228, 246, 68, 0.3);
+    border-color: transparent;
+}
+
+.btn-filter.active:hover {
+    background: var(--accent-pink);
+    color: var(--text-color);
+}
+
 /* Navbar */
 .navbar {
     padding: 0.5rem 0;

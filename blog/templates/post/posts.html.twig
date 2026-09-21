@@ -7,9 +7,9 @@
 	<!-- Hero Section -->
 	<header class="hero" style="padding-top: 4rem; padding-bottom: 2rem;">
 		<div class="container">
-			<h1>Élargissez votre cercle<br><span class="text-gradient">Amical</span>
+			<h1>Comprendre les nouvelles façons de<br><span class="text-gradient">créer du lien</span>
 			</h1>
-			<p style="font-size: 1.25rem; color: var(--gray); max-width: 600px; margin: 0 auto;">Des conseils pour rencontrer de nouvelles personnes, partager des activités et créer des amitiés sincères.</p>
+			<p style="font-size: 1.25rem; color: var(--gray); max-width: 600px; margin: 0 auto;">Solitude, hyperconnexion, rencontres, activités locales, vie sociale… Retrouve ici nos articles et conseils autour des relations humaines et des expériences qui rapprochent vraiment les gens.</p>
 		</div>
 	</header>
 
@@ -46,14 +46,12 @@
 
 		<!-- Filter Bar -->
 		<div class="flex-center" style="gap: 0.5rem; flex-wrap: wrap; justify-content: center; display: flex; margin-bottom: 3rem;">
-			<a href="{{ path('app_post_index') }}" class="btn" style="border-radius: 999px; padding: 0.5rem 1.5rem; transition: all 0.2s;
-					                      {{ not currentCategory ? 'background: var(--text-dark); color: white;' : 'background: white; color: var(--text-dark); box-shadow: var(--shadow-sm);' }}">
+			<a href="{{ path('app_post_index') }}" class="btn btn-filter {{ not currentCategory ? 'active' : '' }}" style="border-radius: 999px; padding: 0.5rem 1.5rem; transition: all 0.3s;">
 				Tous
 			</a>
 
 			{% for category in categories %}
-				<a href="{{ path('app_post_index', {category: category.id}) }}" class="btn" style="border-radius: 999px; padding: 0.5rem 1.5rem; transition: all 0.2s;
-						                          {{ currentCategory == category.id ? 'background: var(--text-dark); color: white;' : 'background: white; color: var(--text-dark); box-shadow: var(--shadow-sm);' }}">
+				<a href="{{ path('app_post_index', {category: category.id}) }}" class="btn btn-filter {{ currentCategory == category.id ? 'active' : '' }}" style="border-radius: 999px; padding: 0.5rem 1.5rem; transition: all 0.3s;">
 					{{ category.name }}
 				</a>
 			{% endfor %}
