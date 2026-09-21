@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
 		<meta charset="UTF-8">
 		<title>
@@ -32,7 +32,7 @@
 					<a href="{{ path('app_home') }}" class="nav-link">Accueil</a>
 					<a href="{{ path('app_post_index') }}" class="nav-link">Articles</a>
 					<a href="#" class="nav-link">Partenaires</a>
-					<a href="{{ path('app_about') }}" class="nav-link">À propos</a>
+					<a href="/a-propos" class="nav-link">À propos</a>
 					{% if is_granted('ROLE_ADMIN') %}
 						<a href="{{ path('admin') }}" class="nav-link">Administration</a>
 					{% endif %}
@@ -56,26 +56,34 @@
 				<div class="footer-content">
 					<div class="footer-col" style="flex: 2;">
 						<a href="{{ path('app_home') }}" class="logo" style="color: white; margin-bottom: 1rem; display: block;">
-							Bondiz<span style="color: var(--accent);">.</span>
+							Bondiz<span style="color: var(--accent-yellow);">.</span>
 						</a>
-						<p style="color: var(--light); max-width: 300px;">
-							La communauté pour se faire des amis, simplement et sans pression. Rencontres amicales et sorties.
+						<p style="color: var(--gray); max-width: 300px;">
+							Rencontre des gens près de chez toi, autour d'activités réelles. Moins d'écran, plus de vie.
 						</p>
 					</div>
 					<div class="footer-col">
-						<h3>Explorer</h3>
+						<h3>Navigation</h3>
 						<ul class="footer-links">
 							<li>
-								<a href="#">Derniers articles</a>
+								<a href="{{ path('app_home') }}">Accueil</a>
 							</li>
 							<li>
-								<a href="#">Catégories</a>
+								<a href="{{ path('app_post_index') }}">Articles</a>
 							</li>
 							<li>
-								<a href="#">Auteurs</a>
+								<a href="/a-propos">À propos</a>
+							</li>
+						</ul>
+					</div>
+					<div class="footer-col">
+						<h3>L'application</h3>
+						<ul class="footer-links">
+							<li>
+								<a href="{{ path('app_home') }}#download">Télécharger (Android)</a>
 							</li>
 							<li>
-								<a href="#">Newsletter</a>
+								<span style="color: var(--gray); opacity: 0.5;">iOS — bientôt disponible</span>
 							</li>
 						</ul>
 					</div>
@@ -83,24 +91,56 @@
 						<h3>Légal</h3>
 						<ul class="footer-links">
 							<li>
-								<a href="#">Confidentialité</a>
+								<a href="{{ path('app_legal_notice') }}">Mentions légales</a>
 							</li>
 							<li>
-								<a href="#">Conditions</a>
+								<a href="{{ path('app_privacy') }}">Confidentialité</a>
 							</li>
 							<li>
-								<a href="#">Cookies</a>
+								<a href="{{ path('app_cookies') }}">Cookies</a>
 							</li>
 							<li>
-								<a href="#">Contact</a>
+								<a href="mailto:contact@bondiz.fr">Contact</a>
 							</li>
 						</ul>
 					</div>
 				</div>
 				<div class="footer-bottom">
-					<p>&copy; 2026 Bondiz Blog. Célébrons l'amitié.</p>
+					<p>&copy; 2026 Bondiz. Célébrons l'amitié.</p>
 				</div>
 			</div>
 		</footer>
+		<!-- ===== Tarteaucitron.js - Gestion des cookies RGPD ===== -->
+		<script src="https://cdn.jsdelivr.net/npm/tarteaucitronjs@1.20.1/tarteaucitron.js"></script>
+		<script>
+			tarteaucitron.init({
+				"privacyUrl": "{{ path('app_privacy') }}",
+				"hashtag": "#tarteaucitron",
+				"cookieName": "bondiz_tarteaucitron",
+				"orientation": "bottom",
+				"groupServices": false,
+				"showAlertSmall": false,
+				"cookieslist": true,
+				"closePopup": false,
+				"showIcon": false,
+				"iconPosition": "BottomRight",
+				"adblocker": false,
+				"DenyAllCta": true,
+				"AcceptAllCta": true,
+				"highPrivacy": true,
+				"handleBrowserDNTRequest": false,
+				"removeCredit": false,
+				"moreInfoLink": true,
+				"useExternalCss": false,
+				"useExternalJs": false,
+				"mandatory": true,
+				"mandatoryCta": true
+			});
+
+			/* Google Analytics 4 — chargé uniquement après consentement */
+			tarteaucitron.user.gtagUa = 'G-K3MZFD8TGX';
+			(tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+		</script>
+		<!-- ===== Fin Tarteaucitron ===== -->
 	</body>
 </html>

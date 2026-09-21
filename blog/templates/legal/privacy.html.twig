@@ -1,0 +1,98 @@
+{% extends 'legal/layout.html.twig' %}
+
+{% block title %}Politique de confidentialité - Bondiz{% endblock %}
+{% block legal_title %}Politique de <span class="text-gradient">confidentialité</span>{% endblock %}
+
+{% block legal_content %}
+	<p>
+		Bondiz accorde une grande importance à la protection de vos données personnelles. Cette page explique quelles données nous collectons sur ce site, pourquoi, et quels sont vos droits, conformément au Règlement général sur la protection des données (RGPD) et à la loi Informatique et Libertés.
+	</p>
+
+	<h2>Responsable du traitement</h2>
+	<p>
+		Le responsable du traitement est l'éditeur du site Bondiz (voir les <a href="{{ path('app_legal_notice') }}">mentions légales</a>).<br>
+		Contact : <a href="mailto:contact@bondiz.fr">contact@bondiz.fr</a>
+	</p>
+
+	<h2>Données collectées et finalités</h2>
+	<div class="legal-table-wrap">
+		<table>
+			<thead>
+				<tr><th>Traitement</th><th>Données</th><th>Finalité</th><th>Base légale</th></tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Création et gestion du compte membre</td>
+					<td>Adresse e-mail, pseudo, mot de passe (stocké haché, jamais en clair), statut de vérification de l'e-mail</td>
+					<td>Créer votre compte, vous authentifier, accéder à l'espace membre</td>
+					<td>Exécution du service demandé</td>
+				</tr>
+				<tr>
+					<td>Vérification de l'adresse e-mail</td>
+					<td>Adresse e-mail</td>
+					<td>Envoi d'un e-mail de confirmation à l'inscription</td>
+					<td>Exécution du service demandé</td>
+				</tr>
+				<tr>
+					<td>Mesure d'audience (Google Analytics 4)</td>
+					<td>Pages consultées, identifiants de cookie, données techniques du navigateur</td>
+					<td>Comprendre la fréquentation du site et l'améliorer</td>
+					<td>Consentement (voir <a href="{{ path('app_cookies') }}">cookies</a>)</td>
+				</tr>
+				<tr>
+					<td>Contact</td>
+					<td>Adresse e-mail et contenu du message</td>
+					<td>Répondre à votre demande</td>
+					<td>Intérêt légitime</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<p>Nous ne vendons pas vos données et ne les utilisons pas pour de la publicité ciblée.</p>
+
+	<h2>Durée de conservation</h2>
+	<ul>
+		<li><strong>Compte membre :</strong> tant que votre compte est actif, puis supprimé sur demande ou après une période d'inactivité <span class="todo">[à compléter : ex. 3 ans]</span>.</li>
+		<li><strong>Messages de contact :</strong> le temps nécessaire au traitement de votre demande, puis <span class="todo">[à compléter : ex. 12 mois]</span> au maximum.</li>
+		<li><strong>Données de mesure d'audience :</strong> selon la durée définie côté Google Analytics <span class="todo">[à compléter : ex. 14 mois]</span>.</li>
+	</ul>
+
+	<h2>Destinataires et sous-traitants</h2>
+	<p>Vos données sont accessibles uniquement à l'équipe Bondiz et aux prestataires techniques nécessaires au fonctionnement du site :</p>
+	<ul>
+		<li>Notre hébergeur : <span class="todo">[à compléter]</span></li>
+		<li>Google Ireland Ltd. (Google Analytics), uniquement si vous avez accepté ce cookie. Des transferts de données hors Union européenne peuvent avoir lieu, encadrés par les garanties prévues par le RGPD.</li>
+		<li>Google Fonts (chargement de la police d'écriture), ce qui implique que votre adresse IP est transmise à Google lors du chargement de la page.</li>
+	</ul>
+
+	<h2>Vos droits</h2>
+	<p>Vous disposez des droits suivants sur vos données :</p>
+	<ul>
+		<li>accès, rectification et effacement ;</li>
+		<li>limitation du traitement et opposition ;</li>
+		<li>portabilité de vos données ;</li>
+		<li>retrait de votre consentement à tout moment (par exemple pour les cookies de mesure d'audience) ;</li>
+		<li>définir des directives sur le sort de vos données après votre décès.</li>
+	</ul>
+	<p>
+		Pour exercer vos droits, écrivez-nous à <a href="mailto:contact@bondiz.fr">contact@bondiz.fr</a>. Nous pouvons vous demander un justificatif d'identité en cas de doute. Nous répondons dans un délai d'un mois.
+	</p>
+	<p>
+		Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la CNIL : <a href="https://www.cnil.fr/fr/plaintes" target="_blank" rel="noopener noreferrer">www.cnil.fr/fr/plaintes</a>.
+	</p>
+
+	<h2>Sécurité</h2>
+	<p>
+		Les mots de passe sont stockés sous forme hachée et les échanges avec le site sont protégés. Nous mettons en œuvre des mesures techniques et organisationnelles raisonnables pour protéger vos données contre l'accès non autorisé, la perte ou l'altération.
+	</p>
+
+	<h2>Mineurs</h2>
+	<p>
+		Le site n'est pas destiné aux personnes de moins de 15 ans. Si vous pensez qu'un mineur nous a transmis des données sans autorisation parentale, contactez-nous pour les faire supprimer.
+	</p>
+
+	<h2>Modifications</h2>
+	<p>
+		Cette politique peut évoluer, notamment au fil du développement de Bondiz. La date de dernière mise à jour figure en haut de la page.
+	</p>
+{% endblock %}

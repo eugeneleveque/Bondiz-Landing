@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<section class="hero" style="padding: 4rem 0 2rem;">
+		<div class="container" style="max-width: 800px; margin: 0 auto; text-align: left;">
+			<h1 style="margin-bottom: 1rem; font-size: 3rem;">{% block legal_title %}{% endblock %}</h1>
+			<p style="color: var(--gray);">Dernière mise à jour : septembre 2026</p>
+		</div>
+	</section>
+
+	<section class="section" style="padding: 1rem 0 4rem;">
+		<div class="container" style="max-width: 800px; margin: 0 auto;">
+			<div class="legal-content" style="background: rgba(0,0,0,0.2); backdrop-filter: blur(10px); padding: 3rem 2.5rem; border-radius: 2.5rem; border: 1px solid rgba(255, 255, 255, 0.05); line-height: 1.8; color: var(--gray);">
+				{% block legal_content %}{% endblock %}
+			</div>
+			<p style="text-align: center; margin-top: 2rem; color: var(--gray);">
+				<a href="{{ path('app_legal_notice') }}" class="nav-link">Mentions légales</a> ·
+				<a href="{{ path('app_privacy') }}" class="nav-link">Confidentialité</a> ·
+				<a href="{{ path('app_cookies') }}" class="nav-link">Cookies</a>
+			</p>
+		</div>
+	</section>
+	<style>
+		.legal-content h2 { color: var(--text-color); font-size: 1.6rem; margin: 2.5rem 0 1rem; }
+		.legal-content h2:first-child { margin-top: 0; }
+		.legal-content ul { padding-left: 1.5rem; }
+		.legal-content a { color: var(--accent-yellow); text-decoration: underline; }
+		.legal-content strong { color: var(--text-color); }
+		.legal-content table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.95rem; }
+		.legal-content th, .legal-content td { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.15); vertical-align: top; }
+		.legal-content th { color: var(--text-color); }
+		.legal-content .todo { background: rgba(228, 246, 68, 0.2); color: var(--accent-yellow); padding: 0 0.3rem; border-radius: 0.3rem; }
+		.legal-table-wrap { overflow-x: auto; }
+	</style>
+{% endblock %}

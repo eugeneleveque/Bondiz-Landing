@@ -1,0 +1,37 @@
+{% extends 'legal/layout.html.twig' %}
+
+{% block title %}Mentions légales - Bondiz{% endblock %}
+{% block legal_title %}Mentions <span class="text-gradient">légales</span>{% endblock %}
+
+{% block legal_content %}
+	<h2>Éditeur du site</h2>
+	<p>
+		Le site <strong>Bondiz</strong> est édité par le projet Bondiz, porté par une équipe de 8 étudiants.<br>
+		Statut juridique : <span class="todo">[à compléter : association, micro-entreprise, projet étudiant…]</span><br>
+		Adresse : <span class="todo">[à compléter]</span><br>
+		Contact : <a href="mailto:contact@bondiz.fr">contact@bondiz.fr</a>
+	</p>
+
+	<h2>Directeur de la publication</h2>
+	<p><span class="todo">[à compléter : nom du responsable de publication]</span></p>
+
+	<h2>Hébergement</h2>
+	<p>
+		Le site est hébergé par : <span class="todo">[à compléter : nom, adresse et contact de l'hébergeur]</span>
+	</p>
+
+	<h2>Propriété intellectuelle</h2>
+	<p>
+		L'ensemble des contenus du site (textes, logo, images, graphismes) est la propriété de Bondiz, sauf mention contraire. Toute reproduction, représentation ou diffusion, totale ou partielle, sans autorisation préalable est interdite.
+	</p>
+
+	<h2>Responsabilité</h2>
+	<p>
+		Bondiz s'efforce de fournir des informations exactes et à jour, mais ne peut garantir l'absence d'erreurs. Le projet étant en phase de développement, les fonctionnalités et informations présentées peuvent évoluer. Les liens vers des sites tiers sont fournis à titre informatif et n'engagent pas la responsabilité de Bondiz.
+	</p>
+
+	<h2>Données personnelles</h2>
+	<p>
+		Le traitement de vos données personnelles est détaillé dans notre <a href="{{ path('app_privacy') }}">politique de confidentialité</a>, et l'usage des cookies dans notre <a href="{{ path('app_cookies') }}">politique cookies</a>.
+	</p>
+{% endblock %}
