@@ -1,24 +1,39 @@
+# Déploiement VPS : landing + blog. Le nom de projet et le dossier (/home/debian/bondiz-blog)
+# sont conservés pour réutiliser le volume MariaDB existant.
+name: bondiz-blog
+
 services:
+  # Point d'entrée public : /a-propos -> landing, le reste -> blog
+  landing:
+    image: ${REGISTRY_NAME}/bondiz-landing:latest
+    restart: always
+    ports:
+      - "3012:80"
+    depends_on:
+      - blog-nginx
+    networks:
+      - symfony
+
   php:
     image: ${REGISTRY_NAME}/bondiz-blog:latest
-    container_name: php
     restart: always
     environment:
       APP_ENV: prod
       APP_DEBUG: 0
       APP_SECRET: ${APP_SECRET}
+      DEFAULT_URI: ${DEFAULT_URI}
       DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DATABASE}?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
     volumes:
       - public-data:/app/public
+    depends_on:
+      database:
+        condition: service_healthy
     networks:
       - symfony
 
-  nginx:
+  blog-nginx:
     image: ${REGISTRY_NAME}/bondiz-blog-nginx:latest
-    container_name: nginx
     restart: always
-    ports:
-      - "3011:80"
     depends_on:
       - php
     volumes:
@@ -28,13 +43,17 @@ services:
 
   database:
     image: mariadb:latest
-    container_name: mariadb
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
     volumes:
       - mariadb-data:/var/lib/mysql
     networks:

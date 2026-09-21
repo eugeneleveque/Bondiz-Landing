@@ -2,14 +2,15 @@ name: Deploy to VPS
 
 on:
   workflow_run:
-    workflows: ["Build Image and Push Registry"]
+    workflows: ["Build Images and Push Registry"]
     types:
       - completed
+    branches: ["main"]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' }}
 
     steps:
       - name: Checkout code
@@ -44,20 +45,20 @@ jobs:
              export MYSQL_USER='${{ secrets.MYSQL_USER }}' && \
              export MYSQL_PASSWORD='${{ secrets.MYSQL_PASSWORD }}' && \
              export APP_SECRET='${{ secrets.APP_SECRET }}' && \
+             export DEFAULT_URI='${{ secrets.DEFAULT_URI }}' && \
              /bin/bash -s" << 'EOF'
             set -e
-            echo "Go to directory bondiz-blog"
             cd /home/debian/bondiz-blog/
-            
+
             echo "Login to registry"
             echo "$REGISTRY_PASSWORD" | docker login "$REGISTRY_NAME" -u "$REGISTRY_USERNAME" --password-stdin
 
             echo "Pulling latest images"
             docker compose -f docker-compose.prod.yaml pull
-            
-            echo "Running container"
+
+            echo "Running containers"
             docker compose -f docker-compose.prod.yaml up -d --remove-orphans
-            
+
             echo "Cleaning up old images"
             docker image prune -f
           EOF
