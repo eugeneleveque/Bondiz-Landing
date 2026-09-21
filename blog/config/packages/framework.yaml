@@ -2,6 +2,10 @@
 framework:
     secret: '%env(APP_SECRET)%'
 
+    # Le blog est servi derrière le reverse proxy de la racine (voir nginx.conf)
+    trusted_proxies: 'private_ranges'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-proto', 'x-forwarded-port']
+
     # Note that the session will be started ONLY if you read or write from it.
     session: true
 

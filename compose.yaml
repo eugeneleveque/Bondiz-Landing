@@ -1,8 +1,56 @@
 services:
+  # Reverse proxy + landing React : /a-propos -> landing, tout le reste -> blog Symfony
   bondiz-landing:
     build:
       context: .
-      target: production-stage  
+      target: production-stage
     ports:
       - "3012:80"
     container_name: bondiz-landing-prod
+    depends_on:
+      - blog-nginx
+
+  blog-nginx:
+    build:
+      context: ./blog
+      dockerfile: docker/nginx/Dockerfile
+    depends_on:
+      - php
+    volumes:
+      - blog-public:/app/public
+
+  php:
+    build:
+      context: ./blog
+      dockerfile: docker/php/Dockerfile
+      target: prod
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: 0
+      APP_SECRET: ${APP_SECRET:-change-me-in-production}
+      DEFAULT_URI: ${DEFAULT_URI:-http://localhost:3012}
+      DATABASE_URL: "mysql://${MYSQL_USER:-app}:${MYSQL_PASSWORD:-app}@database:3306/${MYSQL_DATABASE:-app}?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
+    volumes:
+      - blog-public:/app/public
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-app}
+      MYSQL_USER: ${MYSQL_USER:-app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-app}
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - mariadb-data:/var/lib/mysql
+
+volumes:
+  mariadb-data:
+  blog-public:
