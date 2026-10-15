@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace partenaires - Bondiz{% endblock %}
+
+{% block meta %}
+	<meta name="description" content="Établissements partenaires de Bondiz : connectez-vous pour proposer vos activités aux utilisateurs de l'application.">
+	<meta name="robots" content="noindex">
+{% endblock %}
+
+{% block body %}
+	<section class="hero partner-hero">
+		<div class="container">
+			<h1>Espace <span class="text-gradient">partenaires</span></h1>
+			<p>Bar, escape game, salle de sport… Publiez vos activités et faites-les découvrir aux personnes qui cherchent à se rencontrer près de chez vous.</p>
+		</div>
+	</section>
+
+	<main class="container partner-page partner-narrow">
+		<form method="post" action="{{ path('app_partner_login') }}" class="partner-card" novalidate>
+			<h2>Connexion</h2>
+
+			{% if error %}
+				<div class="partner-alert partner-alert-error" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
+
+			<div class="partner-field">
+				<label for="partner-email">Email</label>
+				<input type="email" id="partner-email" name="email" value="{{ last_username }}" autocomplete="email" required autofocus>
+			</div>
+
+			<div class="partner-field">
+				<label for="partner-password">Mot de passe</label>
+				<input type="password" id="partner-password" name="password" autocomplete="current-password" required>
+			</div>
+
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token('partner_authenticate') }}">
+
+			<button class="btn btn-primary partner-submit" type="submit">Se connecter</button>
+
+			<p class="partner-hint">
+				Pas encore partenaire, ou mot de passe oublié ?
+				<a href="mailto:contact@bondiz.fr?subject=Espace%20partenaire">Écrivez-nous à contact@bondiz.fr</a>
+			</p>
+		</form>
+	</main>
+{% endblock %}

@@ -551,3 +551,250 @@ body {
     color: #ef4444;
     background: rgba(239, 68, 68, 0.1);
 }
+
+/* Espace partenaires */
+.partner-hero {
+    padding: 4rem 0 2.5rem;
+}
+
+.partner-hero-small {
+    padding-bottom: 1.5rem;
+}
+
+.partner-hero-small h1 {
+    margin-top: 1rem;
+}
+
+.partner-page {
+    padding-bottom: 5rem;
+}
+
+.partner-narrow {
+    max-width: 720px;
+}
+
+.partner-card {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 2rem;
+    padding: 2.5rem;
+}
+
+.partner-card h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.partner-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.partner-field label {
+    font-weight: 600;
+}
+
+.partner-optional {
+    margin-left: 0.5rem;
+    font-weight: 400;
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+.partner-field input,
+.partner-field textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 0.75rem;
+    border: 2px solid transparent;
+    background: var(--white);
+    color: var(--text-dark);
+    font: inherit;
+}
+
+.partner-field textarea {
+    resize: vertical;
+}
+
+.partner-field input:focus,
+.partner-field textarea:focus {
+    outline: none;
+    border-color: var(--accent-yellow);
+    box-shadow: 0 0 0 4px rgba(228, 246, 68, 0.25);
+}
+
+.partner-field.has-error input,
+.partner-field.has-error textarea {
+    border-color: var(--accent-pink);
+}
+
+.partner-field-error {
+    color: var(--accent-pink);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.partner-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 1.25rem;
+}
+
+.partner-submit {
+    width: 100%;
+    border: none;
+    font: inherit;
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.partner-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.partner-form-actions .btn {
+    border: none;
+    font: inherit;
+    font-weight: 600;
+}
+
+.partner-hint {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: var(--gray);
+}
+
+.partner-hint a {
+    color: var(--accent-yellow);
+}
+
+.partner-alert {
+    padding: 1rem 1.25rem;
+    border-radius: 1rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.partner-alert-error {
+    background: rgba(249, 140, 215, 0.2);
+    border: 1px solid var(--accent-pink);
+}
+
+.partner-alert-success {
+    background: rgba(228, 246, 68, 0.15);
+    border: 1px solid var(--accent-yellow);
+}
+
+.partner-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+    margin: 2.5rem 0 1rem;
+}
+
+.partner-count {
+    font-size: 0.9rem;
+    padding: 0.15rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.partner-activity {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1rem;
+    border-radius: 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.partner-activity.is-past {
+    opacity: 0.65;
+}
+
+.partner-activity h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+}
+
+.partner-activity-meta {
+    list-style: none;
+    display: grid;
+    gap: 0.35rem;
+    color: var(--gray);
+}
+
+.partner-meta-label {
+    display: inline-block;
+    min-width: 4.5rem;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.partner-activity-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.partner-activity-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.partner-btn-small {
+    padding: 0.5rem 1.1rem;
+}
+
+.partner-link-danger {
+    background: none;
+    border: none;
+    color: var(--gray);
+    font: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.partner-link-danger:hover {
+    color: var(--accent-pink);
+}
+
+.partner-empty {
+    text-align: center;
+}
+
+.partner-empty p {
+    margin-bottom: 1.25rem;
+    color: var(--gray);
+}
+
+@media (max-width: 640px) {
+    .partner-card {
+        padding: 1.5rem;
+    }
+
+    .partner-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .partner-activity {
+        flex-direction: column;
+    }
+
+    .partner-activity-side {
+        align-items: flex-start;
+    }
+}

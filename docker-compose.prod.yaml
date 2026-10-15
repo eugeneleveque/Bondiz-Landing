@@ -23,6 +23,7 @@ services:
       APP_SECRET: ${APP_SECRET}
       DEFAULT_URI: ${DEFAULT_URI}
       DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DATABASE}?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
+      STRAPI_URL: ${STRAPI_URL:-https://bondiz-api.benjamin-vaique.fr}
     volumes:
       - public-data:/app/public
     depends_on:

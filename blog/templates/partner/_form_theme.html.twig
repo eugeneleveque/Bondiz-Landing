@@ -1,0 +1,21 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{# Champs de l'espace partenaires : libellé, champ, erreurs #}
+{% block form_row %}
+	<div class="partner-field{{ errors|length ? ' has-error' }}">
+		{{ form_label(form) }}
+		{{ form_widget(form) }}
+		{{ form_errors(form) }}
+	</div>
+{% endblock %}
+
+{% block form_errors %}
+	{% for error in errors %}
+		<p class="partner-field-error">{{ error.message }}</p>
+	{% endfor %}
+{% endblock %}
+
+{% block form_label_content %}
+	{{- parent() -}}
+	{% if not required %}<span class="partner-optional">facultatif</span>{% endif %}
+{% endblock %}

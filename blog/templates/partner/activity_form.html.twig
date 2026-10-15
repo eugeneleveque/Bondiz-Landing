@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ activity ? 'Modifier l’activité' : 'Nouvelle activité' }} - Espace partenaires Bondiz{% endblock %}
+
+{% block meta %}
+	<meta name="robots" content="noindex">
+{% endblock %}
+
+{% form_theme form 'partner/_form_theme.html.twig' %}
+
+{% block body %}
+	<section class="hero partner-hero partner-hero-small">
+		<div class="container">
+			<a href="{{ path('app_partner_dashboard') }}" class="nav-link">← Mes activités</a>
+			<h1>{{ activity ? 'Modifier ' : 'Nouvelle ' }}<span class="text-gradient">activité</span></h1>
+			{% if activity and activity.bookingsCount > 0 %}
+				<p>{{ activity.bookingsCount }} réservation{{ activity.bookingsCount > 1 ? 's' }} : prévenez les participants si vous changez la date ou le lieu.</p>
+			{% endif %}
+		</div>
+	</section>
+
+	<main class="container partner-page partner-narrow">
+		{{ form_start(form, {attr: {class: 'partner-card', novalidate: 'novalidate'}}) }}
+			{% if form.vars.errors|length %}
+				<div class="partner-alert partner-alert-error" role="alert">
+					{% for error in form.vars.errors %}{{ error.message }}{% endfor %}
+				</div>
+			{% endif %}
+
+			{{ form_row(form.title) }}
+			{{ form_row(form.description) }}
+			{{ form_row(form.location) }}
+
+			<div class="partner-grid">
+				{{ form_row(form.startDate) }}
+				{{ form_row(form.endDate) }}
+			</div>
+
+			<div class="partner-grid">
+				{{ form_row(form.minParticipants) }}
+				{{ form_row(form.maxParticipants) }}
+			</div>
+
+			{{ form_row(form.price) }}
+
+			<div class="partner-form-actions">
+				<a href="{{ path('app_partner_dashboard') }}" class="nav-link">Annuler</a>
+				<button type="submit" class="btn btn-primary">{{ activity ? 'Enregistrer' : 'Publier l’activité' }}</button>
+			</div>
+		{{ form_end(form) }}
+	</main>
+{% endblock %}

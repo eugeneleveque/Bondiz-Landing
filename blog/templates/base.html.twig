@@ -31,13 +31,18 @@
 				<div class="nav-links">
 					<a href="{{ path('app_home') }}" class="nav-link">Accueil</a>
 					<a href="{{ path('app_post_index') }}" class="nav-link">Articles</a>
-					<a href="#" class="nav-link">Partenaires</a>
+					<a href="{{ path('app_partner_dashboard') }}" class="nav-link{{ app.request.pathInfo starts with '/partenaires' ? ' active' }}">Partenaires</a>
 					<a href="/a-propos" class="nav-link">À propos</a>
 					{% if is_granted('ROLE_ADMIN') %}
 						<a href="{{ path('admin') }}" class="nav-link">Administration</a>
 					{% endif %}
 				</div>
-				{% if app.user %}
+				{% if is_granted('ROLE_PARTNER') %}
+					<div style="display: flex; align-items: center; gap: 1rem;">
+						<span style="font-weight: 600;">{{ app.user.name }}</span>
+						<a href="{{ path('app_partner_logout') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Déconnexion</a>
+					</div>
+				{% elseif app.user %}
 					<div style="display: flex; align-items: center; gap: 1rem;">
 						<span style="font-weight: 600;">{{ app.user.pseudo }}</span>
 						<a href="{{ path('app_logout') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Déconnexion</a>

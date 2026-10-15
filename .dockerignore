@@ -4,5 +4,4 @@ dist
 .gitignore
 README.md
 .vscode
-package-lock.json
 blog

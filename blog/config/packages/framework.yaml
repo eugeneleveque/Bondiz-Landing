@@ -9,6 +9,13 @@ framework:
     # Note that the session will be started ONLY if you read or write from it.
     session: true
 
+    # API Strapi de l'application (espace partenaire)
+    http_client:
+        scoped_clients:
+            strapi.client:
+                base_uri: '%env(STRAPI_URL)%'
+                timeout: 10
+
     #esi: true
     #fragments: true
 

@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes activités - Espace partenaires Bondiz{% endblock %}
+
+{% block meta %}
+	<meta name="robots" content="noindex">
+{% endblock %}
+
+{% macro activity_card(activity, past = false) %}
+	{% set tz = 'Europe/Paris' %}
+	<article class="partner-activity{{ past ? ' is-past' : '' }}">
+		<div class="partner-activity-main">
+			<h3>{{ activity.title }}</h3>
+			<ul class="partner-activity-meta">
+				{% if activity.startDate %}
+					<li>
+						<span class="partner-meta-label">Quand</span>
+						{{ activity.startDate|date('d/m/Y \\à H\\hi', tz) }}
+						{% if activity.endDate %}
+							→ {{ activity.endDate|date(activity.endDate|date('Ymd', tz) == activity.startDate|date('Ymd', tz) ? 'H\\hi' : 'd/m/Y \\à H\\hi', tz) }}
+						{% endif %}
+					</li>
+				{% else %}
+					<li><span class="partner-meta-label">Quand</span> Date libre</li>
+				{% endif %}
+				{% if activity.location %}
+					<li><span class="partner-meta-label">Où</span> {{ activity.location }}</li>
+				{% endif %}
+				<li>
+					<span class="partner-meta-label">Prix</span>
+					{{ activity.price is not null ? (activity.price == 0 ? 'Gratuit' : activity.price|number_format(2, ',', ' ') ~ ' €') : 'Non renseigné' }}
+				</li>
+				{% if activity.minParticipants or activity.maxParticipants %}
+					<li>
+						<span class="partner-meta-label">Groupe</span>
+						{% if activity.minParticipants and activity.maxParticipants %}
+							{{ activity.minParticipants }} à {{ activity.maxParticipants }} personnes
+						{% elseif activity.maxParticipants %}
+							jusqu’à {{ activity.maxParticipants }} personnes
+						{% else %}
+							{{ activity.minParticipants }} personnes minimum
+						{% endif %}
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+		<div class="partner-activity-side">
+			<span class="tag">{{ activity.bookingsCount }} réservation{{ activity.bookingsCount > 1 ? 's' }}</span>
+			<div class="partner-activity-actions">
+				<a href="{{ path('app_partner_activity_edit', {id: activity.documentId}) }}" class="btn btn-filter partner-btn-small">Modifier</a>
+				{% if activity.bookingsCount == 0 %}
+					<form method="post" action="{{ path('app_partner_activity_delete', {id: activity.documentId}) }}" onsubmit="return confirm('Supprimer définitivement « {{ activity.title|e('js') }} » ?');">
+						<input type="hidden" name="_token" value="{{ csrf_token('delete-activity-' ~ activity.documentId) }}">
+						<button type="submit" class="partner-link-danger">Supprimer</button>
+					</form>
+				{% endif %}
+			</div>
+		</div>
+	</article>
+{% endmacro %}
+
+{% block body %}
+	<section class="hero partner-hero">
+		<div class="container">
+			<h1>Bonjour, <span class="text-gradient">{{ app.user.name }}</span></h1>
+			<p>Les activités publiées ici apparaissent dans l’application Bondiz, où les utilisateurs peuvent les réserver seuls ou en groupe.</p>
+			<a href="{{ path('app_partner_activity_new') }}" class="btn btn-primary">+ Nouvelle activité</a>
+		</div>
+	</section>
+
+	<main class="container partner-page">
+		{% include 'partner/_flashes.html.twig' %}
+
+		<section>
+			<h2 class="partner-section-title">À venir <span class="partner-count">{{ upcoming|length }}</span></h2>
+			{% for activity in upcoming %}
+				{{ _self.activity_card(activity) }}
+			{% else %}
+				<div class="partner-card partner-empty">
+					<p>Aucune activité à venir.</p>
+					<a href="{{ path('app_partner_activity_new') }}" class="btn btn-primary">Proposer ma première activité</a>
+				</div>
+			{% endfor %}
+		</section>
+
+		{% if past is not empty %}
+			<section>
+				<h2 class="partner-section-title">Passées <span class="partner-count">{{ past|length }}</span></h2>
+				{% for activity in past %}
+					{{ _self.activity_card(activity, true) }}
+				{% endfor %}
+			</section>
+		{% endif %}
+	</main>
+{% endblock %}

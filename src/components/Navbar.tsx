@@ -11,7 +11,7 @@ const Navbar: React.FC = () => {
         <div className="nav-links">
           <a href="/" className="nav-link">Accueil</a>
           <a href="/posts" className="nav-link">Articles</a>
-          <a href="#" className="nav-link">Partenaires</a>
+          <a href="/partenaires" className="nav-link">Partenaires</a>
           <a href="/a-propos" className="nav-link active">À propos</a>
         </div>
         <a href="/login" className="btn btn-primary">Espace Membre</a>

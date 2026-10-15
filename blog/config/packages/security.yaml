@@ -10,12 +10,25 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+        # Partenaires : authentifiés par Strapi, gardés en session (voir PartnerAuthenticator)
+        partner_user_provider:
+            id: App\Security\PartnerUserProvider
 
     firewalls:
         dev:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
+        # Espace partenaire, séparé de l'espace membre du blog
+        partner:
+            pattern: ^/partenaires
+            lazy: true
+            provider: partner_user_provider
+            custom_authenticators:
+                - App\Security\PartnerAuthenticator
+            logout:
+                path: app_partner_logout
+                target: app_partner_login
         main:
             lazy: true
             provider: app_user_provider
@@ -37,6 +50,8 @@ security:
     # Note: Only the *first* matching rule is applied
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/partenaires/connexion, roles: PUBLIC_ACCESS }
+        - { path: ^/partenaires, roles: ROLE_PARTNER }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

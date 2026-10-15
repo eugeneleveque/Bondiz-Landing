@@ -30,6 +30,10 @@ services:
       APP_SECRET: ${APP_SECRET:-change-me-in-production}
       DEFAULT_URI: ${DEFAULT_URI:-http://localhost:3012}
       DATABASE_URL: "mysql://${MYSQL_USER:-app}:${MYSQL_PASSWORD:-app}@database:3306/${MYSQL_DATABASE:-app}?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
+      # Strapi lancé sur la machine hôte (npm run develop dans strapi-mydsu)
+      STRAPI_URL: ${STRAPI_URL:-http://host.docker.internal:1337}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - blog-public:/app/public
     depends_on:
