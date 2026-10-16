@@ -46,6 +46,10 @@ COPY --from=build-stage /app/dist /usr/share/nginx/html
 # Copy a custom nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Sur un serveur au umask strict (027), les fichiers du clone sont en 600 :
+# Nginx ne pourrait pas les lire (404 / 403). On les rend lisibles par tous.
+RUN chmod -R a+rX /usr/share/nginx/html /etc/nginx/conf.d
+
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]

@@ -39,6 +39,12 @@ RUN mkdir -p var/cache var/log \
     && php bin/console assets:install public
 
 RUN chown -R www-data:www-data /app
+
+# Sur un serveur au umask strict (027), les fichiers du clone sont en 600 :
+# le conteneur Nginx du blog, qui lit public/ via le volume partagé,
+# ne pourrait pas les servir (404 / 403). On les rend lisibles par tous.
+RUN chmod -R a+rX /app/public
+
 USER www-data
 
 CMD ["php-fpm"]
