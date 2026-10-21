@@ -1,4 +1,5 @@
-FROM php:8.4-fpm AS base
+# Version de correctif fixée : 8.4.27 corrige php2shell (CVE-2026-109618, CVE-2026-109619).
+FROM php:8.4.27-fpm AS base
 
 WORKDIR /app
 
