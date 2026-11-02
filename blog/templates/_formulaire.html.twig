@@ -1,0 +1,10 @@
+{# Champ du formulaire : libellé gris au-dessus, champ en pilule, erreurs dessous #}
+{% macro champ(field, type = 'texte') %}
+	<div class="bz-demande__champ{{ field.vars.errors|length ? ' bz-demande__champ--erreur' }}">
+		{{ form_label(field, null, {label_attr: {class: 'bz-demande__libelle'}}) }}
+		{{ form_widget(field, {attr: {class: type == 'zone' ? 'bz-demande__zone' : 'bz-demande__saisie'}}) }}
+		{% for error in field.vars.errors %}
+			<p class="bz-demande__erreur">{{ error.message }}</p>
+		{% endfor %}
+	</div>
+{% endmacro %}

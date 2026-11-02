@@ -12,26 +12,36 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class PostController extends AbstractController
 {
+    /** Articles affichés sous l'article à la une, puis à chaque « Voir plus ». */
+    private const ARTICLES_PAR_PAGE = 4;
+
     #[Route('/posts', name: 'app_post_index')]
     public function index(PostRepository $postRepository, CategoryRepository $categoryRepository, Request $request): Response
     {
-        $categoryId = $request->query->get('category');
-        $queryBuilder = $postRepository->findAllQueryBuilder();
+        $categoryId = $request->query->getInt('category') ?: null;
+        $page = max(1, $request->query->getInt('page', 1));
 
+        $queryBuilder = $postRepository->findAllQueryBuilder();
         if ($categoryId) {
             $queryBuilder->andWhere('p.category = :category')
                 ->setParameter('category', $categoryId);
         }
-
         $posts = $queryBuilder->getQuery()->getResult();
-        $categories = $categoryRepository->findAll();
-        $featuredPost = $postRepository->findFeatured();
+
+        // Grande carte : l'article à la une, ou le plus récent de la catégorie.
+        $featuredPost = $categoryId ? null : $postRepository->findFeatured();
+        $featuredPost ??= $posts[0] ?? null;
+        $posts = array_values(array_filter($posts, fn (Post $post) => $post !== $featuredPost));
+
+        $visible = self::ARTICLES_PAR_PAGE * $page;
 
         return $this->render('post/posts.html.twig', [
-            'posts' => $posts,
-            'categories' => $categories,
+            'posts' => \array_slice($posts, 0, $visible),
+            'hasMore' => \count($posts) > $visible,
+            'page' => $page,
+            'categories' => $categoryRepository->findAll(),
             'currentCategory' => $categoryId,
-            'featuredPost' => $featuredPost
+            'featuredPost' => $featuredPost,
         ]);
     }
 

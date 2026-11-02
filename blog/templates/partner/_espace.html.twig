@@ -1,0 +1,105 @@
+{#
+	Gabarit de l'espace partenaire connecté : menu latéral et barre du haut à
+	la place de l'en-tête et du pied de page du site.
+#}
+{% extends 'base.html.twig' %}
+
+{% block meta %}
+	<meta name="robots" content="noindex">
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/espace-partenaire.css') }}">
+{% endblock %}
+
+{% block page_class %}bz-page--espace{% endblock %}
+
+{% block page_fond %}
+	<div class="bz-fond" aria-hidden="true">
+		<div class="bz-fond__tranche"></div>
+		<div class="bz-fond__tranche bz-fond__tranche--retournee"></div>
+		<div class="bz-fond__tranche"></div>
+		<div class="bz-fond__tranche bz-fond__tranche--retournee bz-fond__tranche--fin"></div>
+	</div>
+{% endblock %}
+
+{% block entete %}{% endblock %}
+{% block pied %}{% endblock %}
+
+{% block body %}
+	{% set route = app.request.attributes.get('_route') %}
+	{% set dossier = 'images/espace-partenaire/' %}
+	{#
+		Rubriques du menu. Celles sans route ne sont pas encore développées :
+		elles restent visibles, mais grisées.
+	#}
+	{% set rubriques = [
+		{ nom: 'Tableau de bord', icone: 'accueil.png', route: 'app_partner_dashboard' },
+		{ nom: 'Mes activités', icone: 'calendrier-gris.png', route: 'app_partner_activities', actives: ['app_partner_activities', 'app_partner_activity_new', 'app_partner_activity_edit'] },
+		{ nom: 'Mes statistiques', icone: 'statistiques.png', route: 'app_partner_dashboard', ancre: '#statistiques', actives: [] },
+		{ nom: 'Mon établissement', icone: 'etablissement.png' },
+		{ nom: 'Messages', icone: 'messages.png' },
+		{ nom: 'Mon profil', icone: 'profil.png' },
+	] %}
+
+	<div class="bz-espace">
+		<aside class="bz-espace__menu">
+			<a href="{{ path('app_home') }}" class="bz-espace__logo" aria-label="Bondiz, retour au site">
+				<span class="bz-espace__logo-carre">
+					<img src="{{ asset('images/brand/logo-fantome.svg') }}" alt="">
+				</span>
+				<span class="bz-espace__logo-texte">BONDIZ</span>
+			</a>
+
+			<nav aria-label="Espace partenaire">
+				<ul class="bz-menu">
+					{% for rubrique in rubriques %}
+						<li>
+							{% if rubrique.route is defined %}
+								{% set active = route in (rubrique.actives ?? [rubrique.route]) %}
+								<a href="{{ path(rubrique.route) }}{{ rubrique.ancre ?? '' }}" class="bz-menu__lien{{ active ? ' bz-menu__lien--actif' }}"{{ active ? ' aria-current="page"' }}>
+									<img src="{{ asset(dossier ~ rubrique.icone) }}" alt="" class="bz-menu__icone">
+									{{ rubrique.nom }}
+								</a>
+							{% else %}
+								<span class="bz-menu__lien bz-menu__lien--bientot" aria-disabled="true" title="Bientôt disponible">
+									<img src="{{ asset(dossier ~ rubrique.icone) }}" alt="" class="bz-menu__icone">
+									{{ rubrique.nom }}
+									<span class="bz-visuellement-cache">(bientôt disponible)</span>
+								</span>
+							{% endif %}
+						</li>
+					{% endfor %}
+				</ul>
+			</nav>
+
+			<div class="bz-espace__premium">
+				<img src="{{ asset(dossier ~ 'couronne.png') }}" alt="" class="bz-espace__couronne">
+				<p class="bz-espace__premium-titre">Bondiz Premium arrive bientôt&nbsp;!</p>
+				<p class="bz-espace__premium-texte">Accédez à des statistiques détaillées, à plus d’outils et à un accompagnement personnalisé.</p>
+			</div>
+		</aside>
+
+		<div class="bz-espace__principal">
+			<header class="bz-espace__haut">
+				<details class="bz-compte">
+					<summary class="bz-compte__resume">
+						<span class="bz-compte__avatar" aria-hidden="true">{{ app.user.name|first|upper }}</span>
+						<span class="bz-compte__nom">{{ app.user.name }}</span>
+						<img src="{{ asset(dossier ~ 'fleche-menu.png') }}" alt="" class="bz-compte__fleche">
+					</summary>
+					<div class="bz-compte__menu">
+						<p class="bz-compte__email">{{ app.user.email }}</p>
+						{% if app.user.city %}<p>{{ app.user.city }}</p>{% endif %}
+					</div>
+				</details>
+				<a href="{{ path('app_partner_logout') }}" class="bz-espace__deconnexion">Se déconnecter</a>
+			</header>
+
+			{% include 'partner/_flashes.html.twig' %}
+
+			{% block contenu %}{% endblock %}
+		</div>
+	</div>
+{% endblock %}

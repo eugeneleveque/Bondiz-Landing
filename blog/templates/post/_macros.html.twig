@@ -1,0 +1,5 @@
+{# Date en toutes lettres, en français : « 24 octobre 2026 ». #}
+{% macro date_fr(date) %}
+	{%- set mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'] -%}
+	{{- date|date('j') }} {{ mois[date|date('n') - 1] }} {{ date|date('Y') -}}
+{% endmacro %}

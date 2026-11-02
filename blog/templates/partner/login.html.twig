@@ -1,46 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Espace partenaires - Bondiz{% endblock %}
+{% block title %}Connexion partenaire - Bondiz{% endblock %}
 
 {% block meta %}
 	<meta name="description" content="Établissements partenaires de Bondiz : connectez-vous pour proposer vos activités aux utilisateurs de l'application.">
 	<meta name="robots" content="noindex">
 {% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/espace-partenaire.css') }}">
+{% endblock %}
+
+{% block page_class %}bz-page--connexion{% endblock %}
+
+{% block page_fond %}
+	<div class="bz-fond" aria-hidden="true">
+		<div class="bz-fond__tranche"></div>
+		<div class="bz-fond__tranche bz-fond__tranche--retournee"></div>
+		<div class="bz-fond__tranche"></div>
+		<div class="bz-fond__tranche bz-fond__tranche--retournee bz-fond__tranche--fin"></div>
+	</div>
+{% endblock %}
+
 {% block body %}
-	<section class="hero partner-hero">
-		<div class="container">
-			<h1>Espace <span class="text-gradient">partenaires</span></h1>
-			<p>Bar, escape game, salle de sport… Publiez vos activités et faites-les découvrir aux personnes qui cherchent à se rencontrer près de chez vous.</p>
-		</div>
-	</section>
+	{% set lien_devenir_partenaire = path('app_devenir_partenaire') %}
 
-	<main class="container partner-page partner-narrow">
-		<form method="post" action="{{ path('app_partner_login') }}" class="partner-card" novalidate>
-			<h2>Connexion</h2>
+	<main class="bz-principal">
 
-			{% if error %}
-				<div class="partner-alert partner-alert-error" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-			{% endif %}
+		<section class="bz-conteneur">
+			<form method="post" action="{{ path('app_partner_login') }}" class="bz-connexion" novalidate>
+				<span class="bz-connexion__logo" aria-hidden="true">
+					<img src="{{ asset('images/brand/logo-fantome.svg') }}" alt="">
+				</span>
+				<h1 class="bz-connexion__titre">Bienvenue&nbsp;!</h1>
+				<p class="bz-connexion__intro">Connectez-vous à votre espace partenaire</p>
 
-			<div class="partner-field">
-				<label for="partner-email">Email</label>
-				<input type="email" id="partner-email" name="email" value="{{ last_username }}" autocomplete="email" required autofocus>
+				{% if error %}
+					<p class="bz-alerte bz-alerte--erreur" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+				{% endif %}
+
+				<div class="bz-connexion__champs">
+					<label for="partner-email" class="bz-visuellement-cache">Adresse e-mail</label>
+					<input type="email" id="partner-email" name="email" value="{{ last_username }}" class="bz-champ" placeholder="Adresse e-mail" autocomplete="email" required autofocus>
+
+					<label for="partner-password" class="bz-visuellement-cache">Mot de passe</label>
+					<input type="password" id="partner-password" name="password" class="bz-champ" placeholder="Mot de passe" autocomplete="current-password" required>
+
+					{# Pas encore de réinitialisation automatique : l'équipe s'en charge. #}
+					<a href="mailto:contact@bondiz.fr?subject=Espace%20partenaire%20-%20mot%20de%20passe%20oubli%C3%A9" class="bz-connexion__oubli">Mot de passe oublié ?</a>
+				</div>
+
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token('partner_authenticate') }}">
+
+				<button type="submit" class="bz-bouton-violet">Se connecter</button>
+
+				<p class="bz-connexion__inscription">
+					Vous n’avez pas encore de compte ?
+					<a href="{{ lien_devenir_partenaire }}">Devenir partenaire</a>
+				</p>
+			</form>
+		</section>
+
+		<section class="bz-bande bz-premium">
+			<div class="bz-conteneur">
+				<h2 class="bz-titre">Bondiz Premium arrive bientôt&nbsp;!</h2>
+				<p class="bz-premium__texte">Envie d’aller plus loin dans le suivi de vos activités ? De nouvelles fonctionnalités et des statistiques avancées seront bientôt proposées aux partenaires Bondiz.</p>
+				<p class="bz-premium__badge">Le Premium se prépare... 💜</p>
 			</div>
+		</section>
 
-			<div class="partner-field">
-				<label for="partner-password">Mot de passe</label>
-				<input type="password" id="partner-password" name="password" autocomplete="current-password" required>
-			</div>
-
-			<input type="hidden" name="_csrf_token" value="{{ csrf_token('partner_authenticate') }}">
-
-			<button class="btn btn-primary partner-submit" type="submit">Se connecter</button>
-
-			<p class="partner-hint">
-				Pas encore partenaire, ou mot de passe oublié ?
-				<a href="mailto:contact@bondiz.fr?subject=Espace%20partenaire">Écrivez-nous à contact@bondiz.fr</a>
-			</p>
-		</form>
 	</main>
 {% endblock %}

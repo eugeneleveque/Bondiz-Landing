@@ -1,0 +1,355 @@
+/*
+ * Page « Nous contacter » — maquette Figma « NOUS CONTACTER » (nœud 488:1047).
+ * Le fond, le héros et les pastilles rondes viennent de design.css,
+ * les champs du formulaire de formulaire.css.
+ */
+
+.bz-page--contact {
+    --bz-pied-espace: 145px;
+    --bz-contact-fond-violet: rgba(132, 50, 254, 0.2);
+    --bz-contact-cote: 461px;
+    --bz-taille-coordonnee: 1.125rem; /* 18px */
+}
+
+/* ─── Héros (sans visuel) ─────────────────────────────────────────────── */
+
+.bz-page--contact .bz-heros {
+    --bz-heros-texte-largeur: 983px;
+    --bz-heros-intro-largeur: 751px;
+    --bz-heros-image-largeur: 0px;
+}
+
+.bz-page--contact .bz-heros__intro {
+    margin-bottom: 0;
+}
+
+/* ─── Coordonnées (bloc 1) ────────────────────────────────────────────── */
+
+.bz-coordonnees {
+    display: grid;
+    grid-template-columns: minmax(0, 347px) minmax(0, 387px) minmax(0, 1fr);
+    margin-top: 59px;
+    padding: 33px 0 26px 37px;
+    background: var(--bz-blanc);
+    border-radius: var(--bz-rayon-carte);
+    box-shadow: var(--bz-ombre-carte);
+    color: var(--bz-noir);
+}
+
+.bz-coordonnee {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1px 24px 11px 0;
+}
+
+/* Filets verticaux entre les colonnes */
+.bz-coordonnee + .bz-coordonnee {
+    padding-left: 40px;
+    border-left: 1px solid var(--bz-bordure);
+}
+
+.bz-coordonnee:last-child {
+    padding-left: 42px;
+}
+
+.bz-coordonnee__rond {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.bz-coordonnee__rond img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.bz-coordonnee__titre {
+    margin: 16px 0 0;
+    font-size: var(--bz-taille-coordonnee);
+    font-weight: var(--bz-graisse-demi);
+    line-height: var(--bz-interligne-texte);
+}
+
+.bz-coordonnee .bz-texte {
+    max-width: 311px;
+    margin: 5px 0 21px;
+}
+
+.bz-coordonnee:first-child .bz-texte {
+    max-width: 266px;
+}
+
+/* Pilule violette en bas de chaque colonne */
+.bz-coordonnee__lien {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 249px;
+    height: 52px;
+    margin-top: auto;
+    padding: 0 26px;
+    box-sizing: border-box;
+    background: var(--bz-contact-fond-violet);
+    border-radius: var(--bz-rayon-pilule);
+    font-size: var(--bz-taille-coordonnee);
+    font-weight: var(--bz-graisse-grasse);
+    color: var(--bz-violet);
+    text-decoration: none;
+    transition: background var(--bz-transition);
+}
+
+.bz-coordonnee__lien:hover,
+.bz-coordonnee__reseau:hover {
+    background: rgba(132, 50, 254, 0.3);
+}
+
+.bz-coordonnee__reseaux {
+    display: flex;
+    gap: 12px;
+    margin: auto 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.bz-coordonnee__reseau {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    background: var(--bz-contact-fond-violet);
+    border-radius: 50%;
+    transition: background var(--bz-transition);
+}
+
+.bz-coordonnee__reseau img {
+    width: 30px;
+    height: 30px;
+}
+
+/* ─── Formulaire et colonne de droite (blocs 2 et 3) ──────────────────── */
+
+.bz-contact {
+    display: grid;
+    grid-template-columns: minmax(0, 671px) minmax(0, var(--bz-contact-cote));
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 39px;
+    margin-top: 48px;
+}
+
+.bz-contact__formulaire {
+    padding: 40px 46px 49px 50px;
+    background: var(--bz-blanc);
+    border-radius: var(--bz-rayon-carte);
+    box-shadow: var(--bz-ombre-carte);
+    color: var(--bz-noir);
+    scroll-margin-top: 24px;
+}
+
+.bz-contact__formulaire > .bz-titre {
+    max-width: 455px;
+}
+
+.bz-contact__intro {
+    max-width: 509px;
+    margin-top: 16px;
+}
+
+.bz-contact__formulaire .bz-demande__merci {
+    margin-top: 24px;
+}
+
+.bz-contact__champs {
+    display: flex;
+    flex-direction: column;
+    gap: 29px;
+    margin-top: 29px;
+}
+
+.bz-contact__champs .bz-demande__champ {
+    gap: 0;
+}
+
+.bz-contact__identite {
+    display: grid;
+    grid-template-columns: minmax(0, 257fr) minmax(0, 295fr);
+    gap: 23px;
+}
+
+.bz-contact__champs .bz-demande__zone {
+    height: 126px;
+}
+
+.bz-contact__champs .bz-demande__accord {
+    margin-top: 0;
+}
+
+.bz-contact__champs .bz-demande__accord-texte {
+    max-width: 451px;
+    padding-top: 2px;
+}
+
+.bz-contact__champs .bz-demande__envoyer {
+    align-self: center;
+    width: 100%;
+    max-width: 479px;
+    margin-top: 1px;
+}
+
+.bz-contact__champs .bz-demande__mention {
+    margin: -14px 0 0 29px;
+}
+
+.bz-contact__cote {
+    display: flex;
+    flex-direction: column;
+    gap: 43px;
+}
+
+/* Encart « Vous êtes un professionnel ? » */
+.bz-contact__pro {
+    padding: 36px 39px 46px 40px;
+    background: var(--bz-blanc);
+    border-radius: var(--bz-rayon-carte);
+    box-shadow: var(--bz-ombre-carte);
+    color: var(--bz-noir);
+}
+
+.bz-contact__pro-entete {
+    display: flex;
+    align-items: flex-start;
+    gap: 28px;
+}
+
+.bz-contact__pro-rond {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    background: var(--bz-violet);
+    border-radius: 50%;
+}
+
+.bz-contact__pro-rond img {
+    width: 40px;
+    height: 40px;
+}
+
+.bz-contact__pro-titre {
+    max-width: 276px;
+    margin: 0;
+    font-size: var(--bz-taille-titre);
+    font-weight: var(--bz-graisse-grasse);
+    line-height: 33px;
+}
+
+.bz-contact__pro .bz-texte {
+    max-width: 382px;
+    margin-top: 22px;
+}
+
+.bz-contact__pro-bouton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 251px;
+    max-width: 100%;
+    height: 52px;
+    margin-top: 23px;
+    background: var(--bz-rose);
+    border-radius: var(--bz-rayon-pilule);
+    font-size: var(--bz-taille-texte);
+    font-weight: var(--bz-graisse-demi);
+    color: var(--bz-blanc);
+    text-decoration: none;
+}
+
+/* Photo : occupe toute la hauteur restante, recadrée comme la maquette */
+.bz-contact__photo {
+    flex: 1;
+    min-height: 320px;
+    overflow: hidden;
+    border-radius: var(--bz-rayon-carte);
+}
+
+.bz-contact__photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 67.4% center;
+}
+
+/* ─── Adaptation aux petits écrans ─────────────────────────────────────── */
+
+@media (max-width: 1100px) {
+    .bz-coordonnees {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 8px var(--bz-padding-carte);
+    }
+
+    /* Les colonnes s'empilent, séparées par un filet horizontal */
+    .bz-coordonnee,
+    .bz-coordonnee + .bz-coordonnee,
+    .bz-coordonnee:last-child {
+        padding: 24px 0;
+        border-left: 0;
+    }
+
+    .bz-coordonnee + .bz-coordonnee {
+        border-top: 1px solid var(--bz-bordure);
+    }
+
+    .bz-coordonnee .bz-texte {
+        margin-bottom: 16px;
+    }
+
+    .bz-contact {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .bz-page--contact {
+        --bz-pied-espace: inherit;
+    }
+
+    .bz-coordonnees {
+        margin-top: 40px;
+    }
+
+    .bz-contact__formulaire,
+    .bz-contact__pro {
+        padding: 32px var(--bz-padding-carte);
+    }
+}
+
+@media (max-width: 560px) {
+    .bz-contact__identite {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 29px;
+    }
+
+    .bz-coordonnee__lien {
+        min-width: 0;
+        max-width: 100%;
+        font-size: var(--bz-taille-texte);
+    }
+
+    .bz-contact__pro-entete {
+        gap: 16px;
+    }
+
+    .bz-contact__pro-titre {
+        font-size: var(--bz-taille-sous-titre);
+        line-height: var(--bz-interligne-sous-titre);
+    }
+}

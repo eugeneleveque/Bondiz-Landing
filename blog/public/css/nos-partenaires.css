@@ -1,0 +1,341 @@
+/*
+ * Page « Nos partenaires » — maquette Figma « NOS PARTENAIRES » (nœud 488:1825).
+ * Le fond, le héros, les cartes, les bandes, les vignettes et les pastilles
+ * rondes viennent de design.css.
+ */
+
+.bz-page--partenaires {
+    --bz-partenaires-espace-blocs: 111px;
+    --bz-catalogue-colonnes: 4;
+    --bz-pied-espace: 172px;
+}
+
+/* ─── Héros ───────────────────────────────────────────────────────────── */
+
+.bz-page--partenaires .bz-heros {
+    --bz-heros-texte-largeur: 843px;
+    --bz-heros-intro-largeur: 794px;
+    --bz-heros-image-largeur: 357px;
+    --bz-heros-image-hauteur: 526px;
+    --bz-heros-image-proportions: 357 / 526;
+    /* Le téléphone dépasse de 19px à droite du contenu */
+    --bz-heros-image-decalage-x: 19px;
+    --bz-heros-image-decalage-y: 11px;
+    --bz-actions-espace: 30px;
+}
+
+/* Recadrage repris de la maquette */
+.bz-page--partenaires .bz-heros__visuel {
+    --bz-recadrage-gauche: -54.04%;
+    --bz-recadrage-largeur: 208.42%;
+}
+
+.bz-page--partenaires .bz-heros__intro {
+    margin-bottom: 44px;
+}
+
+/* ─── Les activités (bloc 1) ──────────────────────────────────────────── */
+
+.bz-catalogue {
+    margin-top: 72px;
+    padding: 52px 44px 57px;
+    background: var(--bz-blanc);
+    border-radius: var(--bz-rayon-carte);
+    box-shadow: var(--bz-ombre-carte);
+    text-align: center;
+}
+
+.bz-catalogue .bz-titre {
+    max-width: 630px;
+    margin: 0 auto;
+}
+
+.bz-catalogue__intro {
+    max-width: 819px;
+    margin: 39px auto 0;
+}
+
+.bz-catalogue__grille {
+    display: grid;
+    grid-template-columns: repeat(var(--bz-catalogue-colonnes), minmax(0, var(--bz-vignette-largeur)));
+    justify-content: center;
+    gap: 24px var(--bz-vignette-espace);
+    margin: 45px 0 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+}
+
+.bz-activite {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    padding: 21px 24px 0;
+}
+
+.bz-activite__titre {
+    color: var(--bz-noir);
+    margin: 13px 0 0;
+    font-size: var(--bz-taille-texte);
+    font-weight: var(--bz-graisse-demi);
+    line-height: 20px;
+}
+
+.bz-activite__texte {
+    color: var(--bz-noir);
+    margin: 11px 0 0;
+    font-size: var(--bz-taille-texte);
+    line-height: 20px;
+}
+
+/* Photo collée en bas de la vignette, sur toute sa largeur */
+.bz-activite__photo {
+    --bz-recadrage-hauteur: 141.38%;
+    position: relative;
+    height: 127px;
+    flex: none;
+    /* Recouvre la bordure de la vignette, comme dans la maquette */
+    margin: auto -25px -1px;
+    overflow: hidden;
+}
+
+.bz-activite__photo img {
+    position: absolute;
+    top: var(--bz-recadrage-haut, 0);
+    left: 0;
+    width: 100%;
+    height: var(--bz-recadrage-hauteur);
+    object-fit: cover;
+}
+
+/* ─── Réseau de partenaires (bloc 2) ──────────────────────────────────── */
+
+.bz-reseau {
+    margin-top: var(--bz-partenaires-espace-blocs);
+    padding: 46px 0 57px;
+}
+
+.bz-reseau__contenu {
+    display: grid;
+    grid-template-columns: 521px minmax(0, 1fr);
+    column-gap: 57px;
+    align-items: start;
+}
+
+.bz-reseau__texte .bz-texte {
+    margin-top: 36px;
+}
+
+.bz-lieux {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px 35px;
+    margin: 41px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Le libellé, plus large que la pastille, reste centré dessous */
+.bz-lieu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: var(--bz-rond);
+}
+
+.bz-lieu__nom {
+    color: var(--bz-noir);
+    width: max-content;
+    margin-top: 10px;
+    font-size: var(--bz-taille-texte);
+    font-weight: var(--bz-graisse-moyenne);
+    line-height: 16px;
+    text-align: center;
+}
+
+/*
+ * Carrousel : il déborde jusqu'au bord droit de l'écran, comme dans la
+ * maquette où la troisième vignette est coupée.
+ */
+.bz-carrousel {
+    --bz-carrousel-ombre: 20px;
+    min-width: 0;
+    margin-top: 3px;
+    margin-right: min(
+        calc(-1 * var(--bz-marge-page)),
+        calc((var(--bz-largeur-contenu) - 100vw) / 2)
+    );
+}
+
+/* Marges intérieures pour ne pas rogner l'ombre des vignettes */
+.bz-carrousel__piste {
+    display: flex;
+    gap: var(--bz-vignette-espace);
+    margin: calc(-1 * var(--bz-carrousel-ombre)) 0 calc(-1 * var(--bz-carrousel-ombre)) calc(-1 * var(--bz-carrousel-ombre));
+    padding: var(--bz-carrousel-ombre);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--bz-carrousel-ombre);
+    scrollbar-width: none;
+    list-style: none;
+}
+
+.bz-carrousel__piste::-webkit-scrollbar {
+    display: none;
+}
+
+.bz-partenaire {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 24px 40px;
+    scroll-snap-align: start;
+    text-align: center;
+}
+
+.bz-partenaire__logo {
+    max-width: 100%;
+    max-height: 140px;
+    object-fit: contain;
+}
+
+.bz-partenaire__lien {
+    font-weight: var(--bz-graisse-demi);
+    color: var(--bz-violet);
+}
+
+/* Points de défilement, centrés sous les trois premières vignettes */
+.bz-carrousel__points {
+    display: flex;
+    justify-content: center;
+    gap: 19px;
+    width: calc(3 * var(--bz-vignette-largeur) + 2 * var(--bz-vignette-espace));
+    max-width: 100%;
+    margin-top: 32px;
+}
+
+.bz-carrousel__points:empty {
+    display: none;
+}
+
+.bz-carrousel__point {
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--bz-bordure);
+    cursor: pointer;
+    transition: background var(--bz-transition);
+}
+
+.bz-carrousel__point[aria-current="true"] {
+    background: var(--bz-violet);
+}
+
+/* ─── Devenir partenaire (bloc 3) ─────────────────────────────────────── */
+
+.bz-professionnels {
+    margin-top: var(--bz-partenaires-espace-blocs);
+}
+
+.bz-carte--professionnels {
+    --bz-carte-image-largeur: 501px;
+    --bz-carte-hauteur: 711px;
+    --bz-carte-padding-haut: 52px;
+    --bz-padding-carte: 57px;
+}
+
+.bz-carte--professionnels .bz-titre {
+    max-width: 630px;
+}
+
+.bz-professionnels__texte {
+    max-width: 580px;
+    margin: 34px 0 47px;
+}
+
+.bz-professionnels__texte p {
+    margin: 0;
+}
+
+.bz-professionnels__texte p + p {
+    margin-top: var(--bz-interligne-texte);
+}
+
+.bz-professionnels__fort {
+    font-weight: var(--bz-graisse-demi);
+}
+
+.bz-carte--professionnels .bz-carte__image {
+    --bz-recadrage-haut: -4.64%;
+    --bz-recadrage-gauche: -0.05%;
+    --bz-recadrage-largeur: 210.31%;
+    --bz-recadrage-hauteur: 104.64%;
+}
+
+/* ─── Adaptation aux petits écrans ─────────────────────────────────────── */
+
+@media (max-width: 1240px) {
+    .bz-page--partenaires {
+        --bz-catalogue-colonnes: 3;
+    }
+
+    .bz-reseau__contenu {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 48px;
+    }
+
+    .bz-carte--professionnels {
+        --bz-carte-image-largeur: 40%;
+    }
+}
+
+@media (max-width: 900px) {
+    .bz-page--partenaires {
+        --bz-partenaires-espace-blocs: 64px;
+        --bz-catalogue-colonnes: 2;
+        /* Reprend l'espace des petits écrans défini dans design.css */
+        --bz-pied-espace: inherit;
+    }
+
+    .bz-catalogue {
+        margin-top: 48px;
+        padding: 32px var(--bz-padding-carte);
+    }
+
+    .bz-catalogue__intro,
+    .bz-reseau__texte .bz-texte,
+    .bz-professionnels__texte {
+        margin-top: 24px;
+    }
+
+    .bz-catalogue__grille {
+        margin-top: 32px;
+    }
+
+    .bz-carte--professionnels {
+        --bz-carte-hauteur: 0;
+        --bz-padding-carte: 24px;
+    }
+}
+
+@media (max-width: 600px) {
+    .bz-page--partenaires {
+        --bz-catalogue-colonnes: 1;
+    }
+
+    /* Trois pastilles par ligne : les libellés ne se chevauchent plus */
+    .bz-lieux {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px 8px;
+    }
+
+    .bz-lieu {
+        width: auto;
+    }
+}

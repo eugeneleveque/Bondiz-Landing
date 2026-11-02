@@ -1,164 +1,119 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bondiz - L'application de rencontres amicales{% endblock %}
+{% block title %}Bondiz - L'application de rencontres amicales à Angers{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/home.css') }}">
+{% endblock %}
+
+{% block page_class %}bz-page--accueil{% endblock %}
+
+{# Dégradé de la maquette : quatre tranches, une sur deux retournée. #}
+{% block page_fond %}
+	<div class="bz-fond" aria-hidden="true">
+		<div class="bz-fond__tranche"></div>
+		<div class="bz-fond__tranche bz-fond__tranche--retournee"></div>
+		<div class="bz-fond__tranche"></div>
+		<div class="bz-fond__tranche bz-fond__tranche--retournee bz-fond__tranche--fin"></div>
+	</div>
+{% endblock %}
 
 {% block body %}
-	<section class="hero" style="padding: 4rem 0 2rem;">
-		<div class="container" style="display: flex; flex-wrap: wrap; gap: 50px; align-items: center; justify-content: center; text-align: left;">
-			<div style="flex: 1; min-width: 300px;">
-				<h1 style="margin-bottom: 1.5rem; font-size: 3.5rem;">
-					Passe du scroll aux
-					<span class="text-gradient">vrais moments</span>
-				</h1>
-				<p style="font-size: 1.25rem; line-height: 1.8; color: var(--gray); margin-bottom: 2.5rem; max-width: 500px;">
-					Bondiz te permet de rencontrer de nouvelles personnes autour d'activités réelles, près de chez toi. Découvre des expériences à partager, pas juste des conversations à faire durer.
-				</p>
-				<div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-					<a href="#download" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">Rejoindre l'aventure</a>
-					<a href="#concept" style="border: 2px solid rgba(255,255,255,0.3); padding: 1rem 2rem; border-radius: 50px; font-weight: 600; text-decoration: none; color: var(--text-color); display: flex; align-items: center; transition: background 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">En savoir plus</a>
+	<main class="bz-principal">
+
+		<section class="bz-heros">
+			<div class="bz-conteneur bz-heros__contenu">
+				<div class="bz-heros__texte">
+					<h1 class="bz-heros__accroche">
+						<span class="bz-heros__accroche-ligne">MOINS DE GHOSTING.</span>
+						<span class="bz-heros__accroche-ligne bz-heros__accroche-ligne--forte">PLUS DE RENCONTRES</span>
+					</h1>
+					<p class="bz-heros__intro">
+						Envie de faire de nouvelles rencontres, mais tu ne sais pas par où commencer ? Avec Bondiz, découvre des personnes qui partagent tes centres d’intérêt et retrouve-les autour d’activités disponibles à Angers grâce à nos lieux partenaires. Que tu préfères être mis en relation grâce à tes passions ou rejoindre directement une activité, il ne te reste plus qu’à te lancer et à faire de nouvelles rencontres !
+					</p>
+					<div class="bz-actions">
+						<a href="/downloads/bondiz.apk" download class="bz-bouton bz-bouton--jaune">Télécharger l’application</a>
+						<a href="{{ path('app_devenir_partenaire') }}" class="bz-bouton bz-bouton--rose">Devenir partenaire</a>
+					</div>
+				</div>
+				<div class="bz-heros__visuel">
+					<img src="{{ asset('images/home/telephone-accueil.png') }}" alt="L’application Bondiz : profil d’une personne avec ses centres d’intérêt" width="412" height="582">
 				</div>
 			</div>
 
-			<div style="position: relative; flex: 1; min-width: 300px; display: flex; justify-content: center;">
-				<!-- Glowing background -->
-				<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(400px, 90vw); height: min(400px, 90vw); background: var(--secondary); filter: blur(100px); opacity: 0.3; z-index: -1;"></div>
+			<div class="bz-conteneur">
+				<article class="bz-carte bz-carte--intro">
+					<div class="bz-carte__texte">
+						<h2 class="bz-titre">Rencontrer de nouvelles personnes, autrement</h2>
+						<p class="bz-texte">
+							Tu as envie d'élargir ton cercle social, de découvrir de nouvelles activités ou simplement de sortir de ta routine ? Bondiz t'aide à créer des occasions de rencontres amicales dans la vraie vie, en partageant des expériences avec des personnes qui ont des centres d'intérêt communs.
+						</p>
+					</div>
+					<div class="bz-carte__image">
+						<img src="{{ asset('images/home/photo-amis.png') }}" alt="Un groupe d’amis souriants, photographié en contre-plongée" loading="lazy">
+					</div>
+				</article>
+			</div>
+		</section>
 
-				<!-- Glass phone frame -->
-				<div style="width: min(280px, 80vw); height: min(560px, 150vw); border-radius: 40px; border: 8px solid #222; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; background: rgba(0,0,0,0.2); backdrop-filter: blur(10px);">
-					<img src="{{ asset('images/logo.png') }}" alt="Bondiz Logo" style="width: min(150px, 40vw);">
+		<section id="comment-ca-marche" class="bz-bande bz-fonctionnement">
+			<div class="bz-conteneur">
+				<h2 class="bz-titre">Comment fonctionne Bondiz ?</h2>
+				<div class="bz-tuiles">
+					<article class="bz-tuile bz-tuile--jaune">
+						<div class="bz-tuile__pastille">
+							<img src="{{ asset('images/home/icone-passions.png') }}" alt="" class="bz-tuile__icone">
+						</div>
+						<h3 class="bz-sous-titre">Rencontre des personnes qui partagent tes passions</h3>
+						<p class="bz-texte">Renseigne tes centres d'intérêt pour découvrir des personnes avec qui tu pourrais avoir des affinités, puis trouver une activité à partager.</p>
+					</article>
+					<article class="bz-tuile bz-tuile--rose">
+						<div class="bz-tuile__pastille">
+							<img src="{{ asset('images/home/icone-activite.png') }}" alt="" class="bz-tuile__icone">
+						</div>
+						<h3 class="bz-sous-titre">Ou rejoins directement une activité en fonction de tes intérêts !</h3>
+						<p class="bz-texte">Tu as repéré une sortie qui te plaît ? Inscris-toi pour y participer, sans avoir besoin de te connecter avec une autre personne au préalable.</p>
+					</article>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
 
-	<section id="concept" class="section" style="padding: 4rem 0;">
-		<div class="container">
-			<div style="background: rgba(0,0,0,0.2); backdrop-filter: blur(10px); padding: 4rem 2rem; border-radius: 2.5rem; text-align: center; border: 1px solid rgba(255, 255, 255, 0.05);">
-				<h2 style="font-size: 2.5rem; margin-bottom: 2rem;">Marre des relations
-					<span class="text-gradient">uniquement virtuelles</span> ?
-				</h2>
-				<p style="font-size: 1.25rem; max-width: 800px; margin: 0 auto; line-height: 1.8; color: var(--gray);">
-					Aujourd'hui, beaucoup d'applications créent des échanges… mais peu créent de vraies rencontres. On discute, on swipe… Mais passer du digital au réel devient de plus en plus compliqué.
-					<br><br>
-					<strong style="color: var(--text-color);">Bondiz change cette logique.</strong>
-				</p>
-			</div>
-		</div>
-	</section>
-
-	<section class="section" style="padding: 4rem 0;">
-		<div class="container">
-			<div style="background: rgba(0,0,0,0.2); backdrop-filter: blur(10px); padding: 4rem 2rem; border-radius: 2.5rem; border: 1px solid rgba(255, 255, 255, 0.05);">
-				<h2 style="font-size: 2.5rem; margin-bottom: 2rem; text-align: center;">Des rencontres qui commencent par une
-					<span class="text-gradient">activité</span>
-				</h2>
-				<p style="font-size: 1.25rem; max-width: 800px; margin: 0 auto; line-height: 1.8; color: var(--gray); text-align: center;">
-					Avec Bondiz, les rencontres se font naturellement autour d'expériences communes.
-					<br><br>
-					L'application te propose des activités locales selon tes centres d'intérêt pour rencontrer des personnes qui aiment les mêmes choses que toi.
-					<br><br>
-					Ici, le but n'est pas de rester derrière un écran.<br>
-					<strong style="color: var(--text-color);">Le but, c'est de vivre quelque chose ensemble.</strong>
-				</p>
-			</div>
-		</div>
-	</section>
-
-	<section class="section" style="padding: 4rem 0;">
-		<div class="container">
-			<h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem;">Les
-				<span class="text-gradient">avantages</span>
-			</h2>
-
-			<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem;">
-				<div style="background: rgba(0, 0, 0, 0.2); padding: 2.5rem; border-radius: 1.5rem; text-align: center; border: 1px solid rgba(255, 255, 255, 0.05);">
-					<div style="color: var(--accent-yellow); margin-bottom: 1.5rem;">
-						<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-							<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-						</svg>
-					</div>
-					<h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Activités locales et réelles</h3>
-					<p style="color: var(--gray); font-size: 1.1rem;">Découvrez des expériences proches de chez vous, pensées pour sortir du virtuel.</p>
+		<section id="activites" class="bz-conteneur bz-activites">
+			<article class="bz-carte bz-carte--activites">
+				<div class="bz-carte__texte">
+					<h2 class="bz-titre">Quelles activités faire à Angers ?</h2>
+					<p class="bz-texte">
+						Une soirée jeux de société, un atelier poterie, un café-lecture, une séance de basket ou une activité culinaire… Découvre de nouvelles expériences à partager et profite de ta ville autrement.
+					</p>
+					<a href="https://app.bondiz.fr" class="bz-bouton bz-bouton--rose">Découvrir toutes les activités Bondiz</a>
 				</div>
-
-				<div style="background: rgba(0, 0, 0, 0.2); padding: 2.5rem; border-radius: 1.5rem; text-align: center; border: 1px solid rgba(255, 255, 255, 0.05);">
-					<div style="color: var(--accent-yellow); margin-bottom: 1.5rem;">
-						<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-							<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-						</svg>
-					</div>
-					<h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Rencontres plus naturelles</h3>
-					<p style="color: var(--gray); font-size: 1.1rem;">Les liens se créent autour d'une activité partagée, sans la pression du premier contact.</p>
+				<div class="bz-carte__image">
+					<img src="{{ asset('images/home/photo-basket.png') }}" alt="Des jeunes jouent au basket sur un terrain en plein air" loading="lazy">
 				</div>
+			</article>
+		</section>
 
-				<div style="background: rgba(0, 0, 0, 0.2); padding: 2.5rem; border-radius: 1.5rem; text-align: center; border: 1px solid rgba(255, 255, 255, 0.05);">
-					<div style="color: var(--accent-yellow); margin-bottom: 1.5rem;">
-						<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-							<path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>
-						</svg>
-					</div>
-					<h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Offres exclusives partenaires</h3>
-					<p style="color: var(--gray); font-size: 1.1rem;">Profite d'avantages et de réductions chez nos partenaires locaux.</p>
-				</div>
-
-				<div style="background: rgba(0, 0, 0, 0.2); padding: 2.5rem; border-radius: 1.5rem; text-align: center; border: 1px solid rgba(255, 255, 255, 0.05);">
-					<div style="color: var(--accent-yellow); margin-bottom: 1.5rem;">
-						<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-							<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-						</svg>
-					</div>
-					<h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Expérience humaine et sécurisante</h3>
-					<p style="color: var(--gray); font-size: 1.1rem;">Une approche bienveillante qui met le confort et la sécurité des utilisateurs au premier plan.</p>
-				</div>
-
-				<div style="background: rgba(0, 0, 0, 0.2); padding: 2.5rem; border-radius: 1.5rem; text-align: center; border: 1px solid rgba(255, 255, 255, 0.05);">
-					<div style="color: var(--accent-yellow); margin-bottom: 1.5rem;">
-						<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-							<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-						</svg>
-					</div>
-					<h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Une communauté basée sur le partage</h3>
-					<p style="color: var(--gray); font-size: 1.1rem;">Rejoins une communauté de personnes qui valorisent les échanges réels et authentiques.</p>
+		<section id="partenaires" class="bz-partenaires">
+			<img src="{{ asset('images/home/telephone-activites.png') }}" alt="La liste des activités dans l’application Bondiz" class="bz-partenaires__telephone" width="911" height="644" loading="lazy">
+			<div class="bz-conteneur">
+				<div class="bz-partenaires__carte">
+					<h2 class="bz-titre">Vous êtes un professionnel à Angers ?<br>Créons des rencontres ensemble.</h2>
+					<p class="bz-texte">
+						Vous gérez un café, un bar, un atelier créatif ou un lieu de loisirs ? Bondiz souhaite collaborer avec les acteurs locaux pour proposer des activités collectives et favoriser les rencontres.
+					</p>
+					<a href="{{ path('app_devenir_partenaire') }}" class="bz-bouton bz-bouton--jaune">Devenir partenaire</a>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
 
-	<section id="download" class="section" style="padding: 4rem 0; text-align: center; background: linear-gradient(180deg, rgba(132, 50, 254, 0.1) 0%, rgba(132, 50, 254, 0.3) 100%); border-radius: 2rem; margin: 2rem 1.5rem 4rem;">
-		<div class="container">
-			<h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Et si la prochaine rencontre se faisait dans la
-				<span class="text-gradient">vraie vie</span> ?
-			</h2>
-			<p style="font-size: 1.2rem; margin-bottom: 3rem; color: var(--gray);">
-				Télécharge Bondiz et découvre une nouvelle manière de créer du lien.
-			</p>
-
-			<div style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
-				<!-- Android Download -->
-				<a href="/downloads/bondiz.apk" download style="background: rgba(0, 0, 0, 0.2); padding: 1.25rem 2.5rem; border-radius: 1.25rem; display: flex; align-items: center; gap: 1.25rem; min-width: 280px; border: 2px solid rgba(255, 255, 255, 0.1); text-decoration: none; color: var(--text-color); transition: all 0.3s ease;">
-					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewbox="0 0 24 24" fill="currentColor">
-						<path d="M17.924 6.136l1.539-2.664a.312.312 0 1 0-.538-.312L17.18 5.776A10.15 10.15 0 0 0 12 4.148c-1.933 0-3.702.544-5.18 1.479L5.281 2.96a.312.312 0 1 0-.538.312l1.539 2.664C3.962 7.634 2.114 10.437 2.114 13.679v.831h19.772v-.831c0-3.242-1.848-6.045-4.576-7.543z"/>
-						<circle cx="17.5" cy="14.5" r="0.8" fill="white"/>
-						<circle cx="6.5" cy="14.5" r="0.8" fill="white"/>
-					</svg>
-					<div style="text-align: left;">
-						<div style="font-size: 0.9rem; color: var(--gray);">Télécharger pour Android</div>
-						<div style="font-size: 1.4rem; font-weight: 700;">Fichier APK</div>
-					</div>
-				</a>
-
-				<!-- iOS Coming Soon -->
-				<div style="background: rgba(0, 0, 0, 0.2); padding: 1.25rem 2.5rem; border-radius: 1.25rem; display: flex; align-items: center; gap: 1.25rem; min-width: 280px; border: 2px solid rgba(255, 255, 255, 0.05); opacity: 0.6; cursor: default; filter: grayscale(0.5);">
-					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewbox="0 0 24 24" fill="currentColor">
-						<path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.74.84-.04 1.91-.77 3.44-.64 1.5.13 2.65.74 3.39 1.81-3.02 1.8-2.5 5.9.52 7.15-.65 1.63-1.54 3.25-2.43 3.91zM12.03 7.25c-.08-2.69 2.21-4.96 4.79-5.11.13 2.87-2.31 5.08-4.79 5.11z"/>
-					</svg>
-					<div style="text-align: left;">
-						<div style="font-size: 0.9rem; color: var(--gray);">Bientôt disponible</div>
-						<div style="font-size: 1.4rem; font-weight: 700;">Version iOS</div>
-					</div>
-				</div>
+		<section id="telecharger" class="bz-bande bz-appel">
+			<div class="bz-conteneur">
+				<h2 class="bz-titre">Et si ta prochaine rencontre commençait ici ?</h2>
+				<p class="bz-texte">Découvre Bondiz et trouve de nouvelles occasions de rencontrer des personnes à Angers.</p>
+				<a href="/downloads/bondiz.apk" download class="bz-bouton bz-bouton--rose">Télécharger l’application</a>
 			</div>
-		</div>
-	</section>
+		</section>
 
+	</main>
 {% endblock %}

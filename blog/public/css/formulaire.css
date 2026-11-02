@@ -1,0 +1,142 @@
+/*
+ * Champs de formulaire communs aux pages « Devenir partenaire » et
+ * « Nous contacter » : libellé gris, champ en pilule, case ronde, erreurs.
+ */
+
+.bz-page--devenir,
+.bz-page--contact {
+    --bz-formulaire-trait: 1.5px solid var(--bz-bordure);
+    --bz-formulaire-champ-hauteur: 49px;
+    --bz-taille-petite: 0.875rem;          /* 14px */
+    --bz-erreur: #c62828;
+    --bz-succes: #2e7d32;
+    --bz-succes-fond: rgba(46, 125, 50, 0.1);
+}
+
+.bz-demande__merci {
+    margin: 19px 0 0;
+    padding: 12px 20px;
+    background: var(--bz-succes-fond);
+    border-radius: var(--bz-rayon-pastille);
+    font-weight: var(--bz-graisse-demi);
+    color: var(--bz-succes);
+}
+
+.bz-demande__champ {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.bz-demande__libelle {
+    font-size: var(--bz-taille-texte);
+    font-weight: var(--bz-graisse-moyenne);
+    line-height: var(--bz-interligne-texte);
+    color: var(--bz-gris);
+}
+
+.bz-demande__saisie,
+.bz-demande__zone {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--bz-blanc);
+    border: var(--bz-formulaire-trait);
+    font-family: var(--bz-police);
+    font-size: var(--bz-taille-texte);
+    color: var(--bz-noir);
+}
+
+.bz-demande__saisie {
+    height: var(--bz-formulaire-champ-hauteur);
+    padding: 0 24px;
+    border-radius: var(--bz-rayon-pilule);
+}
+
+.bz-demande__zone {
+    height: 133px;
+    padding: 12px 24px;
+    border-radius: var(--bz-rayon-vignette);
+    resize: vertical;
+}
+
+.bz-demande__saisie:focus-visible,
+.bz-demande__zone:focus-visible,
+.bz-demande__case:focus-visible {
+    outline: 2px solid var(--bz-violet);
+    outline-offset: 1px;
+}
+
+.bz-demande__champ--erreur .bz-demande__saisie,
+.bz-demande__champ--erreur .bz-demande__zone,
+.bz-demande__champ--erreur .bz-demande__case {
+    border-color: var(--bz-erreur);
+}
+
+.bz-demande__erreur {
+    margin: 0;
+    font-size: var(--bz-taille-petite);
+    font-weight: var(--bz-graisse-demi);
+    color: var(--bz-erreur);
+}
+
+/* Case à cocher ronde de la maquette */
+.bz-demande__accord {
+    display: grid;
+    grid-template-columns: 23px minmax(0, 1fr);
+    column-gap: 6px;
+    row-gap: 6px;
+    margin-top: 3px;
+}
+
+.bz-demande__case {
+    width: 23px;
+    height: 23px;
+    margin: 0;
+    border: var(--bz-formulaire-trait);
+    border-radius: 50%;
+    appearance: none;
+    cursor: pointer;
+}
+
+.bz-demande__case:checked {
+    background: var(--bz-violet);
+    border-color: var(--bz-violet);
+    box-shadow: inset 0 0 0 4px var(--bz-blanc);
+}
+
+.bz-demande__accord-texte {
+    font-size: var(--bz-taille-petite);
+    line-height: 22px;
+    cursor: pointer;
+}
+
+.bz-demande__accord-texte a {
+    font-weight: var(--bz-graisse-demi);
+    color: var(--bz-violet);
+    text-decoration: none;
+}
+
+.bz-demande__accord .bz-demande__erreur {
+    grid-column: 2;
+}
+
+.bz-demande__envoyer {
+    width: 100%;
+    min-height: 59px;
+    margin-top: -1px;
+}
+
+.bz-demande__mention {
+    margin: -5px 0 0;
+    font-size: var(--bz-taille-petite);
+    line-height: 22px;
+}
+
+/* Champ piège pour les robots : hors de l'écran */
+.bz-demande__piege {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}

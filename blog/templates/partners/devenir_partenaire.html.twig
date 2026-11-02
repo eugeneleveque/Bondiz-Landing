@@ -1,0 +1,156 @@
+{% extends 'base.html.twig' %}
+{% import '_formulaire.html.twig' as formulaire %}
+
+{% block title %}Devenir partenaire - Bondiz, rencontres amicales à Angers{% endblock %}
+
+{% block meta %}
+	{{ parent() }}
+	<meta name="description" content="Bar, café, atelier créatif, lieu culturel ou structure sportive à Angers ? Devenez partenaire de Bondiz et faites de votre établissement un lieu de rencontres.">
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/formulaire.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/devenir-partenaire.css') }}">
+{% endblock %}
+
+{% block page_class %}bz-page--devenir{% endblock %}
+
+{% block page_fond %}
+	<div class="bz-fond" aria-hidden="true">
+		<div class="bz-fond__tranche"></div>
+		<div class="bz-fond__tranche bz-fond__tranche--retournee"></div>
+		<div class="bz-fond__tranche"></div>
+		<div class="bz-fond__tranche bz-fond__tranche--retournee bz-fond__tranche--fin"></div>
+	</div>
+{% endblock %}
+
+{% block body %}
+	{% set dossier = 'images/devenir-partenaire/' %}
+	{% set profils = [
+		{ nom: 'Bars et cafés', icone: 'icone-bars.png' },
+		{ nom: 'Ateliers créatifs', icone: 'icone-ateliers.png' },
+		{ nom: 'Lieux culturels', icone: 'icone-culture.png' },
+		{ nom: 'Structures sportives et de loisirs', icone: 'icone-sport.png' },
+		{ nom: 'Autres professionnels locaux', icone: 'icone-autres.png' },
+	] %}
+	{% set etapes = [
+		{ titre: 'Présentez-nous votre établissement', texte: 'Remplissez le formulaire ci-contre en nous parlant de votre activité et de vos idées.' },
+		{ titre: 'Échangeons sur vos idées', texte: 'Nous étudierons votre demande et prendrons contact avec vous pour en discuter.' },
+		{ titre: 'Imaginons une collaboration', texte: 'Si votre activité correspond au projet, nous définirons ensemble les prochaines étapes.' },
+	] %}
+
+	<main class="bz-principal">
+
+		<section class="bz-heros">
+			<div class="bz-conteneur bz-heros__contenu">
+				<div class="bz-heros__texte">
+					<h1 class="bz-heros__accroche">
+						<span class="bz-heros__accroche-ligne">ET SI VOTRE ÉTABLISSEMENT DEVENAIT</span>
+						<span class="bz-heros__accroche-ligne bz-heros__accroche-ligne--forte">UN LIEU DE RENCONTRES&nbsp;?</span>
+					</h1>
+					<div class="bz-heros__intro">
+						<p>Bondiz est un projet d’application qui souhaite faciliter les rencontres amicales grâce aux activités partagées. À Angers, nous souhaitons développer un réseau de partenaires locaux pour permettre aux participants de découvrir de nouveaux lieux, de partager leurs passions et de vivre des expériences collectives.</p>
+						<p>Vous gérez un café, un bar, un atelier créatif, une structure sportive ou un lieu de loisirs ? Nous serions ravis de découvrir votre activité et d’échanger sur les possibilités de collaboration.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="bz-conteneur">
+			<div class="bz-avantages">
+				<div class="bz-avantages__texte">
+					<h2 class="bz-titre">Pourquoi rejoindre Bondiz&nbsp;?</h2>
+					<p class="bz-texte">En collaborant avec Bondiz, vous participez à un projet qui valorise les rencontres, les activités locales et le lien social à Angers. Vous mettez en avant votre établissement et vous faites découvrir votre univers à de nouvelles personnes, dans un cadre bienveillant et authentique.</p>
+				</div>
+				<ul class="bz-avantages__liste">
+					<li class="bz-vignette bz-avantage">
+						<span class="bz-rond bz-rond--violet"><img src="{{ asset(dossier ~ 'icone-etablissement.png') }}" alt="" class="bz-rond__icone"></span>
+						<h3 class="bz-avantage__titre">Faites découvrir votre établissement</h3>
+						<p class="bz-texte">Mettez en avant votre lieu, votre savoir-faire et vos activités auprès d’une communauté engagée et curieuse.</p>
+					</li>
+					<li class="bz-vignette bz-avantage">
+						<span class="bz-rond bz-rond--rose"><img src="{{ asset(dossier ~ 'icone-initiative.png') }}" alt="" class="bz-rond__icone"></span>
+						<h3 class="bz-avantage__titre">Participez à une initiative locale</h3>
+						<p class="bz-texte">Rejoignez un réseau de partenaires angevins et contribuez au développement du lien social dans votre ville.</p>
+					</li>
+				</ul>
+			</div>
+		</section>
+
+		<section class="bz-bande bz-candidature">
+			<div class="bz-conteneur bz-candidature__contenu">
+				<div class="bz-candidature__infos">
+					<h2 class="bz-titre">Quels professionnels peuvent devenir partenaires&nbsp;?</h2>
+					<p class="bz-texte bz-candidature__intro">Nous souhaitons échanger avec des professionnels aux univers variés :</p>
+					<ul class="bz-profils">
+						{% for profil in profils %}
+							<li class="bz-profil">
+								<span class="bz-profil__rond"><img src="{{ asset(dossier ~ profil.icone) }}" alt=""></span>
+								{{ profil.nom }}
+							</li>
+						{% endfor %}
+					</ul>
+
+					<hr class="bz-candidature__separation">
+
+					<h2 class="bz-titre">Comment fonctionne le partenariat&nbsp;?</h2>
+					<ol class="bz-etapes-partenariat">
+						{% for etape in etapes %}
+							<li class="bz-etape">
+								<span class="bz-etape__numero" aria-hidden="true">{{ loop.index }}</span>
+								<h3 class="bz-etape__titre">{{ etape.titre }}</h3>
+								<p class="bz-texte">{{ etape.texte }}</p>
+							</li>
+						{% endfor %}
+					</ol>
+				</div>
+
+				<div class="bz-demande" id="formulaire">
+					<h2 class="bz-titre">Devenir partenaire de Bondiz</h2>
+					<p class="bz-texte bz-demande__intro">Présentez-nous votre établissement et votre idée de collaboration. Nous reviendrons vers vous pour en discuter.</p>
+
+					{% for message in app.flashes('success') %}
+						<p class="bz-demande__merci" role="status">{{ message }}</p>
+					{% endfor %}
+
+					{{ form_start(form, {attr: {class: 'bz-demande__formulaire', novalidate: 'novalidate'}}) }}
+						{% for erreur in form.vars.errors %}
+							<p class="bz-demande__erreur" role="alert">{{ erreur.message }}</p>
+						{% endfor %}
+
+						{{ formulaire.champ(form.establishmentName) }}
+						{{ formulaire.champ(form.activityType) }}
+						{{ formulaire.champ(form.city) }}
+						{{ formulaire.champ(form.contactName) }}
+						{{ formulaire.champ(form.email) }}
+						{{ formulaire.champ(form.phone) }}
+						{{ formulaire.champ(form.message, 'zone') }}
+
+						{# Champ piège, masqué aux visiteurs et aux lecteurs d'écran #}
+						<div class="bz-demande__piege" aria-hidden="true">
+							{{ form_label(form.website) }}
+							{{ form_widget(form.website) }}
+						</div>
+
+						<div class="bz-demande__accord{{ form.consent.vars.errors|length ? ' bz-demande__champ--erreur' }}">
+							{{ form_widget(form.consent, {attr: {class: 'bz-demande__case'}}) }}
+							<label for="{{ form.consent.vars.id }}" class="bz-demande__accord-texte">
+								J’accepte que les informations renseignées soient utilisées pour répondre à ma demande de partenariat, conformément à la
+								<a href="{{ path('app_privacy') }}">politique de confidentialité</a>
+								de Bondiz.
+							</label>
+							{% for error in form.consent.vars.errors %}
+								<p class="bz-demande__erreur">{{ error.message }}</p>
+							{% endfor %}
+						</div>
+
+						<button type="submit" class="bz-bouton bz-bouton--jaune bz-demande__envoyer">Envoyer ma demande de partenariat</button>
+						<p class="bz-demande__mention">*Champs obligatoires</p>
+					{{ form_end(form, {render_rest: true}) }}
+				</div>
+			</div>
+		</section>
+
+	</main>
+{% endblock %}

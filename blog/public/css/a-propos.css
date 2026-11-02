@@ -1,0 +1,343 @@
+/*
+ * Page « À propos » — maquette Figma « À PROPOS » (nœud 488:1562).
+ * Le fond, le héros, les cartes, les bandes et les boutons viennent de design.css.
+ */
+
+.bz-page--a-propos {
+    /* Les quatre tranches du fond font 1110px : 4 × 1110 - 25 */
+    --bz-fond-hauteur: 4415px;
+    --bz-pied-espace: 137px;
+    --bz-a-propos-dialogue-largeur: 506px;
+    --bz-a-propos-dialogue-hauteur: 236px;
+    --bz-a-propos-dialogue-echelle: 1;
+    --bz-a-propos-bulle-fond: rgba(255, 255, 255, 0.4);
+}
+
+/* ─── Héros ───────────────────────────────────────────────────────────── */
+
+.bz-page--a-propos .bz-heros {
+    --bz-heros-texte-largeur: 727px;
+    --bz-heros-intro-largeur: 612px;
+    --bz-heros-image-largeur: var(--bz-a-propos-dialogue-largeur);
+}
+
+.bz-page--a-propos .bz-heros__intro {
+    margin-bottom: 0;
+}
+
+/* Fantôme et bulles de dialogue, positionnés comme dans la maquette */
+.bz-dialogue {
+    position: relative;
+    width: var(--bz-a-propos-dialogue-largeur);
+    height: var(--bz-a-propos-dialogue-hauteur);
+    margin-top: 93px;
+    zoom: var(--bz-a-propos-dialogue-echelle);
+}
+
+.bz-dialogue__fantome {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 201px;
+    height: 236px;
+    overflow: hidden;
+}
+
+.bz-dialogue__fantome img {
+    position: absolute;
+    top: -25.11%;
+    left: -39.47%;
+    width: 177.89%;
+    height: 151.57%;
+    max-width: none;
+}
+
+.bz-bulle {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    box-sizing: border-box;
+    background: var(--bz-a-propos-bulle-fond);
+    border-radius: var(--bz-rayon-pilule);
+    font-size: var(--bz-taille-texte);
+    font-weight: var(--bz-graisse-grasse);
+    line-height: var(--bz-interligne-texte);
+    color: var(--bz-blanc);
+    text-align: center;
+}
+
+.bz-bulle--1 {
+    top: 4px;
+    left: 230px;
+    width: 187px;
+    height: 48px;
+}
+
+.bz-bulle--2 {
+    top: 83px;
+    left: 279px;
+    width: 227px;
+    height: 48px;
+}
+
+.bz-bulle--3 {
+    top: 162px;
+    left: 230px;
+    width: 249px;
+    height: 74px;
+    background: var(--bz-violet);
+}
+
+/* ─── Rencontres dans la vraie vie (bloc 1) ───────────────────────────── */
+
+.bz-carte--rencontres {
+    --bz-carte-image-largeur: 428px;
+    --bz-carte-hauteur: 525px;
+    --bz-carte-padding-haut: 38px;
+    --bz-padding-carte: 50px;
+    margin-top: 107px;
+}
+
+.bz-carte--rencontres .bz-titre {
+    max-width: 595px;
+}
+
+.bz-carte--rencontres .bz-paragraphes {
+    max-width: 658px;
+    margin-top: 24px;
+}
+
+.bz-carte--rencontres .bz-carte__image {
+    --bz-recadrage-haut: -0.04%;
+    --bz-recadrage-gauche: -29.15%;
+    --bz-recadrage-largeur: 174.07%;
+    --bz-recadrage-hauteur: 100.04%;
+}
+
+/* ─── Étape par étape (bloc 2) ────────────────────────────────────────── */
+
+.bz-etapes {
+    position: relative;
+    min-height: 449px;
+    margin-top: 176px;
+    padding: 46px 57px 44px;
+    box-sizing: border-box;
+    background: var(--bz-blanc);
+    border-radius: var(--bz-rayon-carte);
+    box-shadow: var(--bz-ombre-carte);
+}
+
+/* Le téléphone, incliné, déborde de la carte en haut et en bas */
+.bz-etapes__telephone {
+    position: absolute;
+    top: -109px;
+    left: -20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 468px;
+    height: 654px;
+    pointer-events: none;
+}
+
+.bz-etapes__ecran {
+    position: relative;
+    flex: none;
+    width: 399px;
+    height: 611px;
+    overflow: hidden;
+    transform: rotate(-173.22deg) scaleY(-1);
+}
+
+.bz-etapes__ecran img {
+    position: absolute;
+    top: 0;
+    left: -57.3%;
+    width: 216.79%;
+    height: 100%;
+    max-width: none;
+}
+
+.bz-etapes__texte {
+    position: relative;
+    max-width: 720px;
+    margin-left: auto;
+    text-align: right;
+}
+
+.bz-etapes .bz-titre {
+    max-width: 641px;
+    margin-left: auto;
+}
+
+.bz-etapes .bz-paragraphes {
+    margin-top: 33px;
+}
+
+/* ─── L'équipe (bloc 3) ───────────────────────────────────────────────── */
+
+.bz-equipe {
+    margin-top: 180px;
+    padding: 58px 0 48px;
+}
+
+.bz-equipe__texte {
+    position: relative;
+    z-index: 1;
+    max-width: 676px;
+}
+
+.bz-equipe .bz-titre {
+    max-width: 797px;
+    width: max-content;
+}
+
+.bz-equipe .bz-paragraphes {
+    margin: 37px 0 35px;
+}
+
+/* Photo détourée, posée sur le bas de la bande */
+.bz-equipe__photo {
+    position: absolute;
+    bottom: 0;
+    left: calc((100% - var(--bz-largeur-contenu)) / 2 + 633px);
+    width: 666px;
+    height: 416px;
+    object-fit: cover;
+}
+
+/* ─── Conclusion (bloc 4) ─────────────────────────────────────────────── */
+
+.bz-conclusion {
+    --bz-bouton-hauteur: 60px;
+    --bz-actions-espace: 23px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 186px;
+    padding: 57px 40px 61px;
+    background: var(--bz-blanc);
+    border-radius: var(--bz-rayon-carte);
+    box-shadow: var(--bz-ombre-carte);
+    text-align: center;
+}
+
+.bz-conclusion .bz-titre {
+    max-width: 855px;
+}
+
+.bz-conclusion .bz-texte {
+    max-width: 769px;
+    margin: 35px 0 42px;
+}
+
+.bz-conclusion .bz-actions {
+    justify-content: center;
+}
+
+/* ─── Adaptation aux petits écrans ─────────────────────────────────────── */
+
+@media (max-width: 1240px) {
+    .bz-page--a-propos {
+        --bz-a-propos-dialogue-echelle: 0.63;
+    }
+
+    .bz-page--a-propos .bz-heros {
+        --bz-heros-image-largeur: calc(var(--bz-a-propos-dialogue-largeur) * var(--bz-a-propos-dialogue-echelle));
+    }
+
+    .bz-carte--rencontres {
+        --bz-carte-image-largeur: 40%;
+    }
+
+    /* La photo de l'équipe passe sous le texte */
+    .bz-equipe {
+        padding-bottom: 0;
+    }
+
+    .bz-equipe__photo {
+        position: static;
+        display: block;
+        width: min(666px, 100%);
+        height: auto;
+        margin: 32px auto 0;
+    }
+
+    .bz-equipe .bz-titre {
+        width: auto;
+    }
+}
+
+@media (max-width: 1100px) {
+    /* Le téléphone ne tient plus à côté du texte : il passe au-dessus */
+    .bz-etapes {
+        margin-top: 64px;
+    }
+
+    .bz-etapes__telephone {
+        position: static;
+        width: auto;
+        height: auto;
+        margin: -40px auto 0;
+        zoom: 0.6;
+    }
+
+    .bz-etapes__texte {
+        max-width: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .bz-page--a-propos {
+        --bz-a-propos-dialogue-echelle: 0.6;
+        /* Reprend l'espace des petits écrans défini dans design.css */
+        --bz-pied-espace: inherit;
+    }
+
+    .bz-dialogue {
+        margin-top: 32px;
+    }
+
+    .bz-carte--rencontres {
+        --bz-carte-hauteur: 0;
+        --bz-padding-carte: 24px;
+        margin-top: 48px;
+    }
+
+    .bz-etapes {
+        padding: 32px 24px;
+    }
+
+    .bz-etapes__texte,
+    .bz-etapes .bz-titre {
+        margin-left: 0;
+        text-align: left;
+    }
+
+    .bz-carte--rencontres .bz-paragraphes,
+    .bz-etapes .bz-paragraphes,
+    .bz-equipe .bz-paragraphes,
+    .bz-conclusion .bz-texte {
+        margin-top: 24px;
+    }
+
+    .bz-equipe {
+        margin-top: 64px;
+        padding-top: 40px;
+    }
+
+    .bz-equipe .bz-paragraphes {
+        margin-bottom: 32px;
+    }
+
+    .bz-conclusion {
+        margin-top: 64px;
+        padding: 32px 24px;
+    }
+
+    .bz-conclusion .bz-texte {
+        margin-bottom: 24px;
+    }
+}

@@ -1,5 +1,5 @@
 {% for type, messages in app.flashes(['success', 'error']) %}
 	{% for message in messages %}
-		<div class="partner-alert partner-alert-{{ type }}" role="{{ type == 'error' ? 'alert' : 'status' }}">{{ message }}</div>
+		<div class="bz-alerte bz-alerte--{{ type == 'error' ? 'erreur' : 'succes' }}" role="{{ type == 'error' ? 'alert' : 'status' }}">{{ message }}</div>
 	{% endfor %}
 {% endfor %}

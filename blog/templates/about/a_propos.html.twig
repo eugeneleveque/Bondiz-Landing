@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À propos - Bondiz, rencontres amicales à Angers{% endblock %}
+
+{% block meta %}
+	{{ parent() }}
+	<meta name="description" content="Bondiz est né d'un constat : il n'a jamais été aussi facile de parler à quelqu'un en ligne, mais parfois difficile de créer de vraies connexions. Découvre le projet et l'équipe.">
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/a-propos.css') }}">
+{% endblock %}
+
+{% block page_class %}bz-page--a-propos{% endblock %}
+
+{# Ici, les quatre tranches du fond font toutes 1110px de haut. #}
+{% block page_fond %}
+	<div class="bz-fond" aria-hidden="true">
+		<div class="bz-fond__tranche"></div>
+		<div class="bz-fond__tranche bz-fond__tranche--retournee"></div>
+		<div class="bz-fond__tranche"></div>
+		<div class="bz-fond__tranche bz-fond__tranche--retournee"></div>
+	</div>
+{% endblock %}
+
+{% block body %}
+	{% set lien_devenir_partenaire = path('app_devenir_partenaire') %}
+
+	<main class="bz-principal">
+
+		<section class="bz-heros">
+			<div class="bz-conteneur bz-heros__contenu">
+				<div class="bz-heros__texte">
+					<h1 class="bz-heros__accroche">
+						<span class="bz-heros__accroche-ligne">UNE IDÉE SIMPLE,</span>
+						<span class="bz-heros__accroche-ligne bz-heros__accroche-ligne--forte">UN VRAI BESOIN.</span>
+					</h1>
+					<div class="bz-heros__intro">
+						<p>Bondiz est né d’un constat : aujourd’hui, il n’a jamais été aussi facile de parler à quelqu’un en ligne, mais parfois difficile de créer de vraies connexions.</p>
+						<p>Nous avons voulu imaginer une alternative plus humaine aux plateformes traditionnelles : une application qui aide les gens à se rencontrer dans la vraie vie, autour d’activités et d’expériences partagées.</p>
+					</div>
+				</div>
+
+				<div class="bz-dialogue" aria-hidden="true">
+					<div class="bz-dialogue__fantome">
+						<img src="{{ asset('images/a-propos/fantome-bulles.png') }}" alt="">
+					</div>
+					<p class="bz-bulle bz-bulle--1">On discute...</p>
+					<p class="bz-bulle bz-bulle--2">... mais ça s’arrête là.</p>
+					<p class="bz-bulle bz-bulle--3">Et si on se rencontrait<br>pour de vrai&nbsp;?</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="bz-conteneur">
+			<article class="bz-carte bz-carte--rencontres">
+				<div class="bz-carte__texte">
+					<h2 class="bz-titre">Des échanges en ligne, mais surtout<br>des rencontres dans la vraie vie</h2>
+					<div class="bz-texte bz-paragraphes">
+						<p>Les outils numériques nous permettent de rester connectés en permanence. Mais pour créer des liens, rien ne remplace les moments partagés : une partie de jeux de société, un atelier créatif, un café autour d’un livre ou une activité que l’on n’aurait peut-être pas osé essayer seul. Bondiz a été imaginé pour faciliter ces occasions de se retrouver.</p>
+						<p><strong class="bz-demi-gras">Le principe est simple</strong> : créer des opportunités de rencontres amicales autour de passions communes et d’activités à partager. Avec Bondiz, chacun peut découvrir des personnes ayant des centres d’intérêt similaires ou rejoindre directement une activité qui lui plaît, sans devoir nécessairement créer un match au préalable.</p>
+						<p><strong>Notre ambition</strong> : rendre les rencontres plus naturelles, les sorties plus accessibles et les moments partagés plus faciles à organiser.</p>
+					</div>
+				</div>
+				<div class="bz-carte__image">
+					<img src="{{ asset('images/a-propos/photo-amis-selfie.png') }}" alt="Un groupe d’amis souriants prend un selfie en plein air" loading="lazy">
+				</div>
+			</article>
+		</section>
+
+		<section class="bz-conteneur">
+			<article class="bz-etapes">
+				<div class="bz-etapes__telephone" aria-hidden="true">
+					<div class="bz-etapes__ecran">
+						<img src="{{ asset('images/a-propos/telephone-etapes.png') }}" alt="" loading="lazy">
+					</div>
+				</div>
+				<div class="bz-etapes__texte">
+					<h2 class="bz-titre">Un projet qui se construit étape par étape</h2>
+					<div class="bz-texte bz-paragraphes">
+						<p>Bondiz est un projet actuellement en phase de développement. Nous travaillons activement à la création de l’application, au développement de notre réseau de partenaires locaux et à la construction d’une expérience pensée autour du lien social réel.</p>
+						<p>Nous faisons le choix d’une approche progressive, en commençant à l’échelle locale, à Angers. Cette première étape doit nous permettre de construire un projet cohérent avec les besoins des utilisateurs et les possibilités offertes par les acteurs locaux.</p>
+						<p>À terme, notre objectif est d’étendre progressivement Bondiz à d’autres villes, tout en conservant ce qui fait l’essence du projet : <strong class="bz-demi-gras">favoriser les rencontres amicales grâce aux passions, aux activités et aux expériences vécues ensemble</strong>.</p>
+					</div>
+				</div>
+			</article>
+		</section>
+
+		<section class="bz-bande bz-equipe">
+			<div class="bz-conteneur">
+				<div class="bz-equipe__texte">
+					<h2 class="bz-titre">Une équipe de 8 personnes au service du lien social</h2>
+					<div class="bz-texte bz-paragraphes">
+						<p>Bondiz est porté par une équipe de huit étudiants aux profils complémentaires : marketing, design, développement, data et cybersécurité.</p>
+						<p>Cette diversité de compétences nous permet d’aborder le projet sous différents angles où chaque expertise contribue à faire avancer le projet. Mais au-delà de nos compétences, nous partageons surtout une même ambition : proposer une manière plus authentique de créer du lien et donner à chacun davantage d’occasions de rencontrer de nouvelles personnes.</p>
+						<p>Bondiz, c’est avant tout un projet collectif, construit avec l’envie de faire évoluer notre façon de nous rencontrer.</p>
+					</div>
+					<a href="{{ path('app_contact') }}" class="bz-bouton bz-bouton--rose">Nous contacter</a>
+				</div>
+			</div>
+			<img src="{{ asset('images/a-propos/photo-equipe.png') }}" alt="L’équipe Bondiz : huit étudiants réunis" class="bz-equipe__photo" loading="lazy">
+		</section>
+
+		<section class="bz-conteneur">
+			<div class="bz-conclusion">
+				<h2 class="bz-titre">Et si les prochaines rencontres se faisaient autrement&nbsp;?</h2>
+				<p class="bz-texte">
+					Que tu aies envie de découvrir une nouvelle activité, de partager une passion ou simplement d’élargir ton cercle social, Bondiz a été imaginé pour faciliter les rencontres dans la vraie vie. Le projet se construit progressivement à Angers, avec l’envie de faire des activités partagées un point de départ pour de nouvelles connexions.
+				</p>
+				<div class="bz-actions">
+					<a href="/downloads/bondiz.apk" download class="bz-bouton bz-bouton--jaune">Télécharger l’application</a>
+					<a href="{{ lien_devenir_partenaire }}" class="bz-bouton bz-bouton--rose">Devenir partenaire</a>
+				</div>
+			</div>
+		</section>
+
+	</main>
+{% endblock %}

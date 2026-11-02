@@ -1,95 +1,168 @@
-{% extends 'base.html.twig' %}
+{% extends 'partner/_espace.html.twig' %}
 
-{% block title %}Mes activités - Espace partenaires Bondiz{% endblock %}
+{% block title %}Tableau de bord - Espace partenaire Bondiz{% endblock %}
 
-{% block meta %}
-	<meta name="robots" content="noindex">
-{% endblock %}
-
-{% macro activity_card(activity, past = false) %}
-	{% set tz = 'Europe/Paris' %}
-	<article class="partner-activity{{ past ? ' is-past' : '' }}">
-		<div class="partner-activity-main">
-			<h3>{{ activity.title }}</h3>
-			<ul class="partner-activity-meta">
-				{% if activity.startDate %}
-					<li>
-						<span class="partner-meta-label">Quand</span>
-						{{ activity.startDate|date('d/m/Y \\à H\\hi', tz) }}
-						{% if activity.endDate %}
-							→ {{ activity.endDate|date(activity.endDate|date('Ymd', tz) == activity.startDate|date('Ymd', tz) ? 'H\\hi' : 'd/m/Y \\à H\\hi', tz) }}
-						{% endif %}
-					</li>
-				{% else %}
-					<li><span class="partner-meta-label">Quand</span> Date libre</li>
-				{% endif %}
-				{% if activity.location %}
-					<li><span class="partner-meta-label">Où</span> {{ activity.location }}</li>
-				{% endif %}
-				<li>
-					<span class="partner-meta-label">Prix</span>
-					{{ activity.price is not null ? (activity.price == 0 ? 'Gratuit' : activity.price|number_format(2, ',', ' ') ~ ' €') : 'Non renseigné' }}
-				</li>
-				{% if activity.minParticipants or activity.maxParticipants %}
-					<li>
-						<span class="partner-meta-label">Groupe</span>
-						{% if activity.minParticipants and activity.maxParticipants %}
-							{{ activity.minParticipants }} à {{ activity.maxParticipants }} personnes
-						{% elseif activity.maxParticipants %}
-							jusqu’à {{ activity.maxParticipants }} personnes
-						{% else %}
-							{{ activity.minParticipants }} personnes minimum
-						{% endif %}
-					</li>
-				{% endif %}
-			</ul>
-		</div>
-		<div class="partner-activity-side">
-			<span class="tag">{{ activity.bookingsCount }} réservation{{ activity.bookingsCount > 1 ? 's' }}</span>
-			<div class="partner-activity-actions">
-				<a href="{{ path('app_partner_activity_edit', {id: activity.documentId}) }}" class="btn btn-filter partner-btn-small">Modifier</a>
-				{% if activity.bookingsCount == 0 %}
-					<form method="post" action="{{ path('app_partner_activity_delete', {id: activity.documentId}) }}" onsubmit="return confirm('Supprimer définitivement « {{ activity.title|e('js') }} » ?');">
-						<input type="hidden" name="_token" value="{{ csrf_token('delete-activity-' ~ activity.documentId) }}">
-						<button type="submit" class="partner-link-danger">Supprimer</button>
-					</form>
-				{% endif %}
-			</div>
-		</div>
+{#
+	Indicateur chiffré. L'évolution est comparée au mois précédent ; elle
+	n'est pas affichée quand ce mois-là est vide.
+#}
+{% macro indicateur(titre, couleur, icone, valeur, evolution, suffixe = '') %}
+	<article class="bz-indicateur">
+		<span class="bz-indicateur__rond bz-rond--{{ couleur }}" aria-hidden="true">
+			<img src="{{ asset('images/espace-partenaire/' ~ icone) }}" alt="">
+		</span>
+		<h2 class="bz-indicateur__titre">{{ titre }}</h2>
+		<p class="bz-indicateur__chiffres">
+			<span class="bz-indicateur__valeur">{{ valeur is null ? '–' : valeur|number_format(0, ',', ' ') ~ suffixe }}</span>
+			{% if evolution is not null %}
+				<span class="bz-indicateur__evolution{{ evolution < 0 ? ' bz-indicateur__evolution--baisse' }}">
+					<img src="{{ asset('images/espace-partenaire/hausse.png') }}" alt="" class="bz-indicateur__fleche">
+					{{ evolution > 0 ? '+' }}{{ evolution }}%
+				</span>
+			{% endif %}
+		</p>
+		<p class="bz-indicateur__comparaison">vs. mois dernier</p>
 	</article>
 {% endmacro %}
 
-{% block body %}
-	<section class="hero partner-hero">
-		<div class="container">
-			<h1>Bonjour, <span class="text-gradient">{{ app.user.name }}</span></h1>
-			<p>Les activités publiées ici apparaissent dans l’application Bondiz, où les utilisateurs peuvent les réserver seuls ou en groupe.</p>
-			<a href="{{ path('app_partner_activity_new') }}" class="btn btn-primary">+ Nouvelle activité</a>
-		</div>
+{# Axe vertical et lignes de repère communs aux deux graphiques #}
+{% macro axe(graduations) %}
+	<ul class="bz-graphique__axe" aria-hidden="true">
+		{% for graduation in graduations %}
+			<li>{{ graduation }}</li>
+		{% endfor %}
+	</ul>
+{% endmacro %}
+
+{% block contenu %}
+	{% set chiffres = tableau.indicateurs %}
+
+	<div class="bz-espace__titre">
+		<h1>Bonjour {{ app.user.name }}&nbsp;!</h1>
+		<p>Voici un aperçu de votre activité sur Bondiz.</p>
+	</div>
+
+	<section class="bz-indicateurs" aria-label="Chiffres du mois">
+		{{ _self.indicateur('Nombre de participants', 'violet', 'personnes.png', chiffres.participants.valeur, chiffres.participants.evolution) }}
+		{{ _self.indicateur('Activités proposées', 'rose', 'calendrier-blanc.png', chiffres.activites.valeur, chiffres.activites.evolution) }}
+		{{ _self.indicateur('Taux de remplissage', 'jaune', 'etoile.png', chiffres.remplissage.valeur, chiffres.remplissage.evolution, '%') }}
+		{# Le nombre de vues des fiches partenaires n'est pas encore enregistré. #}
+		<article class="bz-indicateur">
+			<span class="bz-indicateur__rond bz-rond--violet" aria-hidden="true">
+				<img src="{{ asset('images/espace-partenaire/oeil.png') }}" alt="">
+			</span>
+			<h2 class="bz-indicateur__titre">Vues de votre profil</h2>
+			<p class="bz-indicateur__chiffres"><span class="bz-indicateur__valeur">–</span></p>
+			<p class="bz-indicateur__comparaison">Bientôt disponible</p>
+		</article>
 	</section>
 
-	<main class="container partner-page">
-		{% include 'partner/_flashes.html.twig' %}
-
-		<section>
-			<h2 class="partner-section-title">À venir <span class="partner-count">{{ upcoming|length }}</span></h2>
-			{% for activity in upcoming %}
-				{{ _self.activity_card(activity) }}
-			{% else %}
-				<div class="partner-card partner-empty">
-					<p>Aucune activité à venir.</p>
-					<a href="{{ path('app_partner_activity_new') }}" class="btn btn-primary">Proposer ma première activité</a>
+	<div class="bz-tableau">
+		<div class="bz-tableau__colonne" id="statistiques">
+			<section class="bz-panneau bz-graphique">
+				<div class="bz-panneau__entete">
+					<div>
+						<h2 class="bz-panneau__titre">Participation à vos activités</h2>
+						<p class="bz-panneau__sous-titre">Participants sur les {{ semaines }} dernières semaines</p>
+					</div>
+					<form method="get" class="bz-periode">
+						<label for="periode" class="bz-visuellement-cache">Période</label>
+						<select id="periode" name="semaines" class="bz-periode__choix" onchange="this.form.submit()">
+							{% for nombre in [4, 8, 12] %}
+								<option value="{{ nombre }}"{{ nombre == semaines ? ' selected' }}>{{ nombre }} dernières semaines</option>
+							{% endfor %}
+						</select>
+						<noscript><button type="submit">Afficher</button></noscript>
+					</form>
 				</div>
-			{% endfor %}
-		</section>
 
-		{% if past is not empty %}
-			<section>
-				<h2 class="partner-section-title">Passées <span class="partner-count">{{ past|length }}</span></h2>
-				{% for activity in past %}
-					{{ _self.activity_card(activity, true) }}
-				{% endfor %}
+				{% set serie = tableau.participation %}
+				{% set nombre = serie.points|length %}
+				<div class="bz-graphique__zone">
+					{{ _self.axe(serie.graduations) }}
+					<div class="bz-graphique__trace" style="--bz-graphique-points: {{ nombre }}">
+						<svg class="bz-graphique__ligne" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+							<polyline points="{% for point in serie.points %}{{ ((loop.index0 + 0.5) / nombre * 100)|round(2) }},{{ 100 - point.hauteur }} {% endfor %}"/>
+						</svg>
+						<ol class="bz-graphique__points">
+							{% for point in serie.points %}
+								<li style="--bz-point-hauteur: {{ point.hauteur }}%">
+									<span class="bz-graphique__point" title="{{ point.valeur }} participant{{ point.valeur > 1 ? 's' }}"></span>
+									<span class="bz-graphique__libelle">{{ point.libelle }}</span>
+									<span class="bz-visuellement-cache">: {{ point.valeur }} participant{{ point.valeur > 1 ? 's' }}</span>
+								</li>
+							{% endfor %}
+						</ol>
+					</div>
+				</div>
 			</section>
-		{% endif %}
-	</main>
+
+			<section class="bz-panneau bz-graphique bz-graphique--barres">
+				<div class="bz-panneau__entete">
+					<div>
+						<h2 class="bz-panneau__titre">Vos réservations par mois</h2>
+						<p class="bz-panneau__sous-titre">Évolution sur les 6 derniers mois</p>
+					</div>
+				</div>
+
+				{% set serie = tableau.reservationsParMois %}
+				<div class="bz-graphique__zone">
+					{{ _self.axe(serie.graduations) }}
+					<div class="bz-graphique__trace" style="--bz-graphique-points: {{ serie.points|length }}">
+						<ol class="bz-graphique__points">
+							{% for point in serie.points %}
+								<li style="--bz-point-hauteur: {{ point.hauteur }}%">
+									<span class="bz-graphique__barre" title="{{ point.valeur }} réservation{{ point.valeur > 1 ? 's' }}"></span>
+									<span class="bz-graphique__libelle">{{ point.libelle }}</span>
+									<span class="bz-visuellement-cache">: {{ point.valeur }} réservation{{ point.valeur > 1 ? 's' }}</span>
+								</li>
+							{% endfor %}
+						</ol>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<div class="bz-tableau__colonne bz-tableau__colonne--etroite">
+			<section class="bz-panneau bz-prochaines">
+				<div class="bz-panneau__entete">
+					<h2 class="bz-panneau__titre">Prochaines activités</h2>
+					<a href="{{ path('app_partner_activities') }}" class="bz-prochaines__tous">Voir tous</a>
+				</div>
+
+				<ul class="bz-prochaines__liste">
+					{% for activite in tableau.prochaines %}
+						<li class="bz-prochaine">
+							<span class="bz-prochaine__image" aria-hidden="true">
+								<img src="{{ asset('images/brand/logo-fantome.svg') }}" alt="">
+							</span>
+							<div class="bz-prochaine__texte">
+								<a href="{{ path('app_partner_activity_edit', {id: activite.documentId}) }}" class="bz-prochaine__titre">{{ activite.title }}</a>
+								<p class="bz-prochaine__date">
+									<img src="{{ asset('images/espace-partenaire/calendrier-gris.png') }}" alt="">
+									<time datetime="{{ activite.debut|date('c') }}">{{ activite.dateCourte }}</time>
+								</p>
+								<span class="bz-prochaine__reservations">{{ activite.bookingsCount }} réservation{{ activite.bookingsCount > 1 ? 's' }}</span>
+							</div>
+							<img src="{{ asset('images/espace-partenaire/chevron-droite.png') }}" alt="" class="bz-prochaine__chevron">
+						</li>
+					{% else %}
+						<li class="bz-prochaines__vide">
+							<p>Aucune activité à venir pour le moment.</p>
+							<a href="{{ path('app_partner_activity_new') }}" class="bz-bouton-violet">+ Nouvelle activité</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</section>
+
+			<section class="bz-panneau bz-aide">
+				<img src="{{ asset('images/espace-partenaire/ampoule.png') }}" alt="" class="bz-aide__icone">
+				<div>
+					<h2 class="bz-panneau__titre">Besoin d’aide&nbsp;?</h2>
+					<p class="bz-aide__texte">Notre équipe est là pour vous accompagner dans la gestion de vos activités et de vos réservations</p>
+					<a href="{{ path('app_contact') }}" class="bz-bouton bz-bouton--jaune bz-aide__bouton">Nous contacter</a>
+				</div>
+			</section>
+		</div>
+	</div>
 {% endblock %}

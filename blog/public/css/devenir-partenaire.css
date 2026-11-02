@@ -1,0 +1,300 @@
+/*
+ * Page « Devenir partenaire » — maquette Figma « DEVENIR PARTENAIRE » (nœud 488:1164).
+ * Le fond, le héros, les bandes, les vignettes et les pastilles rondes
+ * viennent de design.css.
+ */
+
+.bz-page--devenir {
+    --bz-pied-espace: 132px;
+    --bz-devenir-colonne: 538px;
+    --bz-devenir-formulaire: 579px;
+    --bz-devenir-ombre-formulaire: 0 4px 15px 5px rgba(0, 0, 0, 0.2);
+    --bz-taille-avantage: 1.125rem;        /* 18px */
+}
+
+/* ─── Héros (sans visuel) ─────────────────────────────────────────────── */
+
+.bz-page--devenir .bz-heros {
+    --bz-heros-texte-largeur: 983px;
+    --bz-heros-intro-largeur: 971px;
+    --bz-heros-image-largeur: 0px;
+}
+
+.bz-page--devenir .bz-heros__intro {
+    margin-bottom: 0;
+}
+
+/* ─── Pourquoi rejoindre Bondiz (bloc 1) ──────────────────────────────── */
+
+.bz-avantages {
+    display: grid;
+    grid-template-columns: minmax(0, 429px) minmax(0, 1fr);
+    align-items: center;
+    column-gap: 44px;
+    margin-top: 75px;
+    padding: 42px 42px 44px 49px;
+    background: var(--bz-blanc);
+    border-radius: var(--bz-rayon-carte);
+    box-shadow: var(--bz-ombre-carte);
+}
+
+.bz-avantages__texte .bz-texte {
+    margin-top: 29px;
+}
+
+.bz-avantages__liste {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 291px));
+    justify-content: end;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.bz-avantage {
+    width: auto;
+    /* 306px de haut, bordure comprise */
+    padding: 22px 23px 18px;
+    color: var(--bz-noir);
+}
+
+.bz-avantage__titre {
+    max-width: 244px;
+    margin: 15px 0 0;
+    font-size: var(--bz-taille-avantage);
+    font-weight: var(--bz-graisse-demi);
+    line-height: var(--bz-interligne-texte);
+}
+
+.bz-avantage .bz-texte {
+    max-width: 244px;
+    margin-top: 10px;
+}
+
+/* ─── Candidature (bloc 2) ────────────────────────────────────────────── */
+
+.bz-candidature {
+    margin-top: 75px;
+    color: var(--bz-noir);
+    padding: 55px 0 87px;
+}
+
+.bz-candidature__contenu {
+    display: grid;
+    grid-template-columns: minmax(0, var(--bz-devenir-colonne)) minmax(0, var(--bz-devenir-formulaire));
+    justify-content: space-between;
+    align-items: start;
+    column-gap: 54px;
+}
+
+.bz-candidature__infos {
+    padding-top: 37px;
+}
+
+.bz-candidature__infos > .bz-titre:first-child {
+    max-width: 480px;
+}
+
+.bz-candidature__intro {
+    max-width: 479px;
+    margin-top: 21px;
+}
+
+/* Profils recherchés : pilules violettes */
+.bz-profils {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px 18px;
+    margin: 24px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.bz-profil {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 49px;
+    padding: 5px 16px 5px 7px;
+    box-sizing: border-box;
+    background: var(--bz-violet);
+    border-radius: var(--bz-rayon-pilule);
+    font-size: var(--bz-taille-texte);
+    font-weight: var(--bz-graisse-demi);
+    color: var(--bz-blanc);
+}
+
+.bz-profil__rond {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 39px;
+    height: 39px;
+    background: var(--bz-blanc);
+    border-radius: 50%;
+}
+
+.bz-profil__rond img {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+}
+
+.bz-candidature__separation {
+    max-width: var(--bz-devenir-colonne);
+    margin: 57px 0 90px;
+    border: 0;
+    border-top: 1px solid var(--bz-bordure);
+}
+
+/* Étapes numérotées, reliées par un trait rose */
+.bz-etapes-partenariat {
+    display: flex;
+    flex-direction: column;
+    gap: 68px;
+    margin: 38px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.bz-etape {
+    position: relative;
+    display: grid;
+    grid-template-columns: 39px minmax(0, 485px);
+    column-gap: 14px;
+}
+
+.bz-etape:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 63px;
+    left: 19px;
+    width: 1.5px;
+    height: 72px;
+    background: var(--bz-rose);
+}
+
+.bz-etape__numero {
+    grid-row: span 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 39px;
+    height: 39px;
+    background: var(--bz-rose);
+    border-radius: 50%;
+    font-size: var(--bz-taille-sous-titre);
+    font-weight: var(--bz-graisse-demi);
+    color: var(--bz-blanc);
+}
+
+.bz-etape__titre {
+    margin: 6px 0 0;
+    font-size: var(--bz-taille-texte);
+    font-weight: var(--bz-graisse-demi);
+    line-height: var(--bz-interligne-texte);
+}
+
+.bz-etape .bz-texte {
+    margin-top: 7px;
+}
+
+/* ─── Formulaire ──────────────────────────────────────────────────────── */
+
+.bz-demande {
+    padding: 37px 52px 41px 48px;
+    border: 1px solid var(--bz-bordure);
+    border-radius: var(--bz-rayon-vignette);
+    box-shadow: var(--bz-devenir-ombre-formulaire);
+    color: var(--bz-noir);
+    scroll-margin-top: 24px;
+}
+
+.bz-demande > .bz-titre {
+    max-width: 455px;
+}
+
+.bz-demande__intro {
+    margin-top: 16px;
+}
+
+.bz-demande__formulaire {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 19px;
+}
+
+/* ─── Adaptation aux petits écrans ─────────────────────────────────────── */
+
+@media (max-width: 1240px) {
+    .bz-avantages {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 32px;
+    }
+
+    .bz-avantages__liste {
+        justify-content: start;
+    }
+
+    .bz-candidature__contenu {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 48px;
+    }
+
+    .bz-candidature__infos {
+        padding-top: 0;
+    }
+
+    .bz-demande {
+        max-width: var(--bz-devenir-formulaire);
+    }
+}
+
+@media (max-width: 900px) {
+    .bz-page--devenir {
+        --bz-pied-espace: inherit;
+    }
+
+    .bz-avantages {
+        margin-top: 48px;
+        padding: 32px var(--bz-padding-carte);
+    }
+
+    .bz-avantages__texte .bz-texte {
+        margin-top: 20px;
+    }
+
+    .bz-candidature {
+        margin-top: 64px;
+        padding: 40px 0 56px;
+    }
+
+    .bz-candidature__separation {
+        margin: 40px 0;
+    }
+}
+
+@media (max-width: 560px) {
+    .bz-avantages__liste {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .bz-profils {
+        gap: 12px;
+    }
+
+    .bz-profil {
+        height: auto;
+        min-height: 49px;
+    }
+
+    .bz-etape {
+        grid-template-columns: 39px minmax(0, 1fr);
+    }
+
+    .bz-demande {
+        padding: 28px 20px 32px;
+    }
+}

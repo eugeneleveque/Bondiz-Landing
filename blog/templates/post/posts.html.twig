@@ -1,89 +1,139 @@
 {% extends 'base.html.twig' %}
+{% block title %}Articles - Bondiz, rencontres amicales à Angers{% endblock %}
 
-{% block title %}Explorer les articles - Bondiz Blog
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/articles.css') }}">
 {% endblock %}
 
+{% block page_class %}bz-page--articles{% endblock %}
+
+{% block page_fond %}
+	<div class="bz-fond" aria-hidden="true">
+		<div class="bz-fond__tranche"></div>
+		<div class="bz-fond__tranche bz-fond__tranche--retournee"></div>
+		<div class="bz-fond__tranche"></div>
+		<div class="bz-fond__tranche bz-fond__tranche--retournee bz-fond__tranche--fin"></div>
+	</div>
+{% endblock %}
+
+{# Date et temps de lecture, sous chaque article #}
+{% macro infos(post, temps) %}
+	{% import 'post/_macros.html.twig' as outils %}
+	<div class="bz-article__infos">
+		<span class="bz-article__info">
+			<img src="{{ asset('images/blog/icone-date.png') }}" alt="" class="bz-article__info-icone">
+			<time datetime="{{ post.createdAt|date('Y-m-d') }}">{{ outils.date_fr(post.createdAt) }}</time>
+		</span>
+		<span class="bz-article__info">
+			<img src="{{ asset('images/blog/icone-temps.png') }}" alt="" class="bz-article__info-icone">
+			{{ temps }}
+		</span>
+	</div>
+{% endmacro %}
+
 {% block body %}
-	<!-- Hero Section -->
-	<header class="hero" style="padding-top: 4rem; padding-bottom: 2rem;">
-		<div class="container">
-			<h1>Comprendre les nouvelles façons de<br><span class="text-gradient">créer du lien</span>
-			</h1>
-			<p style="font-size: 1.25rem; color: var(--gray); max-width: 600px; margin: 0 auto;">Solitude, hyperconnexion, rencontres, activités locales, vie sociale… Retrouve ici nos articles et conseils autour des relations humaines et des expériences qui rapprochent vraiment les gens.</p>
-		</div>
-	</header>
+	<main class="bz-principal">
 
-	<main
-		class="container" style="padding-bottom: 4rem;">
-		<!-- Featured Section -->
-		{% if featuredPost and not currentCategory %}
-			<section class="featured-section">
-				<span class="section-label">À la une</span>
-				<article class="featured-card">
-					<div class="featured-image-wrapper">
-						<img src="{{ featuredPost.image }}" alt="{{ featuredPost.title }}" class="featured-image">
+		<section class="bz-heros">
+			<div class="bz-conteneur bz-heros__contenu">
+				<div class="bz-heros__texte">
+					<h1 class="bz-heros__accroche">
+						<span class="bz-heros__accroche-ligne">DES IDÉES, DES RENCONTRES ET</span>
+						<span class="bz-heros__accroche-ligne bz-heros__accroche-ligne--forte">UNE VILLE À (RE)DÉCOUVRIR</span>
+					</h1>
+					<p class="bz-heros__intro">
+						Envie de découvrir de nouvelles activités, de rencontrer de nouvelles personnes ou de voir Angers autrement ? Retrouve nos conseils, nos idées et nos inspirations pour créer du lien, partager tes passions et profiter pleinement des expériences qu’offre la vie locale.
+					</p>
+					<div class="bz-actions">
+						<a href="/downloads/bondiz.apk" download class="bz-bouton bz-bouton--jaune">Télécharger l’application</a>
+						<a href="{{ path('app_a_propos') }}" class="bz-bouton bz-bouton--rose">À propos de Bondiz</a>
 					</div>
-					<div class="featured-content">
-						<div class="featured-tags">
-							<span class="tag">{{ featuredPost.category.name }}</span>
-							<span class="tag">{{ featuredPost.readTime }}
-								min de lecture</span>
+				</div>
+			</div>
+		</section>
+
+		<section id="articles" class="bz-conteneur">
+			<div class="bz-blog">
+				<nav class="bz-filtres" aria-label="Filtrer les articles par thème">
+					<a href="{{ path('app_post_index') }}#articles" class="bz-filtre{{ not currentCategory ? ' bz-filtre--actif' }}"{{ not currentCategory ? ' aria-current="page"' }}>Tous les articles</a>
+					{% for category in categories %}
+						{% set actif = currentCategory == category.id %}
+						<a href="{{ path('app_post_index', {category: category.id}) }}#articles" class="bz-filtre{{ actif ? ' bz-filtre--actif' }}"{{ actif ? ' aria-current="page"' }}>{{ category.name }}</a>
+					{% endfor %}
+				</nav>
+
+				{% if featuredPost %}
+					<article class="bz-vignette bz-article bz-article--une">
+						<div class="bz-article__image">
+							<img src="{{ featuredPost.image }}" alt="">
 						</div>
-						<h2>{{ featuredPost.title }}</h2>
-						<p class="card-excerpt" style="font-size: 1.1rem; line-height: 1.7;">
-							{{ featuredPost.excerpt }}
-						</p>
-						<a href="{{ path('app_post_show', {id: featuredPost.id}) }}" class="btn btn-primary">Lire l'article</a>
-					</div>
-				</article>
-			</section>
-		{% endif %}
-
-		<!-- Posts Title -->
-		<h2 style="text-align: center; margin-bottom: 2rem; font-size: 2.5rem;">Dernières
-			<span class="text-gradient">publications</span>
-		</h2>
-
-		<!-- Filter Bar -->
-		<div class="flex-center" style="gap: 0.5rem; flex-wrap: wrap; justify-content: center; display: flex; margin-bottom: 3rem;">
-			<a href="{{ path('app_post_index') }}" class="btn btn-filter {{ not currentCategory ? 'active' : '' }}" style="border-radius: 999px; padding: 0.5rem 1.5rem; transition: all 0.3s;">
-				Tous
-			</a>
-
-			{% for category in categories %}
-				<a href="{{ path('app_post_index', {category: category.id}) }}" class="btn btn-filter {{ currentCategory == category.id ? 'active' : '' }}" style="border-radius: 999px; padding: 0.5rem 1.5rem; transition: all 0.3s;">
-					{{ category.name }}
-				</a>
-			{% endfor %}
-		</div>
-
-		<!-- Posts Grid -->
-		<div class="posts-grid">
-			{% for post in posts %}
-				<a href="{{ path('app_post_show', {id: post.id}) }}" class="post-card">
-					<div class="card-image-wrapper">
-						<img src="{{ post.image }}" alt="{{ post.title }}" class="card-image">
-					</div>
-					<div class="card-content">
-						<div class="card-meta">
-							<span style="color: var(--primary); font-weight: 600;">{{ post.category.name }}</span>
-							<span>{{ post.readTime }}
-								min</span>
+						<div class="bz-article__corps">
+							{% if featuredPost.category %}
+								<span class="bz-etiquette">{{ featuredPost.category.name }}</span>
+							{% endif %}
+							<h2 class="bz-article__titre">
+								<a href="{{ path('app_post_show', {id: featuredPost.id}) }}" class="bz-article__lien">{{ featuredPost.title }}</a>
+							</h2>
+							<p class="bz-article__resume">{{ featuredPost.excerpt }}</p>
+							<div class="bz-article__pied">
+								{{ _self.infos(featuredPost, featuredPost.readTime ~ ' min de lecture') }}
+								<span class="bz-article__bouton" aria-hidden="true">Lire l’article →</span>
+							</div>
 						</div>
-						<h3 class="card-title">{{ post.title }}</h3>
-						<p class="card-excerpt">{{ post.excerpt }}</p>
-						<div class="read-more">
-							Lire la suite
-							<svg width="20" height="20" viewbox="0 0 24 24" fill="none" class="arrow-icon">
-								<path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-							</svg>
-						</div>
-					</div>
-				</a>
-			{% else %}
-				<p style="text-align: center; color: var(--gray); grid-column: 1 / -1; padding: 2rem;">Aucun article trouvé dans cette catégorie.</p>
-			{% endfor %}
-		</div>
+					</article>
+				{% endif %}
+
+				<div class="bz-articles">
+					{% for post in posts %}
+						<article class="bz-vignette bz-article">
+							<div class="bz-article__image">
+								<img src="{{ post.image }}" alt="" loading="lazy">
+								{% if post.category %}
+									<span class="bz-etiquette">{{ post.category.name }}</span>
+								{% endif %}
+							</div>
+							<div class="bz-article__corps">
+								<h2 class="bz-article__titre">
+									<a href="{{ path('app_post_show', {id: post.id}) }}" class="bz-article__lien">{{ post.title }}</a>
+								</h2>
+								<p class="bz-article__resume">{{ post.excerpt }}</p>
+								{{ _self.infos(post, post.readTime ~ ' min') }}
+							</div>
+						</article>
+					{% else %}
+						{% if not featuredPost %}
+							<p class="bz-texte bz-blog__vide">Aucun article pour le moment dans ce thème.</p>
+						{% endif %}
+					{% endfor %}
+				</div>
+
+				{% if hasMore %}
+					<a href="{{ path('app_post_index', {category: currentCategory, page: page + 1}) }}#articles" class="bz-blog__plus">Voir plus d’articles →</a>
+				{% endif %}
+			</div>
+		</section>
+
+		{#
+			Inscription à la newsletter : aucun outil d'envoi n'est encore branché,
+			le formulaire ouvre donc un e-mail prérempli vers l'équipe.
+		#}
+		<section class="bz-bande bz-lettre">
+			<div class="bz-conteneur bz-lettre__contenu">
+				<div class="bz-lettre__fantome" aria-hidden="true">
+					<img src="{{ asset('images/blog/fantome-newsletter.png') }}" alt="" loading="lazy">
+				</div>
+				<div class="bz-lettre__texte">
+					<h2 class="bz-titre">Reçois nos derniers articles</h2>
+					<p class="bz-texte">Des idées d’activités, des conseils et de bonnes adresses directement dans ta boîte mail.</p>
+					<form class="bz-lettre__formulaire" action="mailto:contact@bondiz.fr?subject=Inscription%20%C3%A0%20la%20newsletter" method="post" enctype="text/plain">
+						<label for="lettre-email" class="bz-visuellement-cache">Ton adresse mail</label>
+						<input type="email" id="lettre-email" name="email" class="bz-lettre__champ" placeholder="Ton adresse mail" required autocomplete="email">
+						<button type="submit" class="bz-lettre__bouton">S’inscrire</button>
+					</form>
+				</div>
+			</div>
+		</section>
 
 	</main>
 {% endblock %}

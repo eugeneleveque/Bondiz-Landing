@@ -1,0 +1,263 @@
+/*
+ * Page d'accueil — maquette Figma « PAGE D'ACCUEIL » (nœud 488:2006).
+ * Le fond, le héros, les cartes et les bandes viennent de design.css.
+ */
+
+:root {
+    /* Hauteurs des blocs de la maquette, réutilisées en responsive */
+    --bz-accueil-tuile-largeur: 567px;
+    --bz-accueil-pastille: 100px;
+    --bz-accueil-icone: 55px;
+    --bz-accueil-espace-blocs: 116px;
+    --bz-accueil-espace-activites: 124px;
+    --bz-accueil-espace-partenaires: 108px;
+    --bz-accueil-espace-appel: 108px;
+}
+
+/* ─── Héros ───────────────────────────────────────────────────────────── */
+
+.bz-page--accueil .bz-heros {
+    --bz-heros-texte-largeur: 762px;
+    --bz-heros-intro-largeur: 762px;
+    --bz-heros-image-largeur: 412px;
+    --bz-heros-image-hauteur: 582px;
+    --bz-heros-image-proportions: 412 / 582;
+    /* Le téléphone dépasse de 12px à droite du contenu */
+    --bz-heros-image-decalage-x: 12px;
+}
+
+/* ─── Rencontrer autrement (bloc 1) ───────────────────────────────────────── */
+
+.bz-carte--intro {
+    --bz-carte-image-largeur: 483px;
+    --bz-carte-hauteur: 307px;
+    --bz-carte-padding-haut: 47px;
+    margin-top: 27px;
+}
+
+.bz-carte--intro .bz-titre {
+    max-width: 575px;
+}
+
+.bz-carte--intro .bz-texte {
+    max-width: 589px;
+    margin-top: 29px;
+}
+
+/* Recadrage repris de la maquette */
+.bz-carte--intro .bz-carte__image {
+    --bz-recadrage-haut: -15.31%;
+    --bz-recadrage-gauche: -15.94%;
+    --bz-recadrage-largeur: 125.47%;
+    --bz-recadrage-hauteur: 139.39%;
+}
+
+.bz-carte--activites {
+    --bz-carte-image-largeur: 520px;
+    --bz-carte-hauteur: 368px;
+    --bz-carte-padding-haut: 60px;
+}
+
+.bz-carte--activites .bz-titre {
+    max-width: 593px;
+}
+
+.bz-carte--activites .bz-texte {
+    max-width: 564px;
+    margin: 36px 0 42px;
+}
+
+/* ─── Activités (bloc 3) ─────────────────────────────────────────────────── */
+
+.bz-activites {
+    margin-top: var(--bz-accueil-espace-activites);
+}
+
+/* ─── Comment ça marche (bloc 2) ─────────────────────────────────────────── */
+
+.bz-fonctionnement {
+    margin-top: var(--bz-accueil-espace-blocs);
+    padding: 54px 0 67px;
+}
+
+.bz-fonctionnement .bz-titre {
+    text-align: center;
+}
+
+.bz-tuiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, var(--bz-accueil-tuile-largeur)));
+    justify-content: space-between;
+    gap: 37px;
+    margin-top: 53px;
+}
+
+.bz-tuile {
+    display: grid;
+    grid-template-columns: var(--bz-accueil-pastille) 1fr;
+    column-gap: 17px;
+    row-gap: 20px;
+    min-height: 264px;
+    padding: 33px 37px 30px 39px;
+    box-sizing: border-box;
+    border: 1px solid var(--bz-bordure);
+    border-radius: var(--bz-rayon-carte);
+    box-shadow: var(--bz-ombre-tuile);
+}
+
+.bz-tuile--jaune {
+    background: var(--bz-jaune);
+}
+
+.bz-tuile--rose {
+    background: var(--bz-rose);
+}
+
+.bz-tuile__pastille {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--bz-accueil-pastille);
+    height: var(--bz-accueil-pastille);
+    background: var(--bz-blanc);
+    border-radius: var(--bz-rayon-pastille);
+}
+
+.bz-tuile__icone {
+    width: var(--bz-accueil-icone);
+    height: var(--bz-accueil-icone);
+    object-fit: contain;
+}
+
+.bz-tuile .bz-sous-titre {
+    align-self: center;
+    max-width: 384px;
+}
+
+.bz-tuile .bz-texte {
+    grid-column: 1 / -1;
+    max-width: 490px;
+}
+
+/* ─── Partenaires (bloc 4) ───────────────────────────────────────────────── */
+
+.bz-partenaires {
+    position: relative;
+    margin-top: var(--bz-accueil-espace-partenaires);
+    padding: 134px 0;
+}
+
+.bz-partenaires__carte {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    min-height: 376px;
+    padding: 44px 64px 40px;
+    box-sizing: border-box;
+    background: var(--bz-blanc);
+    border-radius: var(--bz-rayon-carte);
+    box-shadow: var(--bz-ombre-carte);
+    text-align: right;
+}
+
+.bz-partenaires .bz-titre {
+    max-width: 847px;
+}
+
+.bz-partenaires .bz-texte {
+    max-width: 580px;
+    margin: 29px 0 38px;
+}
+
+/* Bouton aux angles moins arrondis que les autres, comme sur la maquette */
+.bz-partenaires .bz-bouton {
+    border-radius: var(--bz-rayon-carte);
+}
+
+/*
+ * Le téléphone est centré verticalement sur la carte et déborde de 134px
+ * au-dessus et au-dessous ; il est retourné horizontalement dans la maquette.
+ */
+.bz-partenaires__telephone {
+    position: absolute;
+    top: 0;
+    left: calc((100% - var(--bz-largeur-contenu)) / 2 - 173px);
+    z-index: 1;
+    width: 911px;
+    height: 644px;
+    object-fit: cover;
+    transform: scaleX(-1);
+    pointer-events: none;
+}
+
+/* ─── Appel à l'action final (bloc 5) ───────────────────────────────────── */
+
+.bz-appel {
+    margin-top: var(--bz-accueil-espace-appel);
+    padding: 51px 0 61px;
+    text-align: center;
+    /* Dans la maquette, la bande déborde de l'écran des deux côtés :
+       ses angles arrondis ne sont jamais visibles. */
+}
+
+.bz-appel .bz-titre {
+    max-width: 696px;
+    margin: 0 auto;
+}
+
+.bz-appel .bz-texte {
+    max-width: 844px;
+    margin: 35px auto 42px;
+}
+
+/* ─── Adaptation aux petits écrans ─────────────────────────────────────── */
+
+@media (max-width: 1240px) {
+    .bz-carte--intro,
+    .bz-carte--activites {
+        --bz-carte-image-largeur: 40%;
+    }
+
+    /* Le téléphone ne tient plus à gauche de la carte : il passe au-dessus */
+    .bz-partenaires {
+        padding: 0;
+    }
+
+    .bz-partenaires__telephone {
+        position: static;
+        display: block;
+        width: min(560px, 90%);
+        height: auto;
+        margin: 0 auto -60px;
+    }
+}
+
+@media (max-width: 900px) {
+    :root {
+        --bz-accueil-espace-blocs: 64px;
+        --bz-accueil-espace-activites: 64px;
+        --bz-accueil-espace-partenaires: 64px;
+        --bz-accueil-espace-appel: 64px;
+    }
+
+    .bz-tuiles {
+        grid-template-columns: 1fr;
+    }
+
+    .bz-tuile {
+        padding: 24px;
+    }
+
+    .bz-partenaires__carte {
+        align-items: flex-start;
+        padding: 32px var(--bz-padding-carte);
+        text-align: left;
+    }
+
+}
+
+@media (max-width: 560px) {
+    .bz-tuile {
+        grid-template-columns: 1fr;
+    }
+}

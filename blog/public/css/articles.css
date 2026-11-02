@@ -1,0 +1,463 @@
+/*
+ * Page « Articles » (liste du blog) — maquette Figma « ARTICLES » (nœud 488:1658).
+ * Le fond, le héros, les bandes et les vignettes viennent de design.css.
+ */
+
+.bz-page--articles {
+    --bz-articles-colonne: 503px;
+    --bz-articles-espace: 30px;
+    --bz-articles-espace-blocs: 147px;
+    --bz-article-image-hauteur: 194px;
+    --bz-article-une-image-largeur: 433px;
+    --bz-article-une-hauteur: 306px;
+    --bz-etiquette-fond: rgba(132, 50, 254, 0.2);
+    --bz-champ-fond: rgba(132, 50, 254, 0.1);
+    --bz-taille-petite: 0.875rem;  /* 14px */
+    --bz-taille-mini: 0.75rem;     /* 12px */
+    --bz-pied-espace: 147px;
+}
+
+/* ─── Héros (sans visuel) ─────────────────────────────────────────────── */
+
+.bz-page--articles .bz-heros {
+    --bz-heros-texte-largeur: 851px;
+    --bz-heros-intro-largeur: 794px;
+    --bz-heros-image-largeur: 0px;
+    --bz-actions-espace: 33px;
+}
+
+.bz-page--articles .bz-heros__intro {
+    margin-bottom: 52px;
+}
+
+/* ─── Liste des articles (bloc 1) ─────────────────────────────────────── */
+
+.bz-blog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 108px;
+    padding: 58px 24px 36px;
+    background: var(--bz-blanc);
+    border-radius: var(--bz-rayon-carte);
+    box-shadow: var(--bz-ombre-carte);
+}
+
+/* Les filtres, la grande carte et la grille partagent la même largeur */
+.bz-filtres,
+.bz-article--une,
+.bz-articles {
+    width: 100%;
+    max-width: calc(2 * var(--bz-articles-colonne) + var(--bz-articles-espace));
+}
+
+.bz-filtres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 20px;
+    margin-bottom: 88px;
+}
+
+.bz-filtre {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--bz-bouton-hauteur);
+    padding: 0 26px;
+    box-sizing: border-box;
+    background: var(--bz-fond-vignette);
+    border: 1px solid var(--bz-bordure);
+    border-radius: var(--bz-rayon-pilule);
+    font-size: var(--bz-taille-texte);
+    font-weight: var(--bz-graisse-moyenne);
+    color: var(--bz-noir);
+    text-decoration: none;
+    transition: background var(--bz-transition), color var(--bz-transition);
+}
+
+.bz-filtre:hover {
+    background: var(--bz-etiquette-fond);
+}
+
+.bz-filtre--actif,
+.bz-filtre--actif:hover {
+    background: var(--bz-violet);
+    border-color: var(--bz-violet);
+    font-weight: var(--bz-graisse-grasse);
+    color: var(--bz-blanc);
+}
+
+/* Étiquette de catégorie */
+.bz-etiquette {
+    display: inline-flex;
+    align-items: center;
+    height: 40px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    background: var(--bz-etiquette-fond);
+    border-radius: var(--bz-rayon-pilule);
+    font-size: var(--bz-taille-texte);
+    font-weight: var(--bz-graisse-grasse);
+    color: var(--bz-violet);
+}
+
+/* ─── Carte d'article ─────────────────────────────────────────────────── */
+
+.bz-article {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    min-height: 408px;
+    transition: transform var(--bz-transition);
+}
+
+.bz-article:hover {
+    transform: translateY(-4px);
+}
+
+.bz-article__image {
+    position: relative;
+    flex: none;
+    height: var(--bz-article-image-hauteur);
+}
+
+.bz-article__image img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* L'étiquette chevauche le bas de la photo */
+.bz-article__image .bz-etiquette {
+    position: absolute;
+    left: 20px;
+    bottom: 12px;
+}
+
+.bz-article__corps {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    /* La photo recouvre la bordure du haut : 2px de moins en bas */
+    padding: 16px 20px 15px;
+}
+
+.bz-article__titre {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: var(--bz-graisse-grasse);
+    line-height: var(--bz-interligne-texte);
+    color: var(--bz-noir);
+}
+
+/* Toute la carte est cliquable */
+.bz-article__lien {
+    color: inherit;
+    text-decoration: none;
+}
+
+.bz-article__lien::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.bz-article__lien:focus-visible {
+    outline: none;
+}
+
+.bz-article:has(.bz-article__lien:focus-visible) {
+    outline: 3px solid var(--bz-violet);
+    outline-offset: 3px;
+}
+
+.bz-article__resume {
+    margin: 9px 0 16px;
+    font-size: var(--bz-taille-texte);
+    line-height: var(--bz-interligne-texte);
+    color: var(--bz-noir);
+}
+
+.bz-article__infos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 0;
+    margin-top: auto;
+}
+
+.bz-article__info {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: var(--bz-article-info-largeur, 177px);
+    font-size: var(--bz-taille-mini);
+    font-weight: var(--bz-graisse-moyenne);
+    line-height: var(--bz-interligne-texte);
+    color: var(--bz-gris);
+}
+
+.bz-article__info:last-child {
+    min-width: 0;
+}
+
+.bz-article__info-icone {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* Grande carte : photo à gauche */
+.bz-article--une {
+    --bz-article-info-largeur: 165px;
+    flex-direction: row;
+    width: 100%;
+    min-height: var(--bz-article-une-hauteur);
+    margin-bottom: 33px;
+}
+
+.bz-article--une .bz-article__image {
+    flex: 0 0 var(--bz-article-une-image-largeur);
+    height: auto;
+}
+
+.bz-article--une .bz-article__corps {
+    align-items: flex-start;
+    padding: 24px 33px 13px 26px;
+}
+
+.bz-article--une .bz-article__titre {
+    max-width: 518px;
+    margin-top: 27px;
+    font-size: 1.5rem;
+    line-height: 30px;
+}
+
+.bz-article--une .bz-article__resume {
+    max-width: 509px;
+    margin: 10px 0 13px;
+}
+
+.bz-article__pied {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    margin-top: auto;
+}
+
+.bz-article__pied .bz-article__infos {
+    padding-bottom: 3px;
+}
+
+.bz-article__bouton {
+    display: inline-flex;
+    align-items: center;
+    height: 35px;
+    padding: 0 14px;
+    box-sizing: border-box;
+    background: var(--bz-jaune);
+    border: 1px solid var(--bz-noir);
+    border-radius: var(--bz-rayon-pilule);
+    font-size: var(--bz-taille-petite);
+    font-weight: var(--bz-graisse-demi);
+    color: var(--bz-noir);
+    white-space: nowrap;
+}
+
+.bz-articles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 33px var(--bz-articles-espace);
+}
+
+.bz-blog__vide {
+    grid-column: 1 / -1;
+    text-align: center;
+}
+
+.bz-blog__plus {
+    display: inline-flex;
+    align-items: center;
+    height: 39px;
+    margin-top: 42px;
+    padding: 0 16px;
+    background: var(--bz-rose);
+    border-radius: var(--bz-rayon-pilule);
+    font-size: var(--bz-taille-petite);
+    font-weight: var(--bz-graisse-grasse);
+    color: var(--bz-blanc);
+    text-decoration: none;
+}
+
+/* ─── Newsletter (bloc 2) ─────────────────────────────────────────────── */
+
+.bz-lettre {
+    margin-top: var(--bz-articles-espace-blocs);
+    padding: 40px 0;
+}
+
+.bz-lettre__contenu {
+    display: grid;
+    grid-template-columns: 199px minmax(0, 822px);
+    align-items: start;
+    column-gap: 89px;
+}
+
+/* Fantôme recadré comme dans la maquette */
+.bz-lettre__fantome {
+    position: relative;
+    height: 231px;
+    overflow: hidden;
+}
+
+.bz-lettre__fantome img {
+    position: absolute;
+    top: -86.57%;
+    left: -133.47%;
+    width: 373.05%;
+    height: 321.6%;
+    max-width: none;
+}
+
+.bz-lettre__texte {
+    padding-top: 18px;
+}
+
+.bz-lettre__texte .bz-texte {
+    margin: 20px 0 45px;
+}
+
+.bz-lettre__formulaire {
+    display: flex;
+    max-width: 710px;
+    height: 58px;
+    background: var(--bz-champ-fond);
+    border-radius: var(--bz-rayon-pilule);
+}
+
+.bz-lettre__champ {
+    flex: 1;
+    min-width: 0;
+    padding: 0 36px;
+    background: transparent;
+    border: 0;
+    border-radius: var(--bz-rayon-pilule);
+    font-family: var(--bz-police);
+    font-size: var(--bz-taille-texte);
+    font-weight: var(--bz-graisse-moyenne);
+    color: var(--bz-noir);
+}
+
+.bz-lettre__champ::placeholder {
+    color: var(--bz-gris);
+}
+
+.bz-lettre__champ:focus-visible {
+    outline: 2px solid var(--bz-violet);
+    outline-offset: -2px;
+}
+
+.bz-lettre__bouton {
+    flex: none;
+    width: 171px;
+    background: var(--bz-violet);
+    border: 0;
+    border-radius: var(--bz-rayon-pilule);
+    font-family: var(--bz-police);
+    font-size: var(--bz-taille-texte);
+    font-weight: var(--bz-graisse-grasse);
+    color: var(--bz-blanc);
+    cursor: pointer;
+}
+
+/* ─── Adaptation aux petits écrans ─────────────────────────────────────── */
+
+@media (max-width: 1240px) {
+    .bz-article--une {
+        flex-direction: column;
+    }
+
+    .bz-article--une .bz-article__image {
+        flex-basis: var(--bz-article-image-hauteur);
+    }
+}
+
+@media (max-width: 900px) {
+    .bz-page--articles {
+        --bz-articles-espace-blocs: 64px;
+        --bz-pied-espace: inherit;
+    }
+
+    .bz-blog {
+        margin-top: 48px;
+        padding: 32px 20px;
+    }
+
+    .bz-filtres {
+        margin-bottom: 32px;
+    }
+
+    .bz-articles {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .bz-lettre__contenu {
+        grid-template-columns: 120px minmax(0, 1fr);
+        column-gap: 24px;
+    }
+
+    .bz-lettre__fantome {
+        height: 140px;
+    }
+}
+
+@media (max-width: 560px) {
+    .bz-blog {
+        padding: 24px 16px;
+    }
+
+    .bz-filtres {
+        gap: 10px;
+    }
+
+    .bz-filtre {
+        min-height: 44px;
+        padding: 0 16px;
+    }
+
+    .bz-article--une .bz-article__corps {
+        padding: 20px;
+    }
+
+    .bz-lettre__contenu {
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: 16px;
+    }
+
+    .bz-lettre__fantome {
+        width: 120px;
+    }
+
+    /* Champ et bouton l'un sous l'autre */
+    .bz-lettre__formulaire {
+        flex-direction: column;
+        gap: 10px;
+        height: auto;
+        background: none;
+    }
+
+    .bz-lettre__champ {
+        min-height: 52px;
+        background: var(--bz-champ-fond);
+    }
+
+    .bz-lettre__bouton {
+        width: 100%;
+        min-height: 52px;
+    }
+}

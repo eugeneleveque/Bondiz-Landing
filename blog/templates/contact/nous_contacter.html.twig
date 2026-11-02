@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+{% import '_formulaire.html.twig' as formulaire %}
+
+{% block title %}Nous contacter - Bondiz, rencontres amicales à Angers{% endblock %}
+
+{% block meta %}
+	{{ parent() }}
+	<meta name="description" content="Une question sur Bondiz, une suggestion ou une idée de partenariat ? Écrivez-nous : notre équipe vous répond dans les plus brefs délais.">
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/formulaire.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/nous-contacter.css') }}">
+{% endblock %}
+
+{% block page_class %}bz-page--contact{% endblock %}
+
+{% block page_fond %}
+	<div class="bz-fond" aria-hidden="true">
+		<div class="bz-fond__tranche"></div>
+		<div class="bz-fond__tranche bz-fond__tranche--retournee"></div>
+		<div class="bz-fond__tranche"></div>
+		<div class="bz-fond__tranche bz-fond__tranche--retournee bz-fond__tranche--fin"></div>
+	</div>
+{% endblock %}
+
+{% block body %}
+	{% set dossier = 'images/contact/' %}
+	{# Liens des réseaux sociaux : à renseigner dès que les comptes existent (comme dans le pied de page). #}
+	{% set reseaux = [
+		{ nom: 'Instagram', image: 'instagram.png', url: '#' },
+		{ nom: 'Facebook', image: 'facebook.png', url: '#' },
+		{ nom: 'LinkedIn', image: 'linkedin.png', url: '#' },
+		{ nom: 'TikTok', image: 'tiktok.png', url: '#' },
+	] %}
+
+	<main class="bz-principal">
+
+		<section class="bz-heros">
+			<div class="bz-conteneur bz-heros__contenu">
+				<div class="bz-heros__texte">
+					<h1 class="bz-heros__accroche">
+						<span class="bz-heros__accroche-ligne">UNE QUESTION&nbsp;? UNE IDÉE&nbsp;?</span>
+						<span class="bz-heros__accroche-ligne bz-heros__accroche-ligne--forte">PARLONS-EN&nbsp;!</span>
+					</h1>
+					<p class="bz-heros__intro">Vous avez une question concernant Bondiz, une suggestion ou vous souhaitez en savoir plus sur un possible partenariat ? Notre équipe est là pour vous répondre.</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="bz-conteneur">
+			<div class="bz-coordonnees">
+				<div class="bz-coordonnee">
+					<span class="bz-coordonnee__rond bz-rond--violet"><img src="{{ asset(dossier ~ 'icone-email.png') }}" alt=""></span>
+					<h2 class="bz-coordonnee__titre">Par e-mail</h2>
+					<p class="bz-texte">Pour toute demande générale, privilégiez l’envoi d’un e-mail. Nous vous répondrons dans les plus brefs délais.</p>
+					<a href="mailto:{{ contactEmail }}" class="bz-coordonnee__lien">{{ contactEmail }}</a>
+				</div>
+				<div class="bz-coordonnee">
+					<span class="bz-coordonnee__rond bz-rond--rose"><img src="{{ asset(dossier ~ 'icone-adresse.png') }}" alt=""></span>
+					<h2 class="bz-coordonnee__titre">Notre adresse</h2>
+					<p class="bz-texte">Angers<br>(49 000)</p>
+					<a href="https://www.google.com/maps/search/?api=1&amp;query=Angers%2049000" class="bz-coordonnee__lien" target="_blank" rel="noopener">Voir sur Google Maps →</a>
+				</div>
+				<div class="bz-coordonnee">
+					<span class="bz-coordonnee__rond bz-rond--jaune"><img src="{{ asset(dossier ~ 'icone-reseaux.png') }}" alt=""></span>
+					<h2 class="bz-coordonnee__titre">Sur les réseaux</h2>
+					<p class="bz-texte">Suivez notre actualité et rejoignez notre communauté sur Instagram, Facebook, TikTok et LinkedIn.</p>
+					<ul class="bz-coordonnee__reseaux">
+						{% for reseau in reseaux %}
+							<li>
+								<a href="{{ reseau.url }}" class="bz-coordonnee__reseau" aria-label="Bondiz sur {{ reseau.nom }}">
+									<img src="{{ asset('images/brand/' ~ reseau.image) }}" alt="">
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="bz-conteneur bz-contact">
+			<div class="bz-contact__formulaire" id="formulaire">
+				<h2 class="bz-titre">Envoyez-nous un message</h2>
+				<p class="bz-texte bz-contact__intro">Remplissez le formulaire ci-dessous, nous vous répondrons dans les plus brefs délais.</p>
+
+				{% for message in app.flashes('success') %}
+					<p class="bz-demande__merci" role="status">{{ message }}</p>
+				{% endfor %}
+
+				{{ form_start(form, {attr: {class: 'bz-contact__champs', novalidate: 'novalidate'}}) }}
+					{% for erreur in form.vars.errors %}
+						<p class="bz-demande__erreur" role="alert">{{ erreur.message }}</p>
+					{% endfor %}
+
+					<div class="bz-contact__identite">
+						{{ formulaire.champ(form.lastName) }}
+						{{ formulaire.champ(form.firstName) }}
+					</div>
+					{{ formulaire.champ(form.email) }}
+					{{ formulaire.champ(form.subject) }}
+					{{ formulaire.champ(form.message, 'zone') }}
+
+					{# Champ piège, masqué aux visiteurs et aux lecteurs d'écran #}
+					<div class="bz-demande__piege" aria-hidden="true">
+						{{ form_label(form.website) }}
+						{{ form_widget(form.website) }}
+					</div>
+
+					<div class="bz-demande__accord{{ form.consent.vars.errors|length ? ' bz-demande__champ--erreur' }}">
+						{{ form_widget(form.consent, {attr: {class: 'bz-demande__case'}}) }}
+						<label for="{{ form.consent.vars.id }}" class="bz-demande__accord-texte">
+							J’accepte que les informations renseignées soient utilisées pour répondre à ma demande, conformément à la
+							<a href="{{ path('app_privacy') }}">politique de confidentialité</a>
+							de Bondiz.
+						</label>
+						{% for error in form.consent.vars.errors %}
+							<p class="bz-demande__erreur">{{ error.message }}</p>
+						{% endfor %}
+					</div>
+
+					<button type="submit" class="bz-bouton bz-bouton--jaune bz-demande__envoyer">Envoyer un message</button>
+					<p class="bz-demande__mention">*Champs obligatoires</p>
+				{{ form_end(form, {render_rest: true}) }}
+			</div>
+
+			<div class="bz-contact__cote">
+				<div class="bz-contact__pro">
+					<div class="bz-contact__pro-entete">
+						<span class="bz-contact__pro-rond"><img src="{{ asset(dossier ~ 'icone-partenariat.png') }}" alt=""></span>
+						<h2 class="bz-contact__pro-titre">Vous êtes un professionnel&nbsp;?</h2>
+					</div>
+					<p class="bz-texte">Vous êtes un établissement, une association ou un professionnel et vous souhaitez devenir partenaire de Bondiz ?</p>
+					<a href="{{ path('app_devenir_partenaire') }}" class="bz-contact__pro-bouton">Découvrir le partenariat</a>
+				</div>
+				<div class="bz-contact__photo">
+					<img src="{{ asset(dossier ~ 'photo-amis.png') }}" alt="Un groupe d’amis souriants prend un selfie" loading="lazy">
+				</div>
+			</div>
+		</section>
+
+	</main>
+{% endblock %}

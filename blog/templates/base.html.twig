@@ -2,6 +2,7 @@
 <html lang="fr">
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>
 			{% block title %}Welcome!
 			{% endblock %}
@@ -10,8 +11,9 @@
 		{% block stylesheets %}
 			<link rel="preconnect" href="https://fonts.googleapis.com">
 			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-			<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+			<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 			<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+			<link rel="stylesheet" href="{{ asset('css/design.css') }}">
 		{% endblock %}
 		{% block meta %}
 			<meta name="description" content="Découvrez Bondiz, le blog dédié aux rencontres amicales. Conseils, astuces et récits pour élargir votre cercle social et créer des amitiés sincères.">
@@ -22,99 +24,116 @@
 		{% block javascripts %}{% endblock %}
 	</head>
 	<body>
-		<!-- Navigation -->
-		<nav class="navbar">
-			<div class="container nav-content">
-				<a href="{{ path('app_home') }}" class="logo">
-					<img src="{{ asset('images/logo.png') }}" alt="Bondiz Logo" class="header-logo">
-				</a>
-				<div class="nav-links">
-					<a href="{{ path('app_home') }}" class="nav-link">Accueil</a>
-					<a href="{{ path('app_post_index') }}" class="nav-link">Articles</a>
-					<a href="{{ path('app_partner_dashboard') }}" class="nav-link{{ app.request.pathInfo starts with '/partenaires' ? ' active' }}">Partenaires</a>
-					<a href="/a-propos" class="nav-link">À propos</a>
-					{% if is_granted('ROLE_ADMIN') %}
-						<a href="{{ path('admin') }}" class="nav-link">Administration</a>
-					{% endif %}
+		{% set route = app.request.attributes.get('_route') %}
+		<div class="bz-page {% block page_class %}{% endblock %}">
+			{% block page_fond %}{% endblock %}
+
+			{% block entete %}
+			<header class="bz-entete">
+				<div class="bz-conteneur bz-entete__contenu">
+					<a href="{{ path('app_home') }}" class="bz-logo" aria-label="Bondiz, retour à l'accueil">
+						<img src="{{ asset('images/brand/logo-fantome.svg') }}" alt="" class="bz-logo__fantome">
+						<span class="bz-logo__texte">BONDIZ</span>
+					</a>
+
+					<nav class="bz-nav" aria-label="Navigation principale">
+						<a href="{{ path('app_home') }}" class="bz-nav__lien{{ route == 'app_home' ? ' bz-nav__lien--actif' }}"{{ route == 'app_home' ? ' aria-current="page"' }}>Accueil</a>
+						<a href="{{ path('app_nos_partenaires') }}" class="bz-nav__lien{{ route == 'app_nos_partenaires' ? ' bz-nav__lien--actif' }}"{{ route == 'app_nos_partenaires' ? ' aria-current="page"' }}>Nos partenaires</a>
+						<a href="{{ path('app_post_index') }}" class="bz-nav__lien{{ route starts with 'app_post' ? ' bz-nav__lien--actif' }}"{{ route starts with 'app_post' ? ' aria-current="page"' }}>Articles</a>
+						<a href="{{ path('app_a_propos') }}" class="bz-nav__lien{{ route == 'app_a_propos' ? ' bz-nav__lien--actif' }}"{{ route == 'app_a_propos' ? ' aria-current="page"' }}>À propos</a>
+						{% if is_granted('ROLE_ADMIN') %}
+							<a href="{{ path('admin') }}" class="bz-nav__lien">Admin</a>
+						{% endif %}
+					</nav>
+
+					<div class="bz-entete__actions">
+						{% if is_granted('ROLE_PARTNER') %}
+							<a href="{{ path('app_partner_dashboard') }}" class="bz-bouton bz-bouton--jaune">Mon espace</a>
+							<a href="{{ path('app_partner_logout') }}" class="bz-entete__deconnexion">Déconnexion</a>
+						{% else %}
+							<a href="{{ path('app_partner_dashboard') }}" class="bz-bouton bz-bouton--jaune">Espace partenaire</a>
+							{% if app.user %}
+								<a href="{{ path('app_logout') }}" class="bz-entete__deconnexion">Déconnexion</a>
+							{% endif %}
+						{% endif %}
+					</div>
 				</div>
-				{% if is_granted('ROLE_PARTNER') %}
-					<div style="display: flex; align-items: center; gap: 1rem;">
-						<span style="font-weight: 600;">{{ app.user.name }}</span>
-						<a href="{{ path('app_partner_logout') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Déconnexion</a>
-					</div>
-				{% elseif app.user %}
-					<div style="display: flex; align-items: center; gap: 1rem;">
-						<span style="font-weight: 600;">{{ app.user.pseudo }}</span>
-						<a href="{{ path('app_logout') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Déconnexion</a>
-					</div>
-				{% else %}
-					<a href="{{ path('app_login') }}" class="btn btn-primary">Espace Membre</a>
-				{% endif %}
-			</div>
-		</nav>
+			</header>
+			{% endblock %}
 
 		{% block body %}{% endblock %}
 
-		<!-- Footer -->
-		<footer class="footer">
-			<div class="container">
-				<div class="footer-content">
-					<div class="footer-col" style="flex: 2;">
-						<a href="{{ path('app_home') }}" class="logo" style="color: white; margin-bottom: 1rem; display: block;">
-							Bondiz<span style="color: var(--accent-yellow);">.</span>
-						</a>
-						<p style="color: var(--gray); max-width: 300px;">
-							Rencontre des gens près de chez toi, autour d'activités réelles. Moins d'écran, plus de vie.
-						</p>
-					</div>
-					<div class="footer-col">
-						<h3>Navigation</h3>
-						<ul class="footer-links">
-							<li>
-								<a href="{{ path('app_home') }}">Accueil</a>
-							</li>
-							<li>
-								<a href="{{ path('app_post_index') }}">Articles</a>
-							</li>
-							<li>
-								<a href="/a-propos">À propos</a>
-							</li>
-						</ul>
-					</div>
-					<div class="footer-col">
-						<h3>L'application</h3>
-						<ul class="footer-links">
-							<li>
-								<a href="{{ path('app_home') }}#download">Télécharger (Android)</a>
-							</li>
-							<li>
-								<span style="color: var(--gray); opacity: 0.5;">iOS — bientôt disponible</span>
-							</li>
-						</ul>
-					</div>
-					<div class="footer-col">
-						<h3>Légal</h3>
-						<ul class="footer-links">
-							<li>
-								<a href="{{ path('app_legal_notice') }}">Mentions légales</a>
-							</li>
-							<li>
-								<a href="{{ path('app_privacy') }}">Confidentialité</a>
-							</li>
-							<li>
-								<a href="{{ path('app_cookies') }}">Cookies</a>
-							</li>
-							<li>
-								<a href="mailto:contact@bondiz.fr">Contact</a>
-							</li>
-						</ul>
+			{% block pied %}
+			{# Liens des réseaux sociaux : à renseigner dès que les comptes existent. #}
+			{% set reseaux = [
+				{ nom: 'Instagram', image: 'instagram.png', url: '#' },
+				{ nom: 'Facebook', image: 'facebook.png', url: '#' },
+				{ nom: 'LinkedIn', image: 'linkedin.png', url: '#' },
+				{ nom: 'TikTok', image: 'tiktok.png', url: '#' },
+			] %}
+
+			<footer class="bz-pied">
+				<div class="bz-conteneur bz-pied__marque">
+					<a href="{{ path('app_home') }}" class="bz-pied__logo" aria-label="Bondiz, retour à l'accueil">
+						<span class="bz-pied__logo-carre">
+							<img src="{{ asset('images/brand/logo-fantome.svg') }}" alt="" class="bz-logo__fantome">
+						</span>
+						<span class="bz-pied__logo-texte">BONDIZ</span>
+					</a>
+					<p class="bz-pied__devise">Moins de ghosting. Plus de rencontres.</p>
+					<div class="bz-pied__reseaux">
+						{% for reseau in reseaux %}
+							<a href="{{ reseau.url }}" class="bz-pied__reseau" aria-label="Bondiz sur {{ reseau.nom }}">
+								<img src="{{ asset('images/brand/' ~ reseau.image) }}" alt="">
+							</a>
+						{% endfor %}
 					</div>
 				</div>
-				<div class="footer-bottom">
-					<p>&copy; 2026 Bondiz. Célébrons l'amitié.</p>
+
+				<div class="bz-pied__cadre">
+					<img src="{{ asset('images/brand/footer-lignes.svg') }}" alt="" class="bz-pied__filets">
+					<div class="bz-conteneur bz-pied__colonnes">
+						<div>
+							<p class="bz-pied__titre-colonne">Découvrir Bondiz</p>
+							<ul class="bz-pied__liens">
+								<li><a href="{{ path('app_home') }}" class="bz-pied__lien">Accueil</a></li>
+								<li><a href="{{ path('app_a_propos') }}" class="bz-pied__lien">À propos</a></li>
+								<li><a href="{{ path('app_home') }}#comment-ca-marche" class="bz-pied__lien">Comment ça marche ?</a></li>
+								<li><a href="{{ path('app_home') }}#activites" class="bz-pied__lien">Les activités</a></li>
+							</ul>
+						</div>
+						<div>
+							<p class="bz-pied__titre-colonne">Professionnels</p>
+							<ul class="bz-pied__liens">
+								<li><a href="{{ path('app_nos_partenaires') }}" class="bz-pied__lien">Nos partenaires</a></li>
+								<li><a href="{{ path('app_devenir_partenaire') }}" class="bz-pied__lien">Devenir partenaire</a></li>
+								<li><a href="{{ path('app_contact') }}" class="bz-pied__lien">Nous contacter</a></li>
+							</ul>
+						</div>
+						<div>
+							<p class="bz-pied__titre-colonne">Informations légales</p>
+							<ul class="bz-pied__liens">
+								<li><a href="{{ path('app_legal_notice') }}" class="bz-pied__lien">Mentions légales</a></li>
+								<li><a href="{{ path('app_privacy') }}" class="bz-pied__lien">Politique de confidentialité</a></li>
+								<li><a href="{{ path('app_cookies') }}" class="bz-pied__lien">Gestion des cookies</a></li>
+							</ul>
+						</div>
+						<div>
+							<p class="bz-pied__titre-colonne">Besoin d’aide ?</p>
+							<ul class="bz-pied__liens">
+								<li><a href="{{ path('app_contact') }}" class="bz-pied__lien">Contact</a></li>
+							</ul>
+						</div>
+					</div>
 				</div>
-			</div>
-		</footer>
+
+				<div class="bz-conteneur bz-pied__bas">
+					<p class="bz-pied__copyright">© 2026 Bondiz — Tous droits réservés</p>
+					<p class="bz-pied__mention">Un projet en construction à Angers 💜</p>
+				</div>
+			</footer>
+			{% endblock %}
+		</div>
 		<!-- ===== Tarteaucitron.js - Gestion des cookies RGPD ===== -->
 		<script src="https://cdn.jsdelivr.net/npm/tarteaucitronjs@1.20.1/tarteaucitron.js"></script>
 		<script>
