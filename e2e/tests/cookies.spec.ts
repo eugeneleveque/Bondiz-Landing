@@ -76,12 +76,20 @@ test('rien n’est envoyé à Google Analytics ni à Matomo avant l’accord du 
   expect(versGoogle, 'mesure d’audience après refus').toEqual([]);
 });
 
-test('Google Analytics se charge une fois les cookies acceptés', async ({ page }) => {
+// Google Analytics est désactivé (balises en commentaire) : il ne doit pas se
+// charger, même après « Tout accepter ». S'il est réactivé, remettre l'attente
+// de la requête googletagmanager.com/gtag/js à la place de ce test.
+test('Google Analytics reste désactivé, même après « Tout accepter »', async ({ page }) => {
+  const versGoogle: string[] = [];
+  page.on('request', (requete) => {
+    if (/googletagmanager\.com|google-analytics\.com/.test(requete.url())) versGoogle.push(requete.url());
+  });
   await page.goto('/');
   await attendreBandeauCookies(page);
-  const chargement = page.waitForRequest(/googletagmanager\.com\/gtag\/js/);
   await page.locator('#tarteaucitronPersonalize2').click();
-  await chargement;
+  await page.goto('/a-propos');
+  await page.waitForTimeout(1000);
+  expect(versGoogle).toEqual([]);
 });
 
 test('Matomo se charge une fois les cookies acceptés', async ({ page }) => {
