@@ -9,6 +9,10 @@
 parameters:
     # Adresse qui reçoit les demandes de partenariat (surchargée par CONTACT_EMAIL)
     default_contact_email: 'contact@bondiz.fr'
+    # Nom affiché comme expéditeur des mails (surchargé par MAILER_FROM_NAME)
+    default_mail_from_name: 'Support Bondiz'
+    # Transport des mails si aucun secret MAILER_DSN n'est disponible (aucun envoi)
+    default_mailer_dsn: 'null://null'
 
 services:
     # default configuration for services in *this* file

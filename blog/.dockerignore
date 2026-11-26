@@ -1,0 +1,4 @@
+# Ne jamais mettre la clé de déchiffrement dans le dépôt Git
+config/secrets/prod/prod.decrypt.private.php
+var
+vendor

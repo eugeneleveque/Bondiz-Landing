@@ -29,6 +29,9 @@ services:
       APP_DEBUG: 0
       APP_SECRET: ${APP_SECRET:-change-me-in-production}
       DEFAULT_URI: ${DEFAULT_URI:-http://localhost:3012}
+      SYMFONY_DECRYPTION_SECRET: ${SYMFONY_DECRYPTION_SECRET:-}
+      CONTACT_EMAIL: ${CONTACT_EMAIL:-contact@bondiz.fr}
+      MAILER_FROM_NAME: ${MAILER_FROM_NAME:-Support Bondiz}
       DATABASE_URL: "mysql://${MYSQL_USER:-app}:${MYSQL_PASSWORD:-app}@database:3306/${MYSQL_DATABASE:-app}?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
       # Strapi lancé sur la machine hôte (npm run develop dans strapi-mydsu)
       STRAPI_URL: ${STRAPI_URL:-http://host.docker.internal:1337}

@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -29,6 +30,7 @@ class BecomePartnerController extends AbstractController
         MailerInterface $mailer,
         LoggerInterface $logger,
         #[Autowire('%env(default:default_contact_email:CONTACT_EMAIL)%')] string $contactEmail,
+        #[Autowire('%env(default:default_mail_from_name:MAILER_FROM_NAME)%')] string $fromName,
     ): Response {
         $partnershipRequest = new PartnershipRequest();
         $form = $this->createForm(PartnershipRequestType::class, $partnershipRequest);
@@ -39,7 +41,7 @@ class BecomePartnerController extends AbstractController
             if ('' === trim((string) $form->get('website')->getData())) {
                 $entityManager->persist($partnershipRequest);
                 $entityManager->flush();
-                $this->notifyTeam($partnershipRequest, $mailer, $logger, $contactEmail);
+                $this->notifyTeam($partnershipRequest, $mailer, $logger, $contactEmail, $fromName);
             }
 
             $this->addFlash('success', 'Merci ! Votre demande a bien été envoyée. Nous revenons vers vous très vite.');
@@ -53,10 +55,10 @@ class BecomePartnerController extends AbstractController
     }
 
     /** L'envoi est un bonus : la demande est déjà enregistrée en base. */
-    private function notifyTeam(PartnershipRequest $partnershipRequest, MailerInterface $mailer, LoggerInterface $logger, string $contactEmail): void
+    private function notifyTeam(PartnershipRequest $partnershipRequest, MailerInterface $mailer, LoggerInterface $logger, string $contactEmail, string $fromName): void
     {
         $email = (new Email())
-            ->from($contactEmail)
+            ->from(new Address($contactEmail, $fromName))
             ->to($contactEmail)
             ->replyTo($partnershipRequest->getEmail())
             ->subject(\sprintf('Nouvelle demande de partenariat : %s', $partnershipRequest->getEstablishmentName()))
@@ -71,10 +73,26 @@ class BecomePartnerController extends AbstractController
                 (string) $partnershipRequest->getMessage(),
             ]));
 
-        try {
-            $mailer->send($email);
-        } catch (TransportExceptionInterface $exception) {
-            $logger->warning('Demande de partenariat enregistrée, mais e-mail non envoyé.', ['exception' => $exception]);
+        $confirmation = (new Email())
+            ->from(new Address($contactEmail, $fromName))
+            ->to($partnershipRequest->getEmail())
+            ->replyTo($contactEmail)
+            ->subject('Bondiz : nous avons bien reçu votre demande de partenariat')
+            ->text(implode("\n", [
+                'Bonjour '.$partnershipRequest->getContactName().',',
+                '',
+                \sprintf("Merci pour votre demande de partenariat pour %s. Nous l'avons bien reçue et revenons vers vous très vite.", $partnershipRequest->getEstablishmentName()),
+                '',
+                'Cordialement,',
+                "L'équipe Bondiz",
+            ]));
+
+        foreach ([$email, $confirmation] as $message) {
+            try {
+                $mailer->send($message);
+            } catch (TransportExceptionInterface $exception) {
+                $logger->warning('Demande de partenariat enregistrée, mais e-mail non envoyé.', ['exception' => $exception]);
+            }
         }
     }
 }

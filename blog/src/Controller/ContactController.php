@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -29,6 +30,7 @@ class ContactController extends AbstractController
         MailerInterface $mailer,
         LoggerInterface $logger,
         #[Autowire('%env(default:default_contact_email:CONTACT_EMAIL)%')] string $contactEmail,
+        #[Autowire('%env(default:default_mail_from_name:MAILER_FROM_NAME)%')] string $fromName,
     ): Response {
         $contactMessage = new ContactMessage();
         $form = $this->createForm(ContactMessageType::class, $contactMessage);
@@ -39,7 +41,7 @@ class ContactController extends AbstractController
             if ('' === trim((string) $form->get('website')->getData())) {
                 $entityManager->persist($contactMessage);
                 $entityManager->flush();
-                $this->notifyTeam($contactMessage, $mailer, $logger, $contactEmail);
+                $this->notifyTeam($contactMessage, $mailer, $logger, $contactEmail, $fromName);
             }
 
             $this->addFlash('success', 'Merci ! Votre message a bien été envoyé. Nous vous répondrons dans les plus brefs délais.');
@@ -54,10 +56,10 @@ class ContactController extends AbstractController
     }
 
     /** L'envoi est un bonus : le message est déjà enregistré en base. */
-    private function notifyTeam(ContactMessage $contactMessage, MailerInterface $mailer, LoggerInterface $logger, string $contactEmail): void
+    private function notifyTeam(ContactMessage $contactMessage, MailerInterface $mailer, LoggerInterface $logger, string $contactEmail, string $fromName): void
     {
         $email = (new Email())
-            ->from($contactEmail)
+            ->from(new Address($contactEmail, $fromName))
             ->to($contactEmail)
             ->replyTo($contactMessage->getEmail())
             ->subject('[Contact] '.$contactMessage->getSubject())

@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Secrets locaux (MAILER_DSN, etc.)
+/.env
+/.gitattributes
