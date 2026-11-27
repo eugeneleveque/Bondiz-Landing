@@ -2,7 +2,6 @@
 
 namespace App\Partner;
 
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
@@ -39,8 +38,7 @@ class PublicPartners
     public function __construct(
         private readonly HttpClientInterface $strapiClient,
         private readonly CacheInterface $cache,
-        #[Autowire('%env(default::STRAPI_PUBLIC_URL)%')]
-        private readonly ?string $strapiPublicUrl = null,
+        private readonly StrapiMedia $media,
     ) {
     }
 
@@ -96,35 +94,15 @@ class PublicPartners
             return null;
         }
 
+        // « coverImage » accepte plusieurs photos : la première illustre la carte.
         return [
             'name' => $name,
-            'logo' => $this->absoluteUrl($partner['logo']['url'] ?? null),
+            'logo' => $this->media->url($partner['logo']['url'] ?? null),
             'logoAlt' => $partner['logo']['alternativeText'] ?? 'Logo de '.$name,
-            'photo' => $this->absoluteUrl($partner['coverImage']['url'] ?? null),
+            'photo' => $this->media->url($partner['coverImage'][0]['url'] ?? null),
             'category' => self::CATEGORIES[$partner['category'] ?? ''] ?? null,
             'city' => $partner['city'] ?? null,
         ];
-    }
-
-    /**
-     * Les fichiers stockés par Strapi lui-même ont une adresse relative
-     * (/uploads/...), à préfixer par son adresse publique.
-     */
-    private function absoluteUrl(?string $url): ?string
-    {
-        if (null === $url || '' === $url) {
-            return null;
-        }
-
-        if (str_starts_with($url, 'http://') || str_starts_with($url, 'https://')) {
-            return $url;
-        }
-
-        if (!$this->strapiPublicUrl) {
-            return null;
-        }
-
-        return rtrim($this->strapiPublicUrl, '/').'/'.ltrim($url, '/');
     }
 
     /**

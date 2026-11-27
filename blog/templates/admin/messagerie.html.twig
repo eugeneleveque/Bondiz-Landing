@@ -1,0 +1,30 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}Messagerie partenaires{% endblock %}
+{% block content_title %}Messagerie partenaires{% endblock %}
+
+{% block main %}
+	{% if erreur %}
+		<div class="alert alert-danger" role="alert">{{ erreur }}</div>
+	{% else %}
+		<div class="table-responsive">
+			<table class="table datagrid">
+				<thead>
+					<tr><th>Établissement</th><th>Dernier message</th><th>Date</th><th>Non lus</th></tr>
+				</thead>
+				<tbody>
+					{% for conversation in conversations %}
+						<tr>
+							<td><a href="{{ path('admin_partner_thread', {documentId: conversation.documentId}) }}">{{ conversation.name }}</a></td>
+							<td>{{ conversation.lastMessage.fromTeam ? 'Vous : ' }}{{ conversation.lastMessage.content|length > 80 ? conversation.lastMessage.content|slice(0, 80) ~ '…' : conversation.lastMessage.content }}</td>
+							<td>{{ conversation.lastMessage.createdAt|date('d/m/Y H:i', 'Europe/Paris') }}</td>
+							<td>{% if conversation.unread %}<span class="badge badge-warning">{{ conversation.unread }}</span>{% else %}—{% endif %}</td>
+						</tr>
+					{% else %}
+						<tr><td colspan="4">Aucun message. Pour écrire à un partenaire, passez par <a href="{{ path('admin_partners') }}">la liste des partenaires</a>.</td></tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% endif %}
+{% endblock %}

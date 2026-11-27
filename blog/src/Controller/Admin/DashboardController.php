@@ -68,6 +68,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Catégories', 'fas fa-tags', Category::class);
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
         yield MenuItem::linkToRoute('Partenaires', 'fas fa-store', 'admin_partners');
+        yield MenuItem::linkToRoute('Messagerie partenaires', 'fas fa-comments', 'admin_partner_messages');
         yield MenuItem::linkToCrud('Demandes de partenariat', 'fas fa-handshake', PartnershipRequest::class);
         yield MenuItem::linkToCrud('Messages de contact', 'fas fa-envelope', ContactMessage::class);
         yield MenuItem::linkToRoute('Retour au site', 'fas fa-arrow-left', 'app_home');

@@ -3,6 +3,8 @@
 namespace App\Partner;
 
 use App\Security\PartnerUser;
+use Symfony\Component\Mime\Part\DataPart;
+use Symfony\Component\Mime\Part\Multipart\FormDataPart;
 use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -68,6 +70,55 @@ class PartnerApi
     public function deleteActivity(PartnerUser $partner, string $documentId): void
     {
         $this->request('DELETE', $this->activityPath($documentId), $partner);
+    }
+
+    /**
+     * Fiche de l'établissement, telle que le partenaire peut la modifier.
+     *
+     * @return array<string, mixed>
+     */
+    public function getProfile(PartnerUser $partner): array
+    {
+        return $this->request('GET', '/api/partner-portal/profile', $partner)['data'];
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public function updateProfile(PartnerUser $partner, array $data): void
+    {
+        $this->request('PUT', '/api/partner-portal/profile', $partner, ['json' => ['data' => $data]]);
+    }
+
+    public function addPhoto(PartnerUser $partner, string $path, string $filename): void
+    {
+        $form = new FormDataPart(['photo' => DataPart::fromPath($path, $filename)]);
+
+        $this->request('POST', '/api/partner-portal/photos', $partner, [
+            'headers' => $form->getPreparedHeaders()->toArray(),
+            'body' => $form->bodyToIterable(),
+            'timeout' => 60,
+        ]);
+    }
+
+    public function deletePhoto(PartnerUser $partner, int $id): void
+    {
+        $this->request('DELETE', '/api/partner-portal/photos/'.$id, $partner);
+    }
+
+    /**
+     * Fil de discussion avec l'équipe, du plus ancien au plus récent.
+     *
+     * @return list<array<string, mixed>>
+     */
+    public function listMessages(PartnerUser $partner): array
+    {
+        return $this->request('GET', '/api/partner-portal/messages', $partner)['data'];
+    }
+
+    public function sendMessage(PartnerUser $partner, string $content): void
+    {
+        $this->request('POST', '/api/partner-portal/messages', $partner, ['json' => ['data' => ['content' => $content]]]);
     }
 
     private function activityPath(string $documentId): string

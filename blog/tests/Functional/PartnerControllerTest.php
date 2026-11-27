@@ -261,4 +261,108 @@ final class PartnerControllerTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
     }
+
+    private function simulerLaFiche(array $autres = []): void
+    {
+        $this->strapi->reponses['GET /api/partner-portal/profile'] = self::json(['data' => $autres + [
+            'documentId' => 'p1',
+            'name' => 'Le Bar Test',
+            'address' => '1 rue du Test',
+            'postalCode' => '49000',
+            'city' => 'Angers',
+            'phone' => '0612345678',
+            'website' => null,
+            'description' => '<script>alert(1)</script>',
+            'openingHours' => ['friday' => '18h – 2h'],
+            'photos' => [['id' => 7, 'url' => 'https://images.test/a.jpg']],
+        ]]);
+        $this->strapi->reponses['GET /api/partner-portal/activities'] = self::json(['data' => []]);
+    }
+
+    public function testLaFicheAfficheLesDonneesEchappees(): void
+    {
+        $this->connecter();
+        $this->simulerLaFiche();
+
+        $this->client->request('GET', '/partenaires/etablissement');
+
+        self::assertSelectorTextContains('.bz-horaires', '18h – 2h');
+        self::assertSelectorExists('.bz-photo img[src="https://images.test/a.jpg"]');
+        self::assertStringNotContainsString('<script>alert(1)</script>', (string) $this->client->getResponse()->getContent());
+    }
+
+    public function testModificationDeLaFiche(): void
+    {
+        $this->connecter();
+        $this->simulerLaFiche(['description' => 'Un bar.']);
+        $this->strapi->reponses['PUT /api/partner-portal/profile'] = self::json(['data' => []]);
+
+        $crawler = $this->client->request('GET', '/partenaires/etablissement/modifier');
+        self::assertResponseIsSuccessful();
+        $this->client->submit($crawler->selectButton('Enregistrer')->form(['establishment[monday]' => 'Fermé']));
+
+        self::assertResponseRedirects('/partenaires/etablissement');
+        $envoi = $this->strapi->requetes('PUT')[0]['body']['data'];
+        self::assertSame('Fermé', $envoi['openingHours']['monday']);
+        self::assertSame('18h – 2h', $envoi['openingHours']['friday']);
+        self::assertSame('Un bar.', $envoi['description']);
+    }
+
+    public function testAjoutEtSuppressionDUnePhoto(): void
+    {
+        $this->connecter();
+        $this->simulerLaFiche();
+        $this->strapi->reponses['POST /api/partner-portal/photos'] = self::json(['data' => []], 201);
+        $this->strapi->reponses['DELETE /api/partner-portal/photos/7'] = self::json(['data' => []]);
+
+        $image = tempnam(sys_get_temp_dir(), 'photo').'.png';
+        file_put_contents($image, base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='));
+
+        $crawler = $this->client->request('GET', '/partenaires/etablissement');
+        $formulaire = $crawler->selectButton('Envoyer')->form();
+        $formulaire['partner_photo[photo]']->upload($image);
+        $this->client->submit($formulaire);
+        self::assertResponseRedirects('/partenaires/etablissement');
+        self::assertCount(1, $this->strapi->requetes('POST'));
+
+        $crawler = $this->client->followRedirect();
+        $this->client->submit($crawler->filter('.bz-photo form')->form());
+        self::assertCount(1, $this->strapi->requetes('DELETE'));
+        unlink($image);
+    }
+
+    public function testUnFichierQuiNEstPasUneImageNEstPasTransmis(): void
+    {
+        $this->connecter();
+        $this->simulerLaFiche();
+
+        $fichier = tempnam(sys_get_temp_dir(), 'texte').'.png';
+        file_put_contents($fichier, 'pas une image');
+
+        $crawler = $this->client->request('GET', '/partenaires/etablissement');
+        $formulaire = $crawler->selectButton('Envoyer')->form();
+        $formulaire['partner_photo[photo]']->upload($fichier);
+        $this->client->submit($formulaire);
+
+        self::assertSame([], $this->strapi->requetes('POST'));
+        $this->client->followRedirect();
+        self::assertSelectorTextContains('.bz-alerte--erreur', 'Formats acceptés');
+        unlink($fichier);
+    }
+
+    public function testEnvoiDUnMessage(): void
+    {
+        $this->connecter();
+        $this->strapi->reponses['GET /api/partner-portal/messages'] = self::json(['data' => [
+            ['content' => 'Bien reçu', 'fromTeam' => true, 'createdAt' => '2026-11-27T10:00:00.000Z'],
+        ]]);
+        $this->strapi->reponses['POST /api/partner-portal/messages'] = self::json(['data' => []], 201);
+
+        $crawler = $this->client->request('GET', '/partenaires/messages');
+        self::assertSelectorTextContains('.bz-discussion__fil', 'Bien reçu');
+        $this->client->submit($crawler->filter('form.bz-discussion__saisie')->form(['message' => 'Bonjour']));
+
+        self::assertResponseRedirects('/partenaires/messages');
+        self::assertSame(['content' => 'Bonjour'], $this->strapi->requetes('POST')[0]['body']['data']);
+    }
 }

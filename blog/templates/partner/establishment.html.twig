@@ -5,10 +5,8 @@
 {% block title %}Mon établissement - Espace partenaire Bondiz{% endblock %}
 
 {#
-	Strapi ne transmet pour l'instant que le nom, la catégorie, la ville et le
-	statut du partenaire. L'adresse, les photos, les horaires et la description
-	sont affichés « à compléter » : les modifications passent par l'équipe
-	Bondiz (lien « Nous contacter »).
+	Le partenaire modifie lui-même ses coordonnées, ses horaires, sa description
+	et ses photos. Le nom et la catégorie restent gérés par l'équipe Bondiz.
 #}
 {% block contenu %}
 	{% set partenaire = app.user %}
@@ -22,7 +20,7 @@
 		pending: { libelle: 'En attente de validation', classe: 'grise' },
 	} %}
 	{% set statut = statuts[partenaire.state] ?? null %}
-	{% set modifier = path('app_contact') %}
+	{% set modifier = path('app_partner_establishment_edit') %}
 	{% set a_completer %}<span class="bz-a-completer">À compléter</span>{% endset %}
 
 	<div class="bz-espace__titre">
@@ -31,8 +29,9 @@
 	</div>
 
 	<section class="bz-panneau bz-fiche">
-		<div class="bz-fiche__photo" aria-hidden="true">
-			<img src="{{ asset('images/brand/logo-fantome.svg') }}" alt="">
+		{% set couverture = photos|first %}
+		<div class="bz-fiche__photo{{ couverture and couverture.url ? ' bz-fiche__photo--image' }}" aria-hidden="true">
+			<img src="{{ couverture and couverture.url ? couverture.url : asset('images/brand/logo-fantome.svg') }}" alt="">
 		</div>
 
 		<div class="bz-fiche__infos">
@@ -45,12 +44,17 @@
 			<ul class="bz-fiche__details">
 				<li>
 					<img src="{{ asset('images/espace-partenaire/localisation.png') }}" alt="Adresse">
-					{{ partenaire.city ?: a_completer }}
+					{% set adresse = [fiche.address|default(''), (fiche.postalCode|default('') ~ ' ' ~ fiche.city|default(''))|trim]|filter(v => v)|join(', ') %}
+					{{ adresse ?: a_completer }}
 				</li>
 				<li>
 					<img src="{{ asset('images/espace-partenaire/etiquette.png') }}" alt="Catégorie">
 					{{ categories[partenaire.category] ?? a_completer }}
 				</li>
+				{% if fiche.phone|default %}<li class="bz-fiche__contact">{{ fiche.phone matches '/^\\d{10}$/' ? fiche.phone|split('', 2)|join(' ') : fiche.phone }}</li>{% endif %}
+				{% if fiche.website|default and fiche.website matches '#^https?://#i' %}
+					<li class="bz-fiche__contact"><a href="{{ fiche.website }}" target="_blank" rel="noopener noreferrer">{{ fiche.website }}</a></li>
+				{% endif %}
 			</ul>
 			<a href="{{ modifier }}" class="bz-bouton-contour bz-bouton-contour--grand">
 				<img src="{{ asset('images/espace-partenaire/crayon.png') }}" alt="">
@@ -82,14 +86,36 @@
 					<span class="bz-indicateur__rond bz-rond--violet" aria-hidden="true"><img src="{{ asset('images/espace-partenaire/image.png') }}" alt=""></span>
 					Photos de votre établissement
 				</h2>
-				<a href="{{ modifier }}" class="bz-prochaines__tous">Gérer les photos</a>
 			</div>
-			<div class="bz-photos">
-				<a href="{{ modifier }}" class="bz-photos__ajout">
-					<span aria-hidden="true">+</span>
-					Ajouter une photo
-				</a>
-			</div>
+
+			{% if photos %}
+				<ul class="bz-photos">
+					{% for photo in photos %}
+						<li class="bz-photo">
+							{% if photo.url %}
+								<img src="{{ photo.url }}" alt="Photo {{ loop.index }}" loading="lazy">
+							{% else %}
+								<span class="bz-a-completer">Aperçu indisponible</span>
+							{% endif %}
+							<form method="post" action="{{ path('app_partner_photo_delete', {id: photo.id}) }}">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete-photo-' ~ photo.id) }}">
+								<button type="submit" class="bz-photo__supprimer" aria-label="Supprimer la photo {{ loop.index }}">×</button>
+							</form>
+						</li>
+					{% endfor %}
+				</ul>
+				<p class="bz-photos__note">La première photo illustre votre établissement sur le site.</p>
+			{% endif %}
+
+			{% if photos|length < 8 %}
+				{{ form_start(formulairePhoto, {attr: {class: 'bz-envoi-photo'}}) }}
+					{{ form_label(formulairePhoto.photo) }}
+					{{ form_widget(formulairePhoto.photo) }}
+					<button type="submit" class="bz-bouton-violet">Envoyer</button>
+				{{ form_end(formulairePhoto) }}
+			{% else %}
+				<p class="bz-photos__note">Vous avez atteint la limite de 8 photos.</p>
+			{% endif %}
 		</section>
 
 		<section class="bz-panneau bz-bloc-fiche">
@@ -98,15 +124,15 @@
 					<span class="bz-indicateur__rond bz-rond--rose" aria-hidden="true"><img src="{{ asset('images/espace-partenaire/horloge.png') }}" alt=""></span>
 					Horaires d’ouverture
 				</h2>
-				<a href="{{ modifier }}" class="bz-prochaines__tous">Modifier</a>
+				<a href="{{ modifier }}#horaires" class="bz-prochaines__tous">Modifier</a>
 			</div>
 			<table class="bz-horaires">
 				<caption class="bz-visuellement-cache">Horaires d’ouverture</caption>
 				<tbody>
-					{% for jour in ['Lundi', 'Mardi - Vendredi', 'Samedi', 'Dimanche'] %}
+					{% for cle, jour in jours %}
 						<tr>
 							<th scope="row">{{ jour }}</th>
-							<td>{{ a_completer }}</td>
+							<td>{{ fiche.openingHours[cle]|default ?: a_completer }}</td>
 						</tr>
 					{% endfor %}
 				</tbody>
@@ -121,7 +147,11 @@
 				</h2>
 				<a href="{{ modifier }}" class="bz-prochaines__tous">Modifier</a>
 			</div>
-			<p class="bz-bloc-fiche__texte">Présentez votre établissement aux utilisateurs de Bondiz : ce qu’on y fait, l’ambiance, ce qui le rend unique. Envoyez-nous votre texte, nous l’ajoutons à votre fiche.</p>
+			{% if fiche.description|default %}
+				<p class="bz-bloc-fiche__texte">{{ fiche.description|nl2br }}</p>
+			{% else %}
+				<p class="bz-bloc-fiche__texte bz-a-completer">Présentez votre établissement aux utilisateurs de Bondiz : ce qu’on y fait, l’ambiance, ce qui le rend unique.</p>
+			{% endif %}
 		</section>
 
 		{{ espace.aide() }}

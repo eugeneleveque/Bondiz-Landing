@@ -37,7 +37,8 @@
 							<td>{{ partenaire.email }}</td>
 							<td>{{ partenaire.city }}</td>
 							<td>{{ etats[partenaire.states]|default('—') }}</td>
-							<td>
+							<td class="bz-actions-partenaire">
+								<a href="{{ path('admin_partner_thread', {documentId: partenaire.documentId}) }}" class="btn btn-secondary btn-sm">Écrire</a>
 								<form method="post" action="{{ path('admin_partners_state', {documentId: partenaire.documentId}) }}">
 									<input type="hidden" name="_token" value="{{ csrf_token('partenaire-etat') }}">
 									{% if partenaire.states == 'active' %}
@@ -54,6 +55,6 @@
 				</tbody>
 			</table>
 		</div>
-		<p class="text-muted">Suspendre bloque la connexion du partenaire. Logo, photos et autres informations se modifient dans Strapi.</p>
+		<p class="text-muted">Suspendre bloque la connexion du partenaire. Chaque partenaire complète sa fiche et ses photos depuis son espace ; le logo et le nom se modifient dans Strapi.</p>
 	{% endif %}
 {% endblock %}
