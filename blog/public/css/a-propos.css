@@ -360,3 +360,41 @@
         margin-bottom: 24px;
     }
 }
+
+/* ─── Animation du dialogue ───────────────────────────────────────────────
+ * Le fantôme flotte et les bulles arrivent l'une après l'autre, comme une
+ * conversation. « translate » et « scale » n'écrasent pas les « transform »
+ * éventuels des règles d'adaptation aux petits écrans.
+ */
+@media (prefers-reduced-motion: no-preference) {
+    .bz-dialogue__fantome {
+        animation: bz-flotte 3.6s ease-in-out infinite;
+    }
+
+    .bz-bulle {
+        transform-origin: left center;
+        animation: bz-bulle-arrive 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    .bz-bulle--1 { animation-delay: 0.4s; }
+    .bz-bulle--2 { animation-delay: 1.4s; }
+    .bz-bulle--3 { animation-delay: 2.6s; }
+
+    /* Posée par js/animations.js tant que le dialogue n'est pas à l'écran */
+    .bz-dialogue--attente .bz-bulle {
+        animation-play-state: paused;
+    }
+}
+
+@keyframes bz-flotte {
+    0%, 100% { translate: 0 0; rotate: -2deg; }
+    50% { translate: 0 -14px; rotate: 2deg; }
+}
+
+@keyframes bz-bulle-arrive {
+    from {
+        opacity: 0;
+        scale: 0.6;
+        translate: 0 12px;
+    }
+}

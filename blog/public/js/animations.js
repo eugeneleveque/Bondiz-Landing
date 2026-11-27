@@ -69,6 +69,19 @@
         observateur.observe(element);
     });
 
+    // Bulles de dialogue (page « À propos ») : elles attendent d'être à l'écran.
+    const dialogue = document.querySelector('.bz-dialogue');
+    if (dialogue) {
+        dialogue.classList.add('bz-dialogue--attente');
+        const guetteur = new IntersectionObserver(([entree]) => {
+            if (entree.isIntersecting) {
+                dialogue.classList.remove('bz-dialogue--attente');
+                guetteur.disconnect();
+            }
+        }, { threshold: 0.6 });
+        guetteur.observe(dialogue);
+    }
+
     // Navigation au clavier : un élément qui reçoit le focus s'affiche aussitôt.
     document.addEventListener('focusin', (evenement) => {
         const cache = evenement.target.closest('.bz-a-reveler');
