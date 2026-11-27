@@ -228,7 +228,8 @@
         display: block;
         width: min(560px, 90%);
         height: auto;
-        margin: 0 auto -60px;
+        /* Chevauchement plus petit que la marge haute de la carte, sinon le titre est masqué */
+        margin: 0 auto -20px;
     }
 }
 

@@ -665,7 +665,7 @@ body {
     }
 
     .bz-heros__contenu {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
         justify-items: center;
     }
 
@@ -710,6 +710,13 @@ body {
 }
 
 @media (max-width: 560px) {
+    /* Les mots longs des grands titres (« CONFIDENTIALITÉ ») tiennent à l'écran */
+    :root {
+        --bz-taille-accroche: min(2.25rem, 7.8vw);
+        --bz-taille-accroche-forte: min(2.6rem, 8.4vw);
+        --bz-interligne-accroche: min(3rem, 10.5vw);
+    }
+
     .bz-pied__colonnes {
         grid-template-columns: 1fr;
     }

@@ -208,6 +208,25 @@
     object-fit: cover;
 }
 
+/* Écran plus étroit que la maquette : la photo se réduit au lieu d'être coupée */
+@media (min-width: 1241px) and (max-width: 1440px) {
+    .bz-equipe__texte {
+        max-width: 52%;
+    }
+
+    .bz-equipe .bz-titre {
+        width: auto;
+    }
+
+    .bz-equipe__photo {
+        left: auto;
+        right: 0;
+        width: 46%;
+        height: auto;
+        aspect-ratio: 666 / 416;
+    }
+}
+
 /* ─── Conclusion (bloc 4) ─────────────────────────────────────────────── */
 
 .bz-conclusion {
