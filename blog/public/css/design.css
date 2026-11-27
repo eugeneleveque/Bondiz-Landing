@@ -749,3 +749,33 @@ body {
         white-space: normal;
     }
 }
+
+/* ─── En-tête connecté ────────────────────────────────────────────────────
+ * « Admin » et « Déconnexion » s'ajoutent : la navigation se resserre, puis
+ * passe à la ligne, au lieu de pousser le dernier lien hors de l'écran.
+ */
+@media (min-width: 901px) {
+    .bz-entete:has(.bz-entete__deconnexion) .bz-entete__contenu {
+        gap: 20px;
+    }
+
+    .bz-entete:has(.bz-entete__deconnexion) .bz-nav {
+        gap: 22px;
+    }
+
+    .bz-entete:has(.bz-entete__deconnexion) .bz-nav__lien {
+        font-size: var(--bz-taille-texte);
+    }
+}
+
+@media (min-width: 901px) and (max-width: 1150px) {
+    .bz-entete:has(.bz-entete__deconnexion) .bz-entete__contenu {
+        flex-wrap: wrap;
+        row-gap: 16px;
+    }
+
+    .bz-entete:has(.bz-entete__deconnexion) .bz-nav {
+        order: 3;
+        width: 100%;
+    }
+}

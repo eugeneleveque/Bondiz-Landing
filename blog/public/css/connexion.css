@@ -1,0 +1,66 @@
+/* Page de connexion de l'administration : une carte blanche centrée. */
+
+.bz-connexion {
+    padding: 64px var(--bz-marge-page) 0;
+}
+
+.bz-connexion__carte {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    padding: 40px;
+    background: var(--bz-blanc);
+    border-radius: var(--bz-rayon-carte);
+    box-shadow: var(--bz-ombre-carte);
+}
+
+.bz-connexion__champ {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-weight: var(--bz-graisse-demi);
+    color: var(--bz-noir);
+}
+
+.bz-connexion__champ input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 48px;
+    padding: 0 18px;
+    border: 1px solid var(--bz-bordure);
+    border-radius: var(--bz-rayon-pilule);
+    font: inherit;
+    font-weight: var(--bz-graisse-normale);
+}
+
+.bz-connexion__champ input:focus-visible {
+    outline: 3px solid var(--bz-violet);
+    outline-offset: 2px;
+}
+
+.bz-connexion__erreur {
+    margin: 0;
+    padding: 12px 16px;
+    background: #fdecec;
+    border-radius: var(--bz-rayon-vignette);
+    color: #a30d0d;
+}
+
+.bz-connexion .bz-bouton {
+    width: 100%;
+    margin-top: 4px;
+}
+
+@media (max-width: 560px) {
+    .bz-connexion {
+        padding: 32px 16px 0;
+    }
+
+    .bz-connexion__carte {
+        padding: 28px 20px;
+    }
+}

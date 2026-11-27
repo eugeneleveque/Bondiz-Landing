@@ -2,36 +2,33 @@
 
 {% block title %}{{ 'login.title'|trans({}, 'messages') }}{% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/connexion.css') }}">
+{% endblock %}
+
 {% block body %}
-<div class="container" style="margin-top: 5rem; max-width: 500px;">
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+	<main class="bz-principal bz-connexion">
+		<form method="post" class="bz-connexion__carte">
+			<h1 class="bz-titre">{{ 'login.header'|trans({}, 'messages') }}</h1>
 
-        <h1 class="h3 mb-3 font-weight-normal" style="margin-bottom: 2rem;">{{ 'login.header'|trans({}, 'messages') }}</h1>
-        
-        <div style="margin-bottom: 1.5rem;">
-            <label for="username" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">{{ 'form.email'|trans({}, 'messages') }}</label>
-            <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 0.5rem;">
-        </div>
+			{% if error %}
+				<p class="bz-connexion__erreur" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+			{% endif %}
 
-        <div style="margin-bottom: 2rem;">
-            <label for="password" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">{{ 'form.password'|trans({}, 'messages') }}</label>
-            <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 0.5rem;">
-        </div>
+			<label class="bz-connexion__champ">
+				{{ 'form.email'|trans({}, 'messages') }}
+				<input type="email" name="_username" id="username" value="{{ last_username }}" autocomplete="email" required autofocus>
+			</label>
 
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('authenticate') }}"
-        >
+			<label class="bz-connexion__champ">
+				{{ 'form.password'|trans({}, 'messages') }}
+				<input type="password" name="_password" id="password" autocomplete="current-password" required>
+			</label>
 
-        <button class="btn btn-primary" type="submit" style="width: 100%; margin-bottom: 1.5rem;">
-            {{ 'login.submit'|trans({}, 'messages') }}
-        </button>
-        
-        <div style="text-align: center;">
-            <p>{{ 'login.register_prompt'|trans({}, 'messages') }} <a href="{{ path('app_register') }}" style="color: var(--primary); text-decoration: none; font-weight: 600;">{{ 'login.register_link'|trans({}, 'messages') }}</a></p>
-        </div>
-    </form>
-</div>
+			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+			<button type="submit" class="bz-bouton bz-bouton--jaune">{{ 'login.submit'|trans({}, 'messages') }}</button>
+		</form>
+	</main>
 {% endblock %}
