@@ -57,6 +57,28 @@ class PartnerAdminApi
         ]);
     }
 
+    /** @return list<array<string, mixed>> une ligne par partenaire ayant des messages */
+    public function conversations(): array
+    {
+        return $this->request('GET', '/api/partner-admin/conversations');
+    }
+
+    /** @return array{partner: array<string, mixed>, messages: list<array<string, mixed>>} */
+    public function thread(string $documentId): array
+    {
+        return $this->request('GET', $this->messagesPath($documentId));
+    }
+
+    public function reply(string $documentId, string $content): void
+    {
+        $this->request('POST', $this->messagesPath($documentId), ['json' => ['data' => ['content' => $content]]]);
+    }
+
+    private function messagesPath(string $documentId): string
+    {
+        return '/api/partner-admin/partners/'.rawurlencode($documentId).'/messages';
+    }
+
     /**
      * @param array<string, mixed> $options
      *

@@ -112,6 +112,62 @@ class PartnerAdminController extends AbstractController
         return $this->redirectToRoute('admin_partners');
     }
 
+    /** Boîte de réception : les partenaires qui ont des messages. */
+    #[AdminRoute(path: '/partenaires/messages', name: 'partner_messages', options: ['methods' => ['GET']])]
+    public function conversations(): Response
+    {
+        $conversations = [];
+        $erreur = null;
+        try {
+            $conversations = $this->api->conversations();
+        } catch (PartnerApiException $exception) {
+            $erreur = $exception->getMessage();
+        }
+
+        return $this->render('admin/messagerie.html.twig', [
+            'conversations' => $conversations,
+            'erreur' => $erreur,
+        ]);
+    }
+
+    #[AdminRoute(path: '/partenaires/{documentId}/messages', name: 'partner_thread', options: ['methods' => ['GET', 'POST']])]
+    public function thread(string $documentId, Request $request): Response
+    {
+        $brouillon = '';
+
+        if ($request->isMethod('POST')) {
+            $brouillon = trim($request->request->getString('message'));
+
+            if (!$this->isCsrfTokenValid('partenaire-message', $request->request->getString('_token'))) {
+                $this->addFlash('danger', 'La page a expiré, réessayez.');
+            } elseif ('' === $brouillon) {
+                $this->addFlash('danger', 'Le message est vide.');
+            } else {
+                try {
+                    $this->api->reply($documentId, $brouillon);
+
+                    return $this->redirectToRoute('admin_partner_thread', ['documentId' => $documentId]);
+                } catch (PartnerApiException $exception) {
+                    $this->addFlash('danger', $exception->getMessage());
+                }
+            }
+        }
+
+        try {
+            $fil = $this->api->thread($documentId);
+        } catch (PartnerApiException $exception) {
+            $this->addFlash('danger', $exception->getMessage());
+
+            return $this->redirectToRoute('admin_partner_messages');
+        }
+
+        return $this->render('admin/conversation.html.twig', [
+            'partenaire' => $fil['partner'],
+            'messages' => $fil['messages'],
+            'brouillon' => $brouillon,
+        ]);
+    }
+
     /** @return array<string, mixed> */
     private function depuisDemande(?PartnershipRequest $demande): array
     {

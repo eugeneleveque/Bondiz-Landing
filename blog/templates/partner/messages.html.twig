@@ -2,11 +2,7 @@
 
 {% block title %}Mes messages - Espace partenaire Bondiz{% endblock %}
 
-{#
-	La messagerie n'est pas encore branchée : seule la conversation d'accueil de
-	l'équipe Bondiz est affichée, et la zone de saisie renvoie vers le
-	formulaire de contact.
-#}
+{# Un seul fil par partenaire : ses échanges avec l'équipe Bondiz. #}
 {% block contenu %}
 	{% set fantome = asset('images/brand/logo-fantome.svg') %}
 
@@ -15,64 +11,50 @@
 		<p>Retrouvez ici tous vos échanges avec l’équipe Bondiz</p>
 	</div>
 
-	<div class="bz-messagerie">
-		<section class="bz-panneau bz-conversations" aria-label="Conversations">
-			<div class="bz-conversations__haut">
-				<label class="bz-recherche">
-					<img src="{{ asset('images/espace-partenaire/recherche.png') }}" alt="">
-					<span class="bz-visuellement-cache">Rechercher une conversation</span>
-					<input type="search" placeholder="Rechercher une conversation..." disabled>
-				</label>
-				<ul class="bz-conversations__filtres">
-					<li><span class="bz-filtre-message bz-filtre-message--actif">Toutes (1)</span></li>
-					<li><span class="bz-filtre-message">Non lues (0)</span></li>
-					<li><span class="bz-filtre-message">Archivées</span></li>
-				</ul>
+	<section class="bz-panneau bz-discussion bz-discussion--seule" aria-label="Conversation avec l’équipe Bondiz">
+		<header class="bz-discussion__haut">
+			<span class="bz-avatar bz-avatar--grand bz-avatar--bondiz" aria-hidden="true"><img src="{{ fantome }}" alt=""></span>
+			<div>
+				<h2 class="bz-discussion__nom">Équipe Bondiz</h2>
+				<p class="bz-discussion__statut">Support partenaires</p>
 			</div>
+		</header>
 
-			<ul class="bz-conversations__liste">
-				<li class="bz-conversation bz-conversation--active" aria-current="true">
-					<span class="bz-avatar bz-avatar--bondiz" aria-hidden="true"><img src="{{ fantome }}" alt=""></span>
-					<div class="bz-conversation__texte">
-						<p class="bz-conversation__nom">Équipe Bondiz</p>
-						<p class="bz-conversation__apercu">Bienvenue dans votre espace partenaire&nbsp;!</p>
-					</div>
-				</li>
-			</ul>
-		</section>
-
-		<section class="bz-panneau bz-discussion" aria-label="Conversation avec l’équipe Bondiz">
-			<header class="bz-discussion__haut">
-				<span class="bz-avatar bz-avatar--grand bz-avatar--bondiz" aria-hidden="true"><img src="{{ fantome }}" alt=""></span>
+		<ol class="bz-discussion__fil">
+			<li class="bz-message">
+				<span class="bz-avatar bz-avatar--bondiz" aria-hidden="true"><img src="{{ fantome }}" alt=""></span>
 				<div>
-					<h2 class="bz-discussion__nom">Équipe Bondiz</h2>
-					<p class="bz-discussion__statut">Support partenaires</p>
+					<p class="bz-message__bulle">
+						Bonjour {{ app.user.name }}&nbsp;!<br>
+						Une question sur vos activités, vos réservations ou votre fiche&nbsp;? Écrivez-nous ici.
+					</p>
 				</div>
-			</header>
-
-			<ol class="bz-discussion__fil">
-				<li class="bz-message">
-					<span class="bz-avatar bz-avatar--bondiz" aria-hidden="true"><img src="{{ fantome }}" alt=""></span>
+			</li>
+			{% for message in messages %}
+				<li class="bz-message{{ message.fromTeam ? '' : ' bz-message--moi' }}">
+					{% if message.fromTeam %}
+						<span class="bz-avatar bz-avatar--bondiz" aria-hidden="true"><img src="{{ fantome }}" alt=""></span>
+					{% endif %}
 					<div>
-						<p class="bz-message__bulle">
-							Bonjour {{ app.user.name }}&nbsp;!<br>
-							Bienvenue dans votre espace partenaire. Une question sur vos activités, vos réservations ou votre fiche&nbsp;? L’équipe Bondiz est là pour vous aider.
+						<p class="bz-message__date">
+							{{ message.fromTeam ? 'Équipe Bondiz' : 'Vous' }} ·
+							<time datetime="{{ message.createdAt }}">{{ message.createdAt|date('d/m/Y à H:i', 'Europe/Paris') }}</time>
 						</p>
+						<p class="bz-message__bulle">{{ message.content|nl2br }}</p>
 					</div>
 				</li>
-			</ol>
+			{% endfor %}
+		</ol>
 
-			<div class="bz-discussion__saisie">
-				<p class="bz-discussion__bientot">La messagerie arrive bientôt. En attendant, écrivez-nous depuis la page contact&nbsp;: nous vous répondons par e-mail.</p>
-				<div class="bz-discussion__champ">
-					<span class="bz-discussion__piece" aria-hidden="true"><img src="{{ asset('images/espace-partenaire/trombone.png') }}" alt=""></span>
-					<label class="bz-visuellement-cache" for="message">Écrire un message</label>
-					<input id="message" type="text" placeholder="Écrire un message..." disabled>
-					<a href="{{ path('app_contact') }}" class="bz-discussion__envoyer" aria-label="Écrire à l’équipe Bondiz depuis la page contact">
-						<img src="{{ asset('images/espace-partenaire/envoyer.png') }}" alt="">
-					</a>
-				</div>
+		<form method="post" action="{{ path('app_partner_messages') }}" class="bz-discussion__saisie">
+			<input type="hidden" name="_token" value="{{ csrf_token('partner-message') }}">
+			<div class="bz-discussion__champ">
+				<label class="bz-visuellement-cache" for="message">Écrire un message</label>
+				<textarea id="message" name="message" rows="2" maxlength="2000" required placeholder="Écrire un message...">{{ brouillon }}</textarea>
+				<button type="submit" class="bz-discussion__envoyer" aria-label="Envoyer">
+					<img src="{{ asset('images/espace-partenaire/envoyer.png') }}" alt="">
+				</button>
 			</div>
-		</section>
-	</div>
+		</form>
+	</section>
 {% endblock %}

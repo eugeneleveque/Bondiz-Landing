@@ -1734,6 +1734,187 @@ a.bz-menu__lien:hover {
     margin: 0;
 }
 
+/* ─── Fiche modifiable par le partenaire ──────────────────────────────── */
+
+.bz-fiche__photo.bz-fiche__photo--image {
+    position: relative;
+    overflow: hidden;
+}
+
+.bz-fiche__photo.bz-fiche__photo--image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bz-fiche__details .bz-fiche__contact {
+    overflow-wrap: anywhere;
+}
+
+.bz-photos {
+    padding: 0;
+    list-style: none;
+}
+
+.bz-photo {
+    position: relative;
+    height: 140px;
+    overflow: hidden;
+    background: var(--bz-espace-fond-violet);
+    border-radius: var(--bz-rayon-vignette);
+}
+
+.bz-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.bz-photo form {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+}
+
+.bz-photo__supprimer {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: var(--bz-blanc);
+    border: 1px solid var(--bz-espace-trait);
+    border-radius: 50%;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: var(--bz-noir);
+    cursor: pointer;
+}
+
+.bz-photos__note {
+    margin: 12px 0 0;
+    font-size: var(--bz-taille-petite);
+    color: var(--bz-gris);
+}
+
+.bz-envoi-photo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 21px;
+    font-size: var(--bz-taille-petite);
+}
+
+.bz-envoi-photo label {
+    flex: 1 0 100%;
+    font-weight: var(--bz-graisse-demi);
+}
+
+.bz-envoi-photo input[type="file"] {
+    flex: 1 1 220px;
+    min-width: 0;
+}
+
+.bz-envoi-photo .bz-bouton-violet {
+    width: auto;
+    min-width: 0;
+    margin: 0;
+    padding: 0 28px;
+}
+
+.bz-fiche__contact a {
+    color: var(--bz-violet);
+}
+
+.bz-espace__titre p a {
+    color: inherit;
+}
+
+/* Lisible sur le fond violet */
+.bz-espace__principal > .bz-alerte--succes {
+    background: var(--bz-blanc);
+}
+
+.bz-horaires td {
+    overflow-wrap: anywhere;
+}
+
+.bz-bloc-fiche__texte {
+    overflow-wrap: anywhere;
+}
+
+.bz-saisie-horaires {
+    margin: 24px 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+}
+
+.bz-saisie-horaires legend {
+    margin-bottom: 12px;
+    font-weight: var(--bz-graisse-grasse);
+}
+
+/* ─── Messagerie ──────────────────────────────────────────────────────── */
+
+.bz-discussion--seule {
+    max-width: 820px;
+    margin-top: 44px;
+}
+
+.bz-discussion--seule .bz-discussion__fil {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-height: 560px;
+    overflow-y: auto;
+}
+
+.bz-message--moi {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.bz-message__date {
+    margin: 0 0 6px;
+    font-size: var(--bz-taille-petite);
+    line-height: normal;
+    color: var(--bz-gris);
+}
+
+.bz-message__bulle {
+    overflow-wrap: anywhere;
+    text-align: left;
+}
+
+.bz-discussion__fil .bz-message--moi .bz-message__bulle {
+    margin-left: auto;
+    background: var(--bz-espace-fond-violet);
+}
+
+.bz-discussion--seule .bz-discussion__champ {
+    grid-template-columns: minmax(0, 1fr) 65px;
+    align-items: end;
+}
+
+.bz-discussion__champ textarea {
+    min-height: 50px;
+    padding: 13px 16px;
+    box-sizing: border-box;
+    border: 1px solid var(--bz-espace-trait);
+    border-radius: var(--bz-rayon-logo);
+    font-family: var(--bz-police);
+    font-size: var(--bz-taille-petite);
+    color: var(--bz-noir);
+    resize: vertical;
+}
+
+button.bz-discussion__envoyer {
+    border: 0;
+    cursor: pointer;
+}
+
 /* ─── Adaptation aux petits écrans ─────────────────────────────────────── */
 
 @media (max-width: 900px) {
@@ -1957,8 +2138,9 @@ a.bz-menu__lien:hover {
         min-width: 0;
     }
 
-    .bz-discussion__champ {
-        grid-template-columns: 44px minmax(0, 1fr) 54px;
+    .bz-discussion__champ,
+    .bz-discussion--seule .bz-discussion__champ {
+        grid-template-columns: minmax(0, 1fr) 54px;
         gap: 8px;
     }
 

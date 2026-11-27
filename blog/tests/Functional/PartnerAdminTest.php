@@ -85,4 +85,27 @@ final class PartnerAdminTest extends WebTestCase
         self::assertResponseIsSuccessful();
         self::assertSelectorTextContains('.alert-danger', 'BLOG_API_SECRET');
     }
+
+    public function testMessagerieEtReponse(): void
+    {
+        $message = ['content' => 'Bonjour l’équipe', 'fromTeam' => false, 'createdAt' => '2026-11-27T10:00:00.000Z'];
+        $this->strapi->reponses['GET /api/partner-admin/conversations'] = self::json(['data' => [
+            ['documentId' => 'p1', 'name' => 'Le Bar Test', 'lastMessage' => $message, 'unread' => 1],
+        ]]);
+        $this->strapi->reponses['GET /api/partner-admin/partners/p1/messages'] = self::json(['data' => [
+            'partner' => ['documentId' => 'p1', 'name' => 'Le Bar Test', 'email' => 'bar@test.fr'],
+            'messages' => [$message],
+        ]]);
+        $this->strapi->reponses['POST /api/partner-admin/partners/p1/messages'] = self::json(['data' => []], 201);
+
+        $this->client->request('GET', '/admin/partenaires/messages');
+        self::assertSelectorTextContains('table', 'Bonjour l’équipe');
+
+        $crawler = $this->client->request('GET', '/admin/partenaires/p1/messages');
+        self::assertResponseIsSuccessful();
+        $this->client->submit($crawler->selectButton('Envoyer')->form(['message' => 'Bienvenue']));
+
+        self::assertResponseRedirects();
+        self::assertSame(['content' => 'Bienvenue'], $this->strapi->requetes('POST')[0]['body']['data']);
+    }
 }
