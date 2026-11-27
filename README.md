@@ -77,6 +77,10 @@ docker compose exec php php bin/console app:admin vous@exemple.fr
 
 La même commande change le mot de passe d'un compte existant. Connectez-vous ensuite sur `/login`, puis ouvrez `/admin`.
 
+## Créer des partenaires depuis l'administration
+
+L'onglet **Partenaires** de `/admin` écrit dans Strapi. Définir la même variable `BLOG_API_SECRET` (32 caractères minimum, `openssl rand -base64 32`) dans le `.env` du blog et dans celui de `strapi-mydsu`, puis redémarrer les deux. Sans elle, l'onglet affiche une erreur et l'API refuse les appels.
+
 ## CI/CD
 
 Les workflows sont dans `.github/workflows/` :

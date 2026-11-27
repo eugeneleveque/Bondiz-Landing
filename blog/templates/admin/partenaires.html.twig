@@ -1,0 +1,53 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}Partenaires{% endblock %}
+{% block content_title %}Partenaires{% endblock %}
+
+{% block page_actions %}
+	<a href="{{ path('admin_partners_new') }}" class="btn btn-primary">Créer un partenaire</a>
+{% endblock %}
+
+{% block main %}
+	{% if identifiants %}
+		<div class="alert alert-success" role="status">
+			<p><strong>{{ identifiants.name }}</strong> est créé. Notez ses identifiants maintenant : le mot de passe ne sera plus affiché.</p>
+			<p>E-mail : <code>{{ identifiants.email }}</code><br>Mot de passe : <code>{{ identifiants.password }}</code></p>
+			<p>Adresse de connexion : <code>{{ url('app_partner_login') }}</code></p>
+		</div>
+	{% endif %}
+
+	{% if erreur %}
+		<div class="alert alert-danger" role="alert">{{ erreur }}</div>
+	{% else %}
+		<div class="table-responsive">
+			<table class="table datagrid">
+				<thead>
+					<tr><th>Établissement</th><th>E-mail</th><th>Ville</th><th>État</th><th>Action</th></tr>
+				</thead>
+				<tbody>
+					{% for partenaire in partenaires %}
+						<tr>
+							<td>{{ partenaire.name }}</td>
+							<td>{{ partenaire.email }}</td>
+							<td>{{ partenaire.city }}</td>
+							<td>{{ etats[partenaire.states]|default('—') }}</td>
+							<td>
+								<form method="post" action="{{ path('admin_partners_state', {documentId: partenaire.documentId}) }}">
+									<input type="hidden" name="_token" value="{{ csrf_token('partenaire-etat') }}">
+									{% if partenaire.states == 'active' %}
+										<button name="etat" value="suspended" class="btn btn-secondary btn-sm">Suspendre</button>
+									{% else %}
+										<button name="etat" value="active" class="btn btn-primary btn-sm">Activer</button>
+									{% endif %}
+								</form>
+							</td>
+						</tr>
+					{% else %}
+						<tr><td colspan="5">Aucun partenaire pour le moment.</td></tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<p class="text-muted">Suspendre bloque la connexion du partenaire. Logo, photos et autres informations se modifient dans Strapi.</p>
+	{% endif %}
+{% endblock %}

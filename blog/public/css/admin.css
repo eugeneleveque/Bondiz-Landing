@@ -1,0 +1,293 @@
+/*
+ * Habillage Bondiz de l'administration EasyAdmin (couleurs et police du site).
+ * Les variables sont posées sur body pour primer en thème clair comme sombre.
+ */
+body {
+    --sidebar-bg: #8432fe;
+    --sidebar-border-color: transparent;
+    --sidebar-logo-color: #ffffff;
+    --sidebar-menu-color: #ffffff;
+    --sidebar-menu-icon-color: #ffffff;
+    --sidebar-menu-header-color: #e4f644;
+    --sidebar-menu-active-item-bg: #e4f644;
+    --sidebar-menu-active-item-color: #000000;
+    --color-primary: #8432fe;
+    --link-color: #8432fe;
+    --button-primary-bg: #8432fe;
+    --button-primary-hover-bg: #7120ee;
+    --button-primary-active-bg: #6417da;
+}
+
+.sidebar,
+.responsive-header ~ .sidebar,
+.sidebar-wrapper {
+    background: var(--sidebar-bg);
+    font-family: 'Poppins', var(--font-family-sans-serif);
+}
+
+/* Logo */
+.sidebar .logo,
+.sidebar .logo:hover {
+    color: var(--sidebar-logo-color);
+    text-decoration: none;
+}
+
+.bz-admin-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Poppins', var(--font-family-sans-serif);
+    font-size: 1.375rem;
+    font-weight: 900;
+}
+
+.bz-admin-logo img {
+    width: 24px;
+    height: 28px;
+}
+
+/* En-tête mobile : le logo blanc a besoin du fond violet */
+.responsive-header {
+    background: var(--sidebar-bg);
+}
+
+.responsive-header,
+.responsive-header a,
+.responsive-header #responsive-header-logo a,
+.responsive-header .bz-admin-logo,
+.responsive-header button,
+.responsive-header .user-avatar,
+.responsive-header i,
+.responsive-header svg {
+    color: #ffffff;
+}
+
+.responsive-header button:hover,
+.responsive-header button:focus {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+/* Entrées du menu en pilules. EasyAdmin cible #main-menu : on fait de même. */
+#main-menu .menu .menu-item .menu-item-contents {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 6px 12px;
+    border-radius: 100px;
+    color: var(--sidebar-menu-color);
+    font-weight: 600;
+    transition: background 0.2s ease, translate 0.2s ease;
+}
+
+#main-menu .menu .menu-item .menu-item-contents .menu-icon,
+#main-menu .menu .menu-item .menu-item-contents .menu-item-label {
+    color: inherit;
+}
+
+/* Seul le lien porte la pilule, pas la ligne qui le contient */
+#main-menu .menu .menu-item,
+#main-menu .menu .menu-item.active,
+#main-menu .menu .menu-item:hover {
+    background: transparent;
+}
+
+#main-menu .menu .menu-item:hover .menu-item-contents {
+    background: rgba(255, 255, 255, 0.18);
+    color: var(--sidebar-menu-color);
+    translate: 3px 0;
+}
+
+#main-menu .menu .menu-item.active .menu-item-contents,
+#main-menu .menu .menu-item.active:hover .menu-item-contents {
+    background: var(--sidebar-menu-active-item-bg);
+    color: var(--sidebar-menu-active-item-color);
+}
+
+#main-menu .menu .menu-item .menu-item-contents:focus-visible {
+    outline: 3px solid #e4f644;
+    outline-offset: -3px;
+}
+
+/* ─── Contenu ──────────────────────────────────────────────────────────── */
+
+body {
+    --body-bg: #f6f1ff;
+    --font-family-sans-serif: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-family: var(--font-family-sans-serif);
+}
+
+body .wrapper,
+body .main-content,
+body .content {
+    background: var(--body-bg);
+}
+
+body .content-header-title h1 {
+    color: #8432fe;
+    font-weight: 900;
+}
+
+body .btn {
+    border-radius: 100px;
+    font-weight: 600;
+}
+
+body .btn-primary {
+    background: #8432fe;
+    border-color: #8432fe;
+    color: #ffffff;
+}
+
+body .btn-primary:hover {
+    background: #7120ee;
+    color: #ffffff;
+}
+
+body .btn-secondary {
+    background: #ffffff;
+    border: 1px solid #8432fe;
+    color: #8432fe;
+}
+
+body table.datagrid {
+    background: #ffffff;
+}
+
+body table.datagrid thead th {
+    background: #ede3ff;
+    color: #4a148c;
+}
+
+body table.datagrid tbody tr:hover td {
+    background: #fbfde3;
+}
+
+body .form-panel,
+body .field-group,
+body .form-fieldset {
+    border-color: #e2d4ff;
+}
+
+body .form-switch .form-check-input:checked {
+    background-color: #8432fe;
+    border-color: #8432fe;
+}
+
+body .form-control:focus,
+body .form-select:focus {
+    border-color: #8432fe;
+    box-shadow: 0 0 0 3px rgba(132, 50, 254, 0.2);
+}
+
+/* ─── Tableau de bord ──────────────────────────────────────────────────── */
+
+.bz-tableau {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding-bottom: 32px;
+}
+
+.bz-raccourcis {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.bz-chiffres,
+.bz-liste ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.bz-chiffres {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.bz-chiffre a {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    background: #ffffff;
+    border: 2px solid transparent;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(132, 50, 254, 0.12);
+    color: #000000;
+    text-decoration: none;
+}
+
+.bz-chiffre a:hover {
+    border-color: #8432fe;
+}
+
+.bz-chiffre--alerte a {
+    background: #e4f644;
+}
+
+.bz-chiffre__valeur {
+    font-size: 2.25rem;
+    font-weight: 900;
+    line-height: 1.1;
+}
+
+.bz-chiffre__nom {
+    font-weight: 600;
+}
+
+.bz-listes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    align-items: start;
+    gap: 16px;
+}
+
+.bz-liste {
+    min-width: 0;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(132, 50, 254, 0.12);
+}
+
+.bz-liste h2 {
+    margin: 0 0 12px;
+    color: #8432fe;
+    font-size: 1rem;
+    font-weight: 900;
+}
+
+.bz-liste li + li {
+    border-top: 1px solid #ede3ff;
+}
+
+.bz-liste li a {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    overflow-wrap: anywhere;
+    color: #000000;
+    text-decoration: none;
+}
+
+.bz-liste li a:hover strong {
+    color: #8432fe;
+}
+
+.bz-liste span,
+.bz-liste__vide {
+    color: #5f5f6b;
+    font-size: 0.8125rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #main-menu .menu .menu-item .menu-item-contents {
+        transition: none;
+        translate: none;
+    }
+}

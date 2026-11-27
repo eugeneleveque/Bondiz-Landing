@@ -27,6 +27,7 @@ services:
       MAILER_FROM_NAME: ${MAILER_FROM_NAME:-Support Bondiz}
       DATABASE_URL: "mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DATABASE}?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
       STRAPI_URL: ${STRAPI_URL:-https://bondiz-api.benjamin-vaique.fr}
+      BLOG_API_SECRET: ${BLOG_API_SECRET:-}
     volumes:
       - public-data:/app/public
     depends_on:
