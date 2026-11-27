@@ -7,7 +7,7 @@ Site web de Bondiz : la landing de présentation et le blog dans un seul dépôt
 | `/` | Accueil | Blog (Symfony) |
 | `/posts`, `/post/{id}` | Articles | Blog (Symfony) |
 | `/a-propos` | Pourquoi avons-nous créé Bondiz ? | Landing (React) |
-| `/login`, `/register`, `/admin` | Espace membre et administration (EasyAdmin) | Blog (Symfony) |
+| `/login`, `/admin` | Administration (EasyAdmin), sans inscription publique | Blog (Symfony) |
 | `/mentions-legales`, `/politique-de-confidentialite`, `/cookies` | Pages RGPD | Blog (Symfony) |
 | `/downloads/bondiz.apk` | Téléchargement de l'application Android | Fichier statique |
 
@@ -69,14 +69,19 @@ Voir `blog/README.md` et le `Makefile` du dossier `blog/`. Les URL sont alors se
 
 ## Créer un compte administrateur
 
-Le premier compte se crée via `/register`, puis on lui donne le rôle admin en base :
+Le site n'a pas d'inscription publique. Le compte se crée en ligne de commande (le mot de passe est demandé, 12 caractères minimum) :
 
 ```bash
-docker compose exec database mariadb -u app -papp app \
-  -e "UPDATE user SET roles='[\"ROLE_ADMIN\"]', is_verified=1 WHERE email='vous@exemple.fr';"
+docker compose exec php php bin/console app:admin vous@exemple.fr
 ```
 
-L'administration des articles est ensuite sur `/admin`.
+La même commande change le mot de passe d'un compte existant. Connectez-vous ensuite sur `/login`, puis ouvrez `/admin`.
+
+## Créer des partenaires depuis l'administration
+
+L'onglet **Partenaires** de `/admin` écrit dans Strapi. Définir la même variable `BLOG_API_SECRET` (32 caractères minimum, `openssl rand -base64 32`) dans le `.env` du blog et dans celui de `strapi-mydsu`, puis redémarrer les deux. Sans elle, l'onglet affiche une erreur et l'API refuse les appels.
+
+Les identifiants sont envoyés par e-mail au partenaire. En local, les messages sont visibles sur http://localhost:8025 ; en production il faut un `MAILER_DSN` valide, sinon le mot de passe s'affiche à l'écran.
 
 ## CI/CD
 

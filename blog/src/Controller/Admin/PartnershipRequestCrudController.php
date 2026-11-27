@@ -35,9 +35,15 @@ class PartnershipRequestCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        $creer = Action::new('creerPartenaire', 'Créer le partenaire', 'fas fa-store')
+            ->linkToRoute('admin_partners_new', static fn (PartnershipRequest $demande) => ['demande' => $demande->getId()])
+            ->displayIf(static fn (PartnershipRequest $demande) => !$demande->isHandled());
+
         return $actions
             ->disable(Action::NEW)
-            ->add(Crud::PAGE_INDEX, Action::DETAIL);
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->add(Crud::PAGE_INDEX, $creer)
+            ->add(Crud::PAGE_DETAIL, $creer);
     }
 
     public function configureFields(string $pageName): iterable

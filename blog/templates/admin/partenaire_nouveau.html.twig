@@ -1,0 +1,24 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}Créer un partenaire{% endblock %}
+{% block content_title %}Créer un partenaire{% endblock %}
+
+{% block main %}
+	{% if demande %}
+		<div class="alert alert-info">
+			Prérempli depuis la demande de {{ demande.establishmentName }} (activité indiquée : « {{ demande.activityType }} »).
+			Elle sera marquée comme traitée.
+		</div>
+	{% endif %}
+
+	{% form_theme form 'bootstrap_5_layout.html.twig' %}
+	<div style="max-width: 640px">
+		{{ form_start(form) }}
+			{{ form_errors(form) }}
+			{{ form_widget(form) }}
+			<p class="text-muted">Le mot de passe est généré automatiquement et envoyé par e-mail au partenaire.</p>
+			<button type="submit" class="btn btn-primary">Créer le partenaire</button>
+			<a href="{{ path('admin_partners') }}" class="btn btn-secondary">Annuler</a>
+		{{ form_end(form) }}
+	</div>
+{% endblock %}

@@ -78,6 +78,12 @@ class PublicPartners
         });
     }
 
+    /** Après un changement depuis l'administration : ne pas attendre le cache. */
+    public function forget(): void
+    {
+        $this->cache->delete(self::CACHE_KEY);
+    }
+
     /**
      * @param array<string, mixed> $partner
      *

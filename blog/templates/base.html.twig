@@ -15,6 +15,7 @@
 			<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 			<link rel="stylesheet" href="{{ asset('css/design.css') }}">
 			<link rel="stylesheet" href="{{ asset('css/cookies.css') }}">
+			<link rel="stylesheet" href="{{ asset('css/animations.css') }}">
 		{% endblock %}
 		{% block meta %}
 			<meta name="description" content="Découvrez Bondiz, le blog dédié aux rencontres amicales. Conseils, astuces et récits pour élargir votre cercle social et créer des amitiés sincères.">
@@ -137,6 +138,8 @@
 			</footer>
 			{% endblock %}
 		</div>
+		{# Avant les scripts externes : les éléments sont masqués avant le premier affichage. #}
+		<script src="{{ asset('js/animations.js') }}"></script>
 		<!-- ===== Tarteaucitron.js - Gestion des cookies RGPD ===== -->
 		<script src="https://cdn.jsdelivr.net/npm/tarteaucitronjs@1.20.1/tarteaucitron.js"></script>
 		<script>

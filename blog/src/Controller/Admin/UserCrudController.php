@@ -3,6 +3,8 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -26,6 +28,12 @@ class UserCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('Utilisateur')
             ->setEntityLabelInPlural('Utilisateurs')
             ->setPageTitle('index', 'Gestion des Utilisateurs');
+    }
+
+    /** Un compte a besoin d'un mot de passe : il se crée avec « app:admin ». */
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions->disable(Action::NEW);
     }
 
     public function configureFields(string $pageName): iterable

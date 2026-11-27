@@ -1,0 +1,92 @@
+{# Tableau de bord : ce qui attend une réponse, puis les raccourcis. #}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block page_title %}Tableau de bord{% endblock %}
+{% block content_title %}Tableau de bord{% endblock %}
+
+{% block main %}
+	<div class="bz-tableau">
+		<nav class="bz-raccourcis" aria-label="Actions rapides">
+			<a href="{{ path('admin_post_new') }}" class="btn btn-primary">Rédiger un article</a>
+			<a href="{{ path('admin_category_new') }}" class="btn btn-secondary">Ajouter une catégorie</a>
+			<a href="{{ path('app_home') }}" class="btn btn-secondary">Voir le site</a>
+		</nav>
+
+		<ul class="bz-chiffres">
+			<li class="bz-chiffre{{ demandesEnAttente ? ' bz-chiffre--alerte' }}">
+				<a href="{{ path('admin_partnership_request_index') }}">
+					<span class="bz-chiffre__valeur">{{ demandesEnAttente }}</span>
+					<span class="bz-chiffre__nom">Demandes de partenariat à traiter</span>
+				</a>
+			</li>
+			<li class="bz-chiffre{{ messagesEnAttente ? ' bz-chiffre--alerte' }}">
+				<a href="{{ path('admin_contact_message_index') }}">
+					<span class="bz-chiffre__valeur">{{ messagesEnAttente }}</span>
+					<span class="bz-chiffre__nom">Messages de contact à traiter</span>
+				</a>
+			</li>
+			<li class="bz-chiffre">
+				<a href="{{ path('admin_post_index') }}">
+					<span class="bz-chiffre__valeur">{{ nombreArticles }}</span>
+					<span class="bz-chiffre__nom">Articles</span>
+				</a>
+			</li>
+			<li class="bz-chiffre">
+				<a href="{{ path('admin_category_index') }}">
+					<span class="bz-chiffre__valeur">{{ nombreCategories }}</span>
+					<span class="bz-chiffre__nom">Catégories</span>
+				</a>
+			</li>
+		</ul>
+
+		<div class="bz-listes">
+			<section class="bz-liste">
+				<h2>Demandes de partenariat à traiter</h2>
+				<ul>
+					{% for demande in demandes %}
+						<li>
+							<a href="{{ path('admin_partnership_request_detail', {entityId: demande.id}) }}">
+								<strong>{{ demande.establishmentName }}</strong>
+								<span>{{ demande.city }} · {{ demande.createdAt|date('d/m/Y') }}</span>
+							</a>
+						</li>
+					{% else %}
+						<li class="bz-liste__vide">Aucune demande en attente.</li>
+					{% endfor %}
+				</ul>
+			</section>
+
+			<section class="bz-liste">
+				<h2>Messages à traiter</h2>
+				<ul>
+					{% for message in messages %}
+						<li>
+							<a href="{{ path('admin_contact_message_detail', {entityId: message.id}) }}">
+								<strong>{{ message.subject }}</strong>
+								<span>{{ message.firstName }} {{ message.lastName }} · {{ message.createdAt|date('d/m/Y') }}</span>
+							</a>
+						</li>
+					{% else %}
+						<li class="bz-liste__vide">Aucun message en attente.</li>
+					{% endfor %}
+				</ul>
+			</section>
+
+			<section class="bz-liste">
+				<h2>Derniers articles</h2>
+				<ul>
+					{% for article in articles %}
+						<li>
+							<a href="{{ path('admin_post_edit', {entityId: article.id}) }}">
+								<strong>{{ article.title }}</strong>
+								<span>{{ article.createdAt ? article.createdAt|date('d/m/Y') }}</span>
+							</a>
+						</li>
+					{% else %}
+						<li class="bz-liste__vide">Aucun article pour le moment.</li>
+					{% endfor %}
+				</ul>
+			</section>
+		</div>
+	</div>
+{% endblock %}
