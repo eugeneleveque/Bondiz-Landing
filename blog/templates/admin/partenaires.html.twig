@@ -9,11 +9,17 @@
 
 {% block main %}
 	{% if identifiants %}
-		<div class="alert alert-success" role="status">
-			<p><strong>{{ identifiants.name }}</strong> est créé. Notez ses identifiants maintenant : le mot de passe ne sera plus affiché.</p>
-			<p>E-mail : <code>{{ identifiants.email }}</code><br>Mot de passe : <code>{{ identifiants.password }}</code></p>
-			<p>Adresse de connexion : <code>{{ url('app_partner_login') }}</code></p>
-		</div>
+		{% if identifiants.password %}
+			<div class="alert alert-warning" role="alert">
+				<p><strong>{{ identifiants.name }}</strong> est créé, mais <strong>l’e-mail n’a pas pu être envoyé</strong>. Transmettez ces identifiants vous-même : ils ne seront plus affichés.</p>
+				<p>E-mail : <code>{{ identifiants.email }}</code><br>Mot de passe : <code>{{ identifiants.password }}</code></p>
+				<p>Adresse de connexion : <code>{{ url('app_partner_login') }}</code></p>
+			</div>
+		{% else %}
+			<div class="alert alert-success" role="status">
+				<strong>{{ identifiants.name }}</strong> est créé. Ses identifiants ont été envoyés à {{ identifiants.email }}.
+			</div>
+		{% endif %}
 	{% endif %}
 
 	{% if erreur %}

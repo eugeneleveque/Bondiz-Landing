@@ -33,6 +33,8 @@ services:
       CONTACT_EMAIL: ${CONTACT_EMAIL:-contact@bondiz.fr}
       MAILER_FROM_NAME: ${MAILER_FROM_NAME:-Support Bondiz}
       DATABASE_URL: "mysql://${MYSQL_USER:-app}:${MYSQL_PASSWORD:-app}@database:3306/${MYSQL_DATABASE:-app}?serverVersion=10.11.2-MariaDB&charset=utf8mb4"
+      # En local, les e-mails arrivent dans Mailpit (http://localhost:8025)
+      MAILER_DSN: ${MAILER_DSN:-smtp://mailer:1025}
       # Même valeur que dans le .env de strapi-mydsu (création des partenaires)
       BLOG_API_SECRET: ${BLOG_API_SECRET:-}
       # Strapi lancé sur la machine hôte (npm run develop dans strapi-mydsu)
@@ -44,6 +46,12 @@ services:
     depends_on:
       database:
         condition: service_healthy
+
+  # Boîte mail de test : rien ne part réellement
+  mailer:
+    image: axllent/mailpit
+    ports:
+      - "127.0.0.1:8025:8025"
 
   database:
     image: mariadb:latest

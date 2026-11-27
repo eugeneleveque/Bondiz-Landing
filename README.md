@@ -81,6 +81,8 @@ La même commande change le mot de passe d'un compte existant. Connectez-vous en
 
 L'onglet **Partenaires** de `/admin` écrit dans Strapi. Définir la même variable `BLOG_API_SECRET` (32 caractères minimum, `openssl rand -base64 32`) dans le `.env` du blog et dans celui de `strapi-mydsu`, puis redémarrer les deux. Sans elle, l'onglet affiche une erreur et l'API refuse les appels.
 
+Les identifiants sont envoyés par e-mail au partenaire. En local, les messages sont visibles sur http://localhost:8025 ; en production il faut un `MAILER_DSN` valide, sinon le mot de passe s'affiche à l'écran.
+
 ## CI/CD
 
 Les workflows sont dans `.github/workflows/` :

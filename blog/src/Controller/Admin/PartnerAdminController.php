@@ -6,6 +6,7 @@ use App\Entity\PartnershipRequest;
 use App\Form\PartnerType;
 use App\Partner\PartnerAdminApi;
 use App\Partner\PartnerApiException;
+use App\Partner\PartnerWelcomeMailer;
 use App\Partner\PublicPartners;
 use App\Repository\PartnershipRequestRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,12 +24,13 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[IsGranted('ROLE_ADMIN')]
 class PartnerAdminController extends AbstractController
 {
-    /** Mot de passe à montrer une seule fois, juste après la création. */
+    /** Résultat de la création, affiché une seule fois. */
     private const IDENTIFIANTS = 'bondiz_identifiants_partenaire';
 
     public function __construct(
         private readonly PartnerAdminApi $api,
         private readonly PublicPartners $publicPartners,
+        private readonly PartnerWelcomeMailer $welcomeMailer,
     ) {
     }
 
@@ -72,10 +74,12 @@ class PartnerAdminController extends AbstractController
                     $entityManager->flush();
                 }
                 $this->publicPartners->forget();
+                $envoye = $this->welcomeMailer->send($partenaire['name'], $partenaire['email'], $partenaire['password']);
                 $request->getSession()->set(self::IDENTIFIANTS, [
                     'name' => $partenaire['name'],
                     'email' => $partenaire['email'],
-                    'password' => $partenaire['password'],
+                    // Gardé seulement si l'e-mail n'est pas parti.
+                    'password' => $envoye ? null : $partenaire['password'],
                 ]);
 
                 return $this->redirectToRoute('admin_partners');

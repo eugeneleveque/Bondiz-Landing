@@ -1252,7 +1252,8 @@ a.bz-menu__lien:hover {
 
 .bz-fiche {
     display: grid;
-    grid-template-columns: 367px minmax(0, 1fr) minmax(0, 353px);
+    /* La colonne du milieu garde la place du bouton « Modifier mes informations » */
+    grid-template-columns: minmax(160px, 367fr) minmax(360px, 450fr) minmax(0, 320fr);
     min-height: 315px;
     margin-top: 44px;
     overflow: hidden;
@@ -1321,7 +1322,11 @@ a.bz-menu__lien:hover {
 }
 
 .bz-fiche__infos .bz-bouton-contour {
+    box-sizing: border-box;
+    max-width: 100%;
     margin-top: 24px;
+    white-space: normal;
+    text-align: center;
 }
 
 .bz-fiche__chiffres {

@@ -179,6 +179,19 @@ body .form-select:focus {
     box-shadow: 0 0 0 3px rgba(132, 50, 254, 0.2);
 }
 
+body table.datagrid th,
+body table.datagrid td {
+    padding: 10px 14px;
+}
+
+body table.datagrid .btn-sm {
+    padding: 4px 16px;
+}
+
+body .alert + .table-responsive {
+    margin-top: 16px;
+}
+
 /* ─── Tableau de bord ──────────────────────────────────────────────────── */
 
 .bz-tableau {

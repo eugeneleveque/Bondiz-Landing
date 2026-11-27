@@ -62,7 +62,8 @@ final class PartnerAdminTest extends WebTestCase
         self::assertResponseRedirects();
         $this->client->followRedirect();
 
-        self::assertSelectorTextContains('.alert-success', 'MotDePasseUnique');
+        // Aucun envoi configuré en test : le mot de passe reste affiché à l'administrateur.
+        self::assertSelectorTextContains('.alert-warning', 'MotDePasseUnique');
         $envoi = $this->strapi->requetes('POST')[0];
         self::assertSame('bar@test.fr', $envoi['body']['data']['email']);
         self::assertSame(['Authorization: Bearer secret-de-test'], $envoi['headers']['authorization']);
